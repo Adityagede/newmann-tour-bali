@@ -1,0 +1,62 @@
+Newman Tour Guide — Step 17g-c V2 Final Unification
+Date: 2026-07-27
+
+VERIFICATION
+- PHP files syntax checked: 81
+- Changed Blade files compiled and syntax checked: 7
+- Laravel routes loaded: 92
+- Duplicate route names: 0
+- Duplicate method/URI pairs: 0
+- /custom-trip smoke test: HTTP 200
+- /booking compatibility URL: HTTP 301 to /custom-trip
+- /admin unauthenticated behavior: HTTP 302 to /admin/login
+- Database directory difference from supplied original: none
+- Active references to BookingController, AdminBookingController,
+  NewBookingNotification, admin.bookings.*, booking.store,
+  booking.success, and legacy-bookings: none
+
+TOUR PACKAGE V2 — ACTIVE FLOW
+- Tour detail
+- Availability
+- Option and starting-time selection
+- Review
+- Tour Booking Request V2
+- V2 success page
+- V2 SMTP notification
+- Admin dashboard and /admin/bookings
+
+CUSTOM TRIP — SEPARATE FLOW
+- Website: /custom-trip
+- Admin: /admin/custom-trip-requests
+- Existing database table: bookings
+- Active model name: CustomTripRequest
+- Separate SMTP notification
+
+DATABASE SAFETY
+- No migration added, deleted, or edited
+- No table dropped or renamed
+- No .env or credentials included
+- Existing bookings table retained for custom requests and historical data
+- New Tour Package bookings only write to tour_booking_requests
+
+REMOVED FROM ACTIVE CODE
+- app/Http/Controllers/BookingController.php
+- app/Http/Controllers/Admin/AdminBookingController.php
+- app/Models/Booking.php
+- app/Notifications/NewBookingNotification.php
+- resources/views/pages/booking.blade.php
+- resources/views/pages/booking-success.blade.php
+- resources/views/admin/bookings/
+- old source copies outside the backups directory
+
+ADDED
+- app/Http/Controllers/CustomTripRequestController.php
+- app/Http/Controllers/Admin/AdminCustomTripRequestController.php
+- app/Models/CustomTripRequest.php
+- app/Notifications/NewTourBookingRequestNotification.php
+- app/Notifications/NewCustomTripRequestNotification.php
+- resources/views/pages/custom-trip.blade.php
+- resources/views/pages/custom-trip-success.blade.php
+- resources/views/admin/custom-trip-requests/index.blade.php
+- resources/views/admin/custom-trip-requests/show.blade.php
+- tests/Feature/BookingFlowRoutingTest.php

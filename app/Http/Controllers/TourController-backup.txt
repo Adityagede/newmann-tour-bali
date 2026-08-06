@@ -1,0 +1,105 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\TourPackage;
+class TourController extends Controller
+{
+     private function formatTour(TourPackage $tour): array
+    {
+        $mainImage = $tour->main_image ?: 'images/tour-placeholder.jpg';
+
+        $galleryImages = $tour->gallery_images;
+
+        if (! is_array($galleryImages) || count($galleryImages) === 0) {
+            $galleryImages = [$mainImage];
+        }
+
+        return [
+            'id' => $tour->id,
+            'title' => $tour->title,
+            'slug' => $tour->slug,
+
+            'category' => strtolower($tour->category ?? 'custom'),
+            'category_label' => ucfirst($tour->category ?? 'Custom'),
+
+            'badge' => $tour->badge ?? 'Private Bali Route',
+            'area' => $tour->area ?? 'Bali',
+            'duration' => $tour->duration ?? 'Flexible',
+            'type' => $tour->trip_type ?? 'Private tour',
+            'trip_type' => $tour->trip_type ?? 'Private tour',
+            'vehicle' => $tour->vehicle ?? 'By request',
+
+            'rating' => $tour->rating ?? 5.0,
+            'guests' => $tour->guests ?? 'New guests',
+            'price_text' => $tour->price_text ?? 'Request price',
+
+            'description' => $tour->description ?? $tour->intro ?? '',
+            'intro' => $tour->intro ?? $tour->description ?? '',
+            'story' => $tour->story ?? $tour->description ?? '',
+
+            'image' => $mainImage,
+            'main_image' => $mainImage,
+            'gallery' => $galleryImages,
+            'images' => $galleryImages,
+
+            'highlights' => $tour->highlights ?? [],
+            'itinerary' => $tour->itinerary ?? [],
+
+            'included' => [
+                'Private local guide / driver',
+                'Comfortable private transport',
+                'Flexible timing and route',
+                'Hotel pickup and drop-off',
+            ],
+
+            'goodToKnow' => [
+                'Entrance tickets and meals can be adjusted depending on the route.',
+                'Route can be flexible based on weather, traffic, and guest preference.',
+                'Final details will be confirmed manually through WhatsApp.',
+            ],
+
+            'is_popular' => $tour->is_popular,
+            'is_featured' => $tour->is_featured,
+            'status' => $tour->status,
+        ];
+    }
+
+    public function index()
+    {
+        $tours = TourPackage::query()
+            ->where('status', 'active')
+            ->latest()
+            ->get()
+            ->map(fn ($tour) => $this->formatTour($tour));
+
+        $categories = TourPackage::query()
+            ->where('status', 'active')
+            ->whereNotNull('category')
+            ->select('category')
+            ->distinct()
+            ->orderBy('category')
+            ->pluck('category')
+            ->map(fn ($category) => strtolower($category));
+
+        return view('pages.tours', [
+            'tours' => $tours,
+            'categories' => $categories,
+        ]);
+    }
+
+    public function show(string $slug)
+    {
+        $tourPackage = TourPackage::query()
+            ->where('slug', $slug)
+            ->where('status', 'active')
+            ->firstOrFail();
+
+        $tour = $this->formatTour($tourPackage);
+
+        return view('pages.tour-detail', [
+            'tour' => $tour,
+        ]);
+    }
+}

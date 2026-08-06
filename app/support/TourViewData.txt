@@ -1,0 +1,473 @@
+<?php
+
+namespace App\Support;
+
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+
+final class TourViewData
+{
+    /**
+     * Menyiapkan data TourPackage untuk tampilan public.
+     *
+     * Method ini menerima Eloquent model maupun array agar tetap cocok
+     * dengan controller Newman yang sekarang.
+     */
+    public static function make(mixed $tour): array
+    {
+        /*
+        |--------------------------------------------------------------------------
+        | Basic information
+        |--------------------------------------------------------------------------
+        */
+
+        $title = self::text(
+            data_get($tour, 'title'),
+            'Private Bali Tour'
+        );
+
+        $slug = self::text(
+            data_get($tour, 'slug')
+        );
+
+        $area = self::text(
+            data_get($tour, 'area.name')
+                ?: data_get($tour, 'area')
+                ?: data_get($tour, 'location'),
+            'Bali'
+        );
+
+        /*
+        |--------------------------------------------------------------------------
+        | Tour format
+        |--------------------------------------------------------------------------
+        */
+
+        $tourFormat = self::text(
+            data_get($tour, 'tour_format'),
+            'full_day'
+        );
+
+        $formatLabel = match ($tourFormat) {
+            'full_day' => 'Full-Day Private Tour',
+            'half_day' => 'Half-Day Private Tour',
+            'activity_transfer' => 'Activity + Transfer',
+            'custom_trip' => 'Custom Bali Trip',
+            default => 'Private Bali Tour',
+        };
+
+        $tripType = self::text(
+            data_get($tour, 'trip_type'),
+            $formatLabel
+        );
+
+        $categoryName = self::text(
+            data_get($tour, 'category.name')
+                ?: data_get($tour, 'category'),
+            $tripType
+        );
+
+        $categoryKey = Str::slug($categoryName);
+
+        /*
+        |--------------------------------------------------------------------------
+        | Badge
+        |--------------------------------------------------------------------------
+        */
+
+        $badge = self::text(
+            data_get($tour, 'badge'),
+            $formatLabel
+        );
+
+        /*
+        |--------------------------------------------------------------------------
+        | Duration and vehicle
+        |--------------------------------------------------------------------------
+        */
+
+        $duration = self::text(
+            data_get($tour, 'duration')
+                ?: data_get($tour, 'duration_text'),
+            'Flexible duration'
+        );
+
+        $vehicle = self::text(
+            data_get($tour, 'default_vehicle')
+                ?: data_get($tour, 'vehicle'),
+            'Vehicle recommended after request'
+        );
+
+        /*
+        |--------------------------------------------------------------------------
+        | Rating and reviews
+        |--------------------------------------------------------------------------
+        */
+
+        $ratingValue = data_get($tour, 'rating')
+            ?? data_get($tour, 'average_rating')
+            ?? 5;
+
+        $rating = is_numeric($ratingValue)
+            ? max(0, min(5, (float) $ratingValue))
+            : 5;
+
+        $reviewValue = data_get($tour, 'review_count')
+            ?? data_get($tour, 'reviews')
+            ?? data_get($tour, 'guests');
+
+        $reviews = self::text(
+            $reviewValue,
+            'New experience'
+        );
+
+        /*
+        |--------------------------------------------------------------------------
+        | Description
+        |--------------------------------------------------------------------------
+        */
+
+        $descriptionSource = self::text(
+            data_get($tour, 'short_description')
+                ?: data_get($tour, 'description')
+        );
+
+        $description = Str::limit(
+            strip_tags($descriptionSource),
+            145
+        );
+
+        /*
+        |--------------------------------------------------------------------------
+        | Image
+        |--------------------------------------------------------------------------
+        */
+
+        $imagePath = self::text(
+            data_get($tour, 'main_image')
+                ?: data_get($tour, 'image_path')
+                ?: data_get($tour, 'image')
+                ?: data_get($tour, 'thumbnail')
+        );
+
+        $imageUrl = self::imageUrl($imagePath);
+
+        /*
+        |--------------------------------------------------------------------------
+        | Pricing
+        |--------------------------------------------------------------------------
+        */
+
+        $pricingType = self::text(
+            data_get($tour, 'pricing_type'),
+            'request_quote'
+        );
+
+        $adultPrice = self::integer(
+            data_get($tour, 'adult_price')
+        );
+
+        $childPrice = self::integer(
+            data_get($tour, 'child_price')
+        );
+
+        $vehiclePrice = self::integer(
+            data_get($tour, 'vehicle_price')
+        );
+
+        $groupPrice = self::integer(
+            data_get($tour, 'group_price')
+        );
+
+        [$priceLabel, $priceText, $priceSuffix] =
+            self::formatPrice(
+                pricingType: $pricingType,
+                adultPrice: $adultPrice,
+                vehiclePrice: $vehiclePrice,
+                groupPrice: $groupPrice
+            );
+
+        return [
+            'id' => data_get($tour, 'id'),
+
+            'title' => $title,
+            'slug' => $slug,
+            'area' => $area,
+
+            'category' => $categoryName,
+            'category_key' => $categoryKey,
+
+            'tour_format' => $tourFormat,
+            'format_label' => $formatLabel,
+            'trip_type' => $tripType,
+            'badge' => $badge,
+
+            'duration' => $duration,
+            'vehicle' => $vehicle,
+
+            'rating' => $rating,
+            'reviews' => $reviews,
+
+            'description' => $description,
+
+            'image_path' => $imagePath,
+            'image_url' => $imageUrl,
+
+            'pricing_type' => $pricingType,
+            'adult_price' => $adultPrice,
+            'child_price' => $childPrice,
+            'vehicle_price' => $vehiclePrice,
+            'group_price' => $groupPrice,
+
+            'price_label' => $priceLabel,
+            'price_text' => $priceText,
+            'price_suffix' => $priceSuffix,
+
+            'min_guests' => max(
+                1,
+                self::integer(
+                    data_get($tour, 'min_guests'),
+                    1
+                )
+            ),
+
+            'max_guests' => self::nullableInteger(
+                data_get($tour, 'max_guests')
+            ),
+        ];
+    }
+
+    /**
+     * Mengubah path database menjadi URL gambar public yang benar.
+     */
+    public static function imageUrl(
+        ?string $path
+    ): string {
+        $placeholder = asset(
+            'images/tour-placeholder.jpg'
+        );
+
+        $path = trim((string) $path);
+
+        if ($path === '') {
+            return $placeholder;
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Remote URL
+        |--------------------------------------------------------------------------
+        */
+
+        if (
+            Str::startsWith(
+                $path,
+                [
+                    'http://',
+                    'https://',
+                    '//',
+                ]
+            )
+        ) {
+            return $path;
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Normalise Windows and Laravel paths
+        |--------------------------------------------------------------------------
+        */
+
+        $normalised = str_replace(
+            '\\',
+            '/',
+            $path
+        );
+
+        $normalised = ltrim(
+            $normalised,
+            '/'
+        );
+
+        $normalised = Str::replaceStart(
+            'public/',
+            '',
+            $normalised
+        );
+
+        $normalised = Str::replaceStart(
+            'storage/app/public/',
+            '',
+            $normalised
+        );
+
+        /*
+        |--------------------------------------------------------------------------
+        | Existing /storage/... URL
+        |--------------------------------------------------------------------------
+        */
+
+        if (
+            Str::startsWith(
+                $normalised,
+                'storage/'
+            )
+        ) {
+            $storagePath = Str::after(
+                $normalised,
+                'storage/'
+            );
+
+            if (
+                Storage::disk('public')
+                    ->exists($storagePath)
+            ) {
+                return asset(
+                    'storage/' . $storagePath
+                );
+            }
+
+            return $placeholder;
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | File inside public directory
+        |--------------------------------------------------------------------------
+        */
+
+        if (
+            file_exists(
+                public_path($normalised)
+            )
+        ) {
+            return asset($normalised);
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | File inside storage/app/public
+        |--------------------------------------------------------------------------
+        */
+
+        if (
+            Storage::disk('public')
+                ->exists($normalised)
+        ) {
+            return Storage::disk('public')
+                ->url($normalised);
+        }
+
+        return $placeholder;
+    }
+
+    private static function formatPrice(
+        string $pricingType,
+        int $adultPrice,
+        int $vehiclePrice,
+        int $groupPrice
+    ): array {
+        return match ($pricingType) {
+            'per_person' => $adultPrice > 0
+                ? [
+                    'From',
+                    self::rupiah($adultPrice),
+                    'per adult',
+                ]
+                : [
+                    'Price',
+                    'Request quote',
+                    '',
+                ],
+
+            'per_car',
+            'per_vehicle' => $vehiclePrice > 0
+                ? [
+                    'From',
+                    self::rupiah($vehiclePrice),
+                    'per vehicle',
+                ]
+                : [
+                    'Price',
+                    'Request quote',
+                    '',
+                ],
+
+            'per_group' => $groupPrice > 0
+                ? [
+                    'From',
+                    self::rupiah($groupPrice),
+                    'per group',
+                ]
+                : [
+                    'Price',
+                    'Request quote',
+                    '',
+                ],
+
+            default => [
+                'Price',
+                'Request quote',
+                '',
+            ],
+        };
+    }
+
+    private static function rupiah(
+        int $amount
+    ): string {
+        return 'IDR ' . number_format(
+            $amount,
+            0,
+            ',',
+            '.'
+        );
+    }
+
+    private static function text(
+        mixed $value,
+        string $fallback = ''
+    ): string {
+        if (
+            is_array($value)
+            || is_object($value)
+        ) {
+            $value = data_get($value, 'name')
+                ?: data_get($value, 'title')
+                ?: '';
+        }
+
+        $value = trim(
+            strip_tags(
+                (string) $value
+            )
+        );
+
+        return $value !== ''
+            ? $value
+            : $fallback;
+    }
+
+    private static function integer(
+        mixed $value,
+        int $fallback = 0
+    ): int {
+        return is_numeric($value)
+            ? max(0, (int) $value)
+            : $fallback;
+    }
+
+    private static function nullableInteger(
+        mixed $value
+    ): ?int {
+        if (
+            $value === null
+            || $value === ''
+            || ! is_numeric($value)
+        ) {
+            return null;
+        }
+
+        return max(0, (int) $value);
+    }
+}

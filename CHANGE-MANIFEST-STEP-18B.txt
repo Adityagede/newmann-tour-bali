@@ -1,0 +1,27 @@
+STEP 18B — CUSTOM TRIP V2 EXPERIENCE UNIFICATION
+
+REPLACED FILES
+- app/Http/Controllers/CustomTripRequestController.php
+- app/Models/CustomTripRequest.php
+- app/Notifications/NewCustomTripRequestNotification.php
+- resources/views/pages/custom-trip.blade.php
+- resources/views/pages/custom-trip-success.blade.php
+- resources/views/admin/custom-trip-requests/index.blade.php
+- resources/views/admin/custom-trip-requests/show.blade.php
+
+NEW FILES
+- app/Http/Requests/SubmitCustomTripRequest.php
+- tests/Feature/CustomTripRequestV2Test.php
+
+MANUAL / DIFF-ONLY CHANGE
+- resources/views/pages/home.blade.php
+  Apply patches/home-vehicle-section.diff or make the documented text changes manually.
+  The full Home file is intentionally not included to avoid overwriting later Step 18A edits.
+
+NOT CHANGED
+- routes/web.php
+- database/migrations/*
+- database schema and data
+- Tour Package V2 controllers, models, services, views, and booking flow
+- .env and SMTP credentials
+- payment flow (none is added)

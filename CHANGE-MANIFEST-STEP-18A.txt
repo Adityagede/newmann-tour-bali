@@ -1,0 +1,18 @@
+MODIFIED
+app/Models/TourPackage.php
+app/Support/TourViewData.php
+app/Http/Controllers/HomeController.php
+app/Http/Controllers/TourController.php
+app/Services/TourAvailabilityService.php
+app/Http/Controllers/Admin/AdminTourBookingRequestController.php
+resources/views/components/tour-availability-panel.blade.php
+resources/views/components/tour-review-trip.blade.php
+resources/views/admin/dashboard.blade.php
+resources/views/admin/layouts/app.blade.php
+
+ADDED
+STEP-18A-TOUR-PACKAGE-V2-UNIFICATION.md
+CHANGE-MANIFEST-STEP-18A.txt
+
+DATABASE
+No migration or schema changes.
