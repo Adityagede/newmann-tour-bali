@@ -40,7 +40,7 @@
     {{-- Tour Image --}}
     <a
         href="{{ $detailUrl }}"
-        class="relative block aspect-[4/3] shrink-0 overflow-hidden bg-newman-sand"
+        class="tour-experience-media relative block aspect-[4/3] shrink-0 overflow-hidden bg-newman-sand"
         aria-label="View {{ $card['title'] }}"
     >
         <img
@@ -49,14 +49,14 @@
             loading="lazy"
             decoding="async"
             onerror="this.onerror=null;this.src='{{ $placeholderUrl }}';"
-            class="h-full w-full object-cover transition duration-700 ease-out group-hover:scale-[1.035]"
+            class="tour-experience-image h-full w-full object-cover transition duration-700 ease-out group-hover:scale-[1.035]"
         >
 
         <div class="absolute inset-0 bg-gradient-to-t from-newman-navy/60 via-transparent to-newman-navy/5"></div>
 
         {{-- Existing tour badge --}}
         <span
-            class="absolute left-4 top-4 rounded-lg bg-white/95 px-4 py-2 text-[11px] font-semibold tracking-[0.08em] text-newman-navy shadow-sm backdrop-blur {{ $promotion['active'] ? 'max-w-[54%]' : 'max-w-[75%]' }}"
+            class="tour-experience-format absolute left-4 top-4 rounded-lg bg-white/95 px-4 py-2 text-[11px] font-semibold tracking-[0.08em] text-newman-navy shadow-sm backdrop-blur {{ $promotion['active'] ? 'max-w-[54%]' : 'max-w-[75%]' }}"
         >
             {{ $card['badge'] }}
         </span>
@@ -64,13 +64,13 @@
         {{-- Active discount badge --}}
         @if ($promotion['active'])
             <span
-                class="absolute right-4 top-4 z-10 inline-flex max-w-[40%] items-center justify-center rounded-lg bg-newman-gold px-3 py-2 text-center text-[10px] font-bold uppercase leading-4 tracking-[0.12em] text-newman-navy shadow-lg shadow-newman-navy/20"
+                class="tour-experience-discount absolute right-4 top-4 z-10 inline-flex max-w-[40%] items-center justify-center rounded-lg bg-newman-gold px-3 py-2 text-center text-[10px] font-bold uppercase leading-4 tracking-[0.12em] text-newman-navy shadow-lg shadow-newman-navy/20"
             >
                 {{ $promotion['label'] }}
             </span>
         @endif
 
-        <span class="absolute bottom-4 left-4 flex items-center gap-2 text-sm font-semibold text-white">
+        <span class="tour-experience-location absolute bottom-4 left-4 flex items-center gap-2 text-sm font-semibold text-white">
             <svg
                 class="h-4 w-4"
                 viewBox="0 0 24 24"
@@ -93,12 +93,12 @@
     </a>
 
     {{-- Tour Content --}}
-    <div class="flex flex-1 flex-col p-6">
-        <p class="text-[11px] font-semibold uppercase tracking-[0.14em] text-newman-gold">
+    <div class="tour-experience-body flex flex-1 flex-col p-6">
+        <p class="tour-experience-type text-[11px] font-semibold uppercase tracking-[0.14em] text-newman-gold">
             {{ $card['trip_type'] }}
         </p>
 
-        <h3 class="mt-3 min-h-[66px] text-[22px] font-semibold leading-[1.42] tracking-[-0.025em] text-newman-navy">
+        <h3 class="tour-experience-title mt-3 min-h-[66px] text-[22px] font-semibold leading-[1.42] tracking-[-0.025em] text-newman-navy">
             <a
                 href="{{ $detailUrl }}"
                 class="transition hover:text-newman-blue"
@@ -108,7 +108,7 @@
         </h3>
 
         {{-- Rating --}}
-        <div class="mt-3 flex flex-wrap items-center gap-2 text-sm">
+        <div class="tour-experience-rating mt-3 flex flex-wrap items-center gap-2 text-sm">
             <span class="font-semibold text-newman-navy">
                 <span class="text-newman-gold">★</span>
                 {{ number_format($card['rating'], 1) }}
@@ -122,10 +122,10 @@
         </div>
 
         {{-- Tour Information --}}
-        <div class="mt-5 min-h-[155px] space-y-4 border-t border-newman-navy/10 pt-5">
-            <div class="flex items-start gap-3 text-sm">
+        <div class="tour-experience-meta mt-5 min-h-[155px] space-y-4 border-t border-newman-navy/10 pt-5">
+            <div class="tour-experience-meta-row flex items-start gap-3 text-sm">
                 <svg
-                    class="mt-0.5 h-5 w-5 shrink-0 text-newman-navy"
+                    class="tour-experience-meta-icon mt-0.5 h-5 w-5 shrink-0 text-newman-navy"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
@@ -145,9 +145,9 @@
                 </p>
             </div>
 
-            <div class="flex items-start gap-3 text-sm">
+            <div class="tour-experience-meta-row flex items-start gap-3 text-sm">
                 <svg
-                    class="mt-0.5 h-5 w-5 shrink-0 text-newman-navy"
+                    class="tour-experience-meta-icon mt-0.5 h-5 w-5 shrink-0 text-newman-navy"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
@@ -173,15 +173,15 @@
                         {{ $card['pickup_text'] }}
                     </p>
 
-                    <p class="mt-1 text-gray-500">
+                    <p class="tour-experience-meta-secondary mt-1 text-gray-500">
                         {{ $card['vehicle'] }}
                     </p>
                 </div>
             </div>
 
-            <div class="flex items-start gap-3 text-sm">
+            <div class="tour-experience-meta-row flex items-start gap-3 text-sm">
                 <svg
-                    class="mt-0.5 h-5 w-5 shrink-0 text-newman-gold"
+                    class="tour-experience-meta-icon mt-0.5 h-5 w-5 shrink-0 text-newman-gold"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
@@ -204,7 +204,7 @@
         </div>
 
         {{-- Price --}}
-        <div class="mt-auto border-t border-newman-navy/10 pt-6">
+        <div class="tour-experience-price mt-auto border-t border-newman-navy/10 pt-6">
             @if ($promotion['active'])
                 <div class="flex flex-wrap items-center justify-between gap-2">
                     <p class="text-[11px] font-semibold uppercase tracking-[0.14em] text-newman-gold">
@@ -273,7 +273,7 @@
 
             <a
                 href="{{ $detailUrl }}"
-                class="mt-5 flex min-h-12 w-full items-center justify-center rounded-lg bg-newman-navy px-5 py-3 text-center text-sm font-semibold text-white transition duration-200 hover:bg-newman-blue focus:outline-none focus:ring-2 focus:ring-newman-gold focus:ring-offset-2"
+                class="tour-experience-cta mt-5 flex min-h-12 w-full items-center justify-center rounded-lg bg-newman-navy px-5 py-3 text-center text-sm font-semibold text-white transition duration-200 hover:bg-newman-blue focus:outline-none focus:ring-2 focus:ring-newman-gold focus:ring-offset-2"
             >
                 Check availability
             </a>

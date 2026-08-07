@@ -177,8 +177,8 @@ body {
 .hero-swiper .swiper-wrapper,
 .hero-swiper .swiper-slide {
     width: 100%;
-    height: 100vh;
-    min-height: 720px;
+    height: clamp(680px, 88svh, 760px);
+    min-height: 680px;
 }
 
 .hero-swiper .swiper-slide {
@@ -191,8 +191,21 @@ body {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transform: scale(1.08);
+    object-position: center;
+    transform: scale(1.035);
     transition: transform 7s ease;
+}
+
+.hero-slide-img-gate {
+    object-position: center 46%;
+}
+
+.hero-slide-img-coast {
+    object-position: 58% center;
+}
+
+.hero-slide-img-temple {
+    object-position: center 52%;
 }
 
 .hero-swiper .swiper-slide.is-hero-active .hero-slide-img,
@@ -202,16 +215,92 @@ body {
 
 .hero-overlay {
     background:
-        radial-gradient(circle at 50% 42%, rgba(213, 168, 90, 0.12), transparent 22%),
-        linear-gradient(180deg, rgba(7, 30, 51, 0.58) 0%, rgba(7, 30, 51, 0.42) 45%, rgba(7, 30, 51, 0.82) 100%),
-        linear-gradient(90deg, rgba(7, 30, 51, 0.75) 0%, rgba(7, 30, 51, 0.2) 50%, rgba(7, 30, 51, 0.75) 100%);
+        linear-gradient(90deg, rgba(7, 30, 51, 0.82) 0%, rgba(7, 30, 51, 0.66) 36%, rgba(7, 30, 51, 0.26) 66%, rgba(7, 30, 51, 0.12) 100%),
+        linear-gradient(180deg, rgba(7, 30, 51, 0.42) 0%, rgba(7, 30, 51, 0.08) 42%, rgba(7, 30, 51, 0.55) 100%);
+}
+
+.hero-slide-content {
+    min-height: 100% !important;
+    padding-top: 6rem;
+    padding-right: clamp(1.5rem, 5vw, 4.5rem);
+    padding-bottom: 4rem;
+    padding-left: clamp(1.5rem, 5vw, 4.5rem);
+}
+
+.hero-content-block {
+    max-width: 44rem;
+}
+
+.hero-kicker {
+    margin-bottom: 1rem;
+    font-size: 0.72rem;
+    line-height: 1.5;
+    letter-spacing: 0.26em;
+}
+
+.hero-title {
+    max-width: 43rem;
+    font-size: clamp(3.75rem, 5.5vw, 4.5rem);
+    line-height: 1.02;
+    letter-spacing: -0.045em;
+    text-wrap: balance;
+}
+
+.hero-title-transport {
+    max-width: 46rem;
+    font-size: clamp(3.45rem, 5.1vw, 4.15rem);
+}
+
+.hero-description {
+    max-width: 39rem;
+    margin-top: 1.35rem;
+    font-size: 1.02rem;
+    line-height: 1.75;
+}
+
+.hero-description-transport {
+    max-width: 41rem;
+}
+
+.hero-actions {
+    margin-top: 1.8rem;
+    gap: 1.25rem;
+}
+
+.hero-primary-cta {
+    display: inline-flex;
+    min-height: 3rem;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 1.5rem;
+    font-size: 0.72rem;
+    line-height: 1.25;
+    letter-spacing: 0.14em;
+}
+
+.hero-secondary-cta {
+    display: inline-flex;
+    min-height: 2.75rem;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.45);
+    padding: 0.65rem 0.15rem 0.5rem;
+    font-size: 0.72rem;
+    line-height: 1.25;
+    letter-spacing: 0.14em;
+}
+
+.hero-meta {
+    margin-top: 2rem;
+    font-size: 0.65rem;
+    line-height: 1.5;
+    letter-spacing: 0.24em;
 }
 
 .hero-kicker,
 .hero-title,
 .hero-description,
 .hero-actions,
-.hero-line,
 .hero-meta {
     opacity: 0;
     transform: translateY(32px);
@@ -248,13 +337,6 @@ body {
     transition-delay: 0.74s;
 }
 
-.hero-swiper .swiper-slide.is-hero-active .hero-line,
-.hero-swiper .swiper-slide-active .hero-line {
-    opacity: 1;
-    transform: translateY(0);
-    transition-delay: 0.88s;
-}
-
 .hero-swiper .swiper-slide.is-hero-active .hero-meta,
 .hero-swiper .swiper-slide-active .hero-meta {
     opacity: 1;
@@ -270,8 +352,8 @@ body {
 
 .hero-pagination .swiper-pagination-bullet {
     display: block;
-    width: 36px;
-    height: 3px;
+    width: 18px;
+    height: 2px;
     margin: 0 !important;
     border-radius: 999px;
     border: 0;
@@ -285,7 +367,7 @@ body {
 }
 
 .hero-pagination .swiper-pagination-bullet-active {
-    width: 64px;
+    width: 32px;
     background: #D5A85A;
 }
 
@@ -298,10 +380,10 @@ body {
 }
 
 .hero-nav-btn:hover {
-    transform: translateY(-50%) translateY(-4px);
-    background: #D5A85A;
+    transform: translateY(-50%);
+    background: rgba(213, 168, 90, 0.92);
     color: #071E33;
-    border-color: #D5A85A;
+    border-color: rgba(213, 168, 90, 0.92);
 }
 
 .scroll-line {
@@ -442,6 +524,236 @@ body {
     }
 }
 
+/* =========================================================
+   POPULAR BALI EXPERIENCES — RESPONSIVE CARD REFINEMENT
+   ========================================================= */
+
+#tours .tour-experiences-list {
+    padding-top: 3.5rem;
+    padding-bottom: 3rem;
+}
+
+#tours .tour-experiences-grid-shell {
+    width: 92%;
+}
+
+#tours .tour-experiences-grid {
+    align-items: start;
+    margin-top: 0;
+}
+
+#tours .tour-experiences-item {
+    height: auto;
+}
+
+#tours .tour-card {
+    height: auto;
+    min-height: 0;
+    border-color: rgba(213, 168, 90, 0.22);
+    box-shadow: 0 14px 38px rgba(8, 36, 58, 0.075);
+}
+
+#tours .tour-experience-body {
+    padding: 1.4rem;
+}
+
+#tours .tour-experience-title {
+    margin-top: 0.65rem;
+    line-height: 1.36;
+}
+
+#tours .tour-experience-rating {
+    margin-top: 0.65rem;
+}
+
+#tours .tour-experience-title,
+#tours .tour-experience-meta {
+    min-height: 0;
+}
+
+#tours .tour-experience-meta {
+    margin-top: 1.1rem;
+    padding-top: 1.1rem;
+}
+
+#tours .tour-experience-meta > * + * {
+    margin-top: 0.8rem;
+}
+
+#tours .tour-experience-price {
+    margin-top: 1.25rem;
+    padding-top: 1.25rem;
+}
+
+#tours .tour-experience-cta {
+    margin-top: 1rem;
+}
+
+@media (hover: hover) {
+    #tours .tour-card:hover {
+        transform: translateY(-4px) translateZ(0);
+        box-shadow: 0 20px 48px rgba(8, 36, 58, 0.11);
+    }
+}
+
+@media (max-width: 1279px) {
+    #tours .tour-experiences-grid-shell {
+        width: 100%;
+    }
+}
+
+@media (max-width: 1023px) {
+    #tours .tour-experiences-list {
+        padding-top: 2.25rem;
+        padding-bottom: 2.5rem;
+    }
+
+    #tours .tour-experiences-grid {
+        gap: 1.5rem;
+    }
+
+    #tours .tour-experience-body {
+        padding: 1.35rem;
+    }
+
+    #tours .tour-experience-title {
+        margin-top: 0.65rem;
+        font-size: 1.3rem;
+        line-height: 1.34;
+    }
+
+    #tours .tour-experience-rating {
+        margin-top: 0.65rem;
+    }
+
+    #tours .tour-experience-meta {
+        margin-top: 1.1rem;
+        padding-top: 1.1rem;
+    }
+
+    #tours .tour-experience-meta > * + * {
+        margin-top: 0.8rem;
+    }
+
+    #tours .tour-experience-price {
+        margin-top: 1.2rem;
+        padding-top: 1.2rem;
+    }
+}
+
+@media (max-width: 767px) {
+    #tours .tour-experiences-list {
+        padding-top: 1.75rem;
+        padding-bottom: 2rem;
+    }
+
+    #tours .tour-experiences-grid {
+        gap: 1.25rem;
+    }
+
+    #tours .tour-experience-media {
+        height: clamp(13.75rem, 63vw, 16.875rem);
+        aspect-ratio: auto;
+    }
+
+    #tours .tour-experience-image {
+        object-position: center;
+    }
+
+    #tours .tour-experience-format {
+        top: 0.85rem;
+        left: 0.85rem;
+        padding: 0.4rem 0.7rem;
+        font-size: 0.625rem;
+    }
+
+    #tours .tour-experience-discount {
+        top: 0.85rem;
+        right: 0.85rem;
+        padding: 0.4rem 0.65rem;
+        font-size: 0.58rem;
+    }
+
+    #tours .tour-experience-location {
+        bottom: 0.85rem;
+        left: 0.85rem;
+        gap: 0.4rem;
+        font-size: 0.8rem;
+    }
+
+    #tours .tour-experience-location svg {
+        width: 0.9rem;
+        height: 0.9rem;
+    }
+
+    #tours .tour-experience-body {
+        padding: 1.1rem 1.15rem 1.15rem;
+    }
+
+    #tours .tour-experience-type {
+        font-size: 0.625rem;
+        line-height: 1.45;
+        letter-spacing: 0.13em;
+    }
+
+    #tours .tour-experience-title {
+        margin-top: 0.5rem;
+        font-size: 1.3rem;
+        line-height: 1.3;
+    }
+
+    #tours .tour-experience-rating {
+        margin-top: 0.55rem;
+        gap: 0.4rem;
+        font-size: 0.8rem;
+    }
+
+    #tours .tour-experience-meta {
+        margin-top: 0.9rem;
+        padding-top: 0.9rem;
+    }
+
+    #tours .tour-experience-meta > * + * {
+        margin-top: 0.65rem;
+    }
+
+    #tours .tour-experience-meta-row {
+        gap: 0.6rem;
+        font-size: 0.8rem;
+        line-height: 1.45;
+    }
+
+    #tours .tour-experience-meta-icon {
+        width: 1.05rem;
+        height: 1.05rem;
+    }
+
+    #tours .tour-experience-meta-secondary {
+        margin-top: 0.15rem;
+    }
+
+    #tours .tour-experience-price {
+        margin-top: 1rem;
+        padding-top: 1rem;
+    }
+
+    #tours .tour-experience-price > p:first-child,
+    #tours .tour-experience-price > div:first-child p {
+        font-size: 0.625rem;
+    }
+
+    #tours .tour-experience-price p.text-\[24px\] {
+        font-size: 1.4rem;
+    }
+
+    #tours .tour-experience-cta {
+        min-height: 2.875rem;
+        margin-top: 0.95rem;
+        padding: 0.7rem 1rem;
+        font-size: 0.82rem;
+    }
+}
+
 
 .vehicle-card {
     position: relative;
@@ -518,34 +830,313 @@ body {
 
 
 
-.why-card {
-    transform: translateY(0) translateZ(0);
+/* =========================================================
+   WHY TRAVEL WITH NEWMAN
+   ========================================================= */
+
+#why-newman.why-newman-section {
+    padding-block: 3.75rem 4rem;
+}
+
+#why-newman .why-newman-title {
+    font-size: clamp(2rem, 8.5vw, 2.35rem);
+    line-height: 1.13;
+    letter-spacing: -0.042em;
+}
+
+#why-newman .why-newman-intro {
+    font-size: 0.96rem;
+    line-height: 1.75;
+}
+
+#why-newman .why-reasons-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.875rem;
+    margin-top: 2.25rem;
+}
+
+#why-newman .why-card {
+    display: grid;
+    grid-template-columns: 2.625rem minmax(0, 1fr);
+    align-items: start;
+    gap: 0.875rem;
+    padding: 1.05rem;
+    border: 1px solid rgba(213, 168, 90, 0.24);
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 10px 28px rgba(7, 30, 51, 0.035);
     transition:
-        transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
-        box-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1),
-        border-color 0.35s ease;
+        border-color 0.25s ease,
+        box-shadow 0.25s ease,
+        background-color 0.25s ease;
 }
 
-.why-card:hover {
-    transform: translateY(-7px) translateZ(0);
-    box-shadow: 0 24px 65px rgba(7, 30, 51, 0.10);
-    border-color: rgba(213, 168, 90, 0.35);
-}
-
-.why-image {
-    transform: scale(1.02);
+#why-newman .why-card-icon {
+    width: 2.625rem;
+    height: 2.625rem;
+    border: 1px solid rgba(213, 168, 90, 0.28);
+    background: rgba(213, 168, 90, 0.12);
     transition:
-        transform 1.1s cubic-bezier(0.22, 1, 0.36, 1),
-        filter 0.7s ease;
+        background-color 0.25s ease,
+        border-color 0.25s ease;
 }
 
-.why-image-wrap:hover .why-image {
-    transform: scale(1.08);
-    filter: saturate(1.05) contrast(1.03);
+#why-newman .why-card-icon svg {
+    width: 1.3rem;
+    height: 1.3rem;
 }
 
-.why-line {
-    background: linear-gradient(180deg, #D5A85A, rgba(213, 168, 90, 0));
+#why-newman .why-card-title {
+    font-size: 1.045rem;
+    line-height: 1.35;
+    letter-spacing: -0.022em;
+}
+
+#why-newman .why-card-description {
+    margin-top: 0.45rem;
+    font-size: 0.875rem;
+    line-height: 1.58;
+}
+
+#why-newman .why-newman-facts {
+    margin-top: 2.5rem;
+    border-block: 1px solid rgba(7, 30, 51, 0.1);
+    background: rgba(255, 255, 255, 0.34);
+}
+
+#why-newman .why-newman-facts-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+#why-newman .why-newman-fact {
+    padding: 1.2rem 0.7rem;
+}
+
+#why-newman .why-newman-fact:nth-child(even) {
+    border-left: 1px solid rgba(7, 30, 51, 0.1);
+}
+
+#why-newman .why-newman-fact:nth-child(n + 3) {
+    border-top: 1px solid rgba(7, 30, 51, 0.1);
+}
+
+#why-newman .why-newman-fact-value {
+    font-size: 1.4rem;
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+}
+
+#why-newman .why-newman-fact-label {
+    font-size: 0.75rem;
+    line-height: 1.45;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    #why-newman .why-card:hover {
+        border-color: rgba(213, 168, 90, 0.48);
+        background: #ffffff;
+        box-shadow: 0 14px 34px rgba(7, 30, 51, 0.055);
+    }
+
+    #why-newman .why-card:hover .why-card-icon {
+        border-color: rgba(213, 168, 90, 0.48);
+        background: rgba(213, 168, 90, 0.17);
+    }
+}
+
+@media (max-width: 359px) {
+    #why-newman.why-newman-section {
+        padding-block: 3.25rem 3.5rem;
+    }
+
+    #why-newman .why-newman-container {
+        width: calc(100% - 1.25rem);
+    }
+
+    #why-newman .why-newman-title {
+        font-size: 1.875rem;
+    }
+
+    #why-newman .why-newman-intro {
+        font-size: 0.925rem;
+        line-height: 1.65;
+    }
+
+    #why-newman .why-reasons-grid {
+        gap: 0.75rem;
+        margin-top: 2rem;
+    }
+
+    #why-newman .why-card {
+        grid-template-columns: 2.5rem minmax(0, 1fr);
+        gap: 0.75rem;
+        padding: 0.9rem;
+    }
+
+    #why-newman .why-card-icon {
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+
+    #why-newman .why-card-icon svg {
+        width: 1.2rem;
+        height: 1.2rem;
+    }
+
+    #why-newman .why-card-title {
+        font-size: 1rem;
+    }
+
+    #why-newman .why-card-description {
+        margin-top: 0.4rem;
+        font-size: 0.84rem;
+        line-height: 1.52;
+    }
+
+    #why-newman .why-newman-facts {
+        margin-top: 2.25rem;
+    }
+
+    #why-newman .why-newman-fact {
+        padding: 1rem 0.5rem;
+    }
+
+    #why-newman .why-newman-fact-value {
+        font-size: 1.28rem;
+    }
+
+    #why-newman .why-newman-fact-label {
+        font-size: 0.72rem;
+    }
+}
+
+@media (min-width: 640px) {
+    #why-newman.why-newman-section {
+        padding-block: 5rem;
+    }
+
+    #why-newman .why-newman-title {
+        font-size: 2.65rem;
+    }
+
+    #why-newman .why-newman-intro {
+        font-size: 1.025rem;
+        line-height: 1.8;
+    }
+
+    #why-newman .why-reasons-grid {
+        margin-top: 2.75rem;
+    }
+}
+
+@media (min-width: 768px) {
+    #why-newman .why-reasons-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1rem;
+    }
+
+    #why-newman .why-card {
+        grid-template-columns: 2.875rem minmax(0, 1fr);
+        gap: 1rem;
+        padding: 1.35rem;
+    }
+
+    #why-newman .why-card-icon {
+        width: 2.875rem;
+        height: 2.875rem;
+    }
+
+    #why-newman .why-card-icon svg {
+        width: 1.4rem;
+        height: 1.4rem;
+    }
+
+    #why-newman .why-card-title {
+        font-size: 1.08rem;
+    }
+
+    #why-newman .why-card-description {
+        font-size: 0.89rem;
+        line-height: 1.62;
+    }
+
+    #why-newman .why-newman-facts {
+        margin-top: 2.75rem;
+    }
+
+    #why-newman .why-newman-facts-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    #why-newman .why-newman-fact:nth-child(n) {
+        border-top: 0;
+        border-left: 0;
+    }
+
+    #why-newman .why-newman-fact:nth-child(n + 2) {
+        border-left: 1px solid rgba(7, 30, 51, 0.1);
+    }
+}
+
+@media (min-width: 1024px) {
+    #why-newman.why-newman-section {
+        padding-block: 6.5rem;
+    }
+
+    #why-newman .why-newman-title {
+        font-size: 3rem;
+    }
+
+    #why-newman .why-reasons-grid {
+        gap: 1.25rem;
+        margin-top: 3rem;
+    }
+
+    #why-newman .why-card {
+        grid-template-columns: 3rem minmax(0, 1fr);
+        gap: 1.125rem;
+        padding: 1.65rem 1.75rem;
+    }
+
+    #why-newman .why-card-icon {
+        width: 3rem;
+        height: 3rem;
+    }
+
+    #why-newman .why-card-title {
+        font-size: 1.16rem;
+    }
+
+    #why-newman .why-card-description {
+        margin-top: 0.55rem;
+        font-size: 0.925rem;
+        line-height: 1.65;
+    }
+
+    #why-newman .why-newman-facts {
+        margin-top: 3.25rem;
+    }
+
+    #why-newman .why-newman-fact {
+        padding-block: 1.55rem;
+    }
+
+    #why-newman .why-newman-fact-value {
+        font-size: 1.75rem;
+    }
+
+    #why-newman .why-newman-fact-label {
+        font-size: 0.825rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #why-newman .why-card,
+    #why-newman .why-card-icon {
+        transition: none;
+    }
 }
 
 .trip-review-card {
@@ -1229,150 +1820,402 @@ body {
 
 
 /* =========================================================
-   HOME HERO — COMPACT SMALL-PHONE COMPOSITION
+   HOME HERO — COMPACT MOBILE COMPOSITION
    ========================================================= */
 
-@media (max-width: 389px) {
-    /*
-     * Min-height tetap mengikuti layar, tetapi konten boleh
-     * memanjang secara natural jika diperlukan.
-     */
+@media (max-width: 767px) {
+    .hero-swiper,
+    .hero-swiper .swiper-wrapper,
+    .hero-swiper .swiper-slide {
+        height: clamp(600px, calc(100svh - 72px), 720px);
+        min-height: 600px;
+    }
+
+    .hero-overlay {
+        background:
+            linear-gradient(180deg, rgba(7, 30, 51, 0.52) 0%, rgba(7, 30, 51, 0.22) 32%, rgba(7, 30, 51, 0.68) 100%),
+            linear-gradient(90deg, rgba(7, 30, 51, 0.36) 0%, rgba(7, 30, 51, 0.18) 50%, rgba(7, 30, 51, 0.36) 100%);
+    }
+
     .hero-slide-content {
-        min-height: calc(100svh - 72px) !important;
-        width: calc(100% - 1.5rem);
-        padding-top: 4.5rem !important;
-        padding-bottom: 2.25rem;
+        min-height: 100% !important;
+        width: calc(100% - 2rem);
+        padding: 5.5rem 0 3.25rem;
     }
 
     .hero-content-block {
         width: 100%;
         min-width: 0;
+        margin-right: auto;
+        margin-left: auto;
     }
 
     .hero-kicker {
-        max-width: 19rem;
+        max-width: 20rem;
         margin-right: auto;
-        margin-bottom: 0.875rem;
+        margin-bottom: 0.8rem;
         margin-left: auto;
         font-size: 0.625rem;
-        line-height: 1.55;
-        letter-spacing: 0.22em;
+        line-height: 1.5;
+        letter-spacing: 0.21em;
     }
 
     .hero-title {
-        max-width: 21rem;
-        margin-right: auto;
-        margin-left: auto;
-        font-size: clamp(2.35rem, 11.5vw, 2.85rem);
-        line-height: 0.96;
-        letter-spacing: -0.045em;
-        overflow-wrap: anywhere;
-    }
-
-    /*
-     * Slide transport memakai kalimat sedikit lebih panjang,
-     * sehingga ukurannya dibuat satu tingkat lebih tenang.
-     */
-    .hero-title-transport {
-        max-width: 20.5rem;
-        font-size: clamp(2.15rem, 10.7vw, 2.65rem);
-        line-height: 0.98;
-    }
-
-    .hero-description {
-        max-width: 20rem;
-        margin-top: 1.25rem;
-        font-size: 0.9rem;
-        line-height: 1.7;
-        overflow-wrap: anywhere;
-    }
-
-    .hero-description-transport {
-        max-width: 19.75rem;
-    }
-
-    .hero-actions {
-        width: 100%;
-        max-width: 18.75rem;
-        margin-top: 1.5rem;
-        margin-right: auto;
-        margin-left: auto;
-        gap: 0.625rem;
-    }
-
-    .hero-actions a {
-        display: flex;
-        width: 100%;
-        min-height: 3.2rem;
-        align-items: center;
-        justify-content: center;
-        padding: 0.8rem 1rem;
-        font-size: 0.675rem;
-        line-height: 1.3;
-        letter-spacing: 0.14em;
-    }
-
-    .hero-line,
-    .hero-meta {
-        display: none;
-    }
-}
-
-/*
- * iPhone SE memiliki tinggi viewport lebih pendek.
- * Ruang vertikal dikurangi, tanpa mengubah slide pada HP tinggi.
- */
-@media (max-width: 389px) and (max-height: 750px) {
-    .hero-slide-content {
-        min-height: auto !important;
-        padding-top: 4.25rem !important;
-        padding-bottom: 2rem;
-    }
-
-    .hero-kicker {
-        margin-bottom: 0.7rem;
-        font-size: 0.575rem;
-    }
-
-    .hero-title {
-        font-size: clamp(2.15rem, 10.7vw, 2.55rem);
-    }
-
-    .hero-title-transport {
-        max-width: 19.5rem;
-        font-size: clamp(2rem, 10vw, 2.4rem);
-    }
-
-    .hero-description {
-        margin-top: 1rem;
-        font-size: 0.85rem;
-        line-height: 1.62;
-    }
-
-    .hero-actions {
-        max-width: 17.75rem;
-        margin-top: 1.2rem;
-    }
-
-    .hero-actions a {
-        min-height: 3rem;
-        padding-block: 0.72rem;
-        font-size: 0.64rem;
-    }
-}
-
-
-@media (min-width: 390px) and (max-width: 430px) {
-    .hero-title-transport {
         max-width: 22rem;
         margin-right: auto;
         margin-left: auto;
-        font-size: clamp(2.5rem, 10.8vw, 3rem);
-        line-height: 0.98;
+        font-size: clamp(2.4rem, 9.8vw, 3.1rem);
+        line-height: 1.02;
+        letter-spacing: -0.04em;
+        overflow-wrap: anywhere;
     }
 
-    .hero-description-transport {
+    .hero-title-transport {
         max-width: 21rem;
+        font-size: clamp(2.2rem, 9.2vw, 2.85rem);
+        line-height: 1.03;
+    }
+
+    .hero-description,
+    .hero-description-transport {
+        max-width: 20.5rem;
+        margin-top: 1.1rem;
+        font-size: 0.9rem;
+        line-height: 1.65;
+        overflow-wrap: anywhere;
+    }
+
+    .hero-actions {
+        width: 100%;
+        max-width: 18rem;
+        margin-top: 1.35rem;
+        margin-right: auto;
+        margin-left: auto;
+        flex-direction: column;
+        gap: 0.55rem;
+    }
+
+    .hero-primary-cta {
+        width: 100%;
+        min-height: 2.85rem;
+        padding: 0.7rem 1rem;
+        font-size: 0.66rem;
+        letter-spacing: 0.13em;
+    }
+
+    .hero-secondary-cta {
+        width: auto;
+        min-height: 2.25rem;
+        padding: 0.45rem 0.1rem 0.3rem;
+        font-size: 0.66rem;
+        letter-spacing: 0.13em;
+    }
+
+    .hero-meta {
+        display: none;
+    }
+
+    .hero-pagination {
+        bottom: 1.25rem !important;
+    }
+
+    .hero-slide-img-gate {
+        object-position: center 48%;
+    }
+
+    .hero-slide-img-coast {
+        object-position: 58% center;
+    }
+
+    .hero-slide-img-temple {
+        object-position: center 52%;
+    }
+}
+
+@media (max-width: 389px) and (max-height: 750px) {
+    .hero-slide-content {
+        padding-top: 4.75rem;
+        padding-bottom: 2.75rem;
+    }
+
+    .hero-title {
+        font-size: clamp(2.15rem, 9.6vw, 2.55rem);
+    }
+
+    .hero-title-transport {
+        font-size: clamp(2rem, 8.9vw, 2.35rem);
+    }
+
+    .hero-description,
+    .hero-description-transport {
+        margin-top: 0.9rem;
+        font-size: 0.84rem;
+        line-height: 1.58;
+    }
+
+    .hero-actions {
+        margin-top: 1rem;
+    }
+}
+
+/* =========================================================
+   MEET YOUR LOCAL GUIDE — RESPONSIVE SECTION FLOW
+   ========================================================= */
+
+#about-guide .guide-layout {
+    grid-template-areas:
+        "intro"
+        "media"
+        "story";
+}
+
+#about-guide .guide-intro {
+    grid-area: intro;
+}
+
+#about-guide .guide-media {
+    grid-area: media;
+}
+
+#about-guide .guide-story {
+    grid-area: story;
+}
+
+@media (max-width: 1023px) {
+    #about-guide.guide-section {
+        background: #fbf8f2;
+        padding-top: 3.5rem;
+        padding-bottom: 3.5rem;
+    }
+
+    #about-guide .guide-pattern {
+        display: none;
+    }
+
+    #about-guide .guide-layout {
+        gap: 0;
+    }
+
+    #about-guide .guide-kicker {
+        font-size: 0.625rem;
+        line-height: 1.5;
+        letter-spacing: 0.26em;
+    }
+
+    #about-guide .guide-heading {
+        max-width: 40rem;
+        margin-top: 0.75rem;
+        font-size: clamp(2rem, 9vw, 2.35rem);
+        line-height: 1.08;
+        letter-spacing: -0.035em;
+        text-wrap: balance;
+    }
+
+    #about-guide .guide-media {
+        max-width: 42.5rem;
+        margin-top: 1.5rem;
+    }
+
+    #about-guide .guide-photo-frame {
+        aspect-ratio: 5 / 4;
+        box-shadow: none;
+    }
+
+    #about-guide .guide-photo {
+        height: 100% !important;
+        object-position: center 53%;
+    }
+
+    #about-guide .guide-photo-note {
+        position: relative;
+        right: auto;
+        bottom: auto;
+        left: auto;
+        width: calc(100% - 2rem);
+        margin: -1rem 1rem 0 auto;
+        padding: 0.85rem 1rem 0.9rem;
+        box-shadow: none;
+    }
+
+    #about-guide .guide-photo-note > p:first-child {
+        font-size: 0.6rem;
+        line-height: 1.4;
+        letter-spacing: 0.22em;
+    }
+
+    #about-guide .guide-photo-note > p:last-child {
+        margin-top: 0.4rem;
+        font-size: 0.92rem;
+        line-height: 1.45;
+    }
+
+    #about-guide .guide-story {
+        max-width: 45rem;
+        margin-top: 1.5rem;
+    }
+
+    #about-guide .guide-copy {
+        margin-top: 0;
+        font-size: 0.94rem;
+        line-height: 1.72;
+    }
+
+    #about-guide .guide-copy > p + p {
+        margin-top: 0.8rem;
+    }
+
+    #about-guide .guide-values {
+        display: block;
+        margin-top: 1.65rem;
+    }
+
+    #about-guide .guide-value {
+        display: grid;
+        grid-template-columns: 2.4rem minmax(0, 1fr);
+        column-gap: 0.65rem;
+        align-items: start;
+        border: 0;
+        border-top: 1px solid rgba(7, 30, 51, 0.13);
+        background: transparent;
+        padding: 0.85rem 0;
+        color: #071e33;
+        box-shadow: none;
+    }
+
+    #about-guide .guide-value:last-child {
+        border-bottom: 1px solid rgba(7, 30, 51, 0.13);
+    }
+
+    #about-guide .guide-value-number {
+        grid-row: 1 / 3;
+        grid-column: 1;
+        padding-top: 0.1rem;
+        font-size: 0.83rem;
+        line-height: 1.5;
+    }
+
+    #about-guide .guide-value-title {
+        grid-row: 1;
+        grid-column: 2;
+        margin-top: 0;
+        font-size: 0.95rem;
+        line-height: 1.4;
+        color: #071e33;
+    }
+
+    #about-guide .guide-value-copy {
+        grid-row: 2;
+        grid-column: 2;
+        margin-top: 0.2rem;
+        font-size: 0.83rem;
+        line-height: 1.55;
+        color: rgba(55, 65, 81, 0.9);
+    }
+
+    #about-guide .guide-quote {
+        margin-top: 1.65rem;
+        padding-left: 1rem;
+    }
+
+    #about-guide .guide-quote > p:first-child {
+        font-size: 0.62rem;
+        line-height: 1.5;
+        letter-spacing: 0.2em;
+    }
+
+    #about-guide .guide-quote > p:last-child {
+        margin-top: 0.5rem;
+        font-size: 0.94rem;
+        line-height: 1.65;
+    }
+
+    #about-guide .guide-actions {
+        margin-top: 1.5rem;
+        align-items: flex-start;
+    }
+
+    #about-guide .guide-actions a {
+        display: inline-flex;
+        min-height: 2.75rem;
+        align-items: center;
+        justify-content: center;
+        padding: 0.65rem 1.15rem;
+        font-size: 0.66rem;
+        line-height: 1.3;
+        letter-spacing: 0.14em;
+    }
+}
+
+@media (min-width: 640px) and (max-width: 1023px) {
+    #about-guide.guide-section {
+        padding-top: 4.5rem;
+        padding-bottom: 4.5rem;
+    }
+
+    #about-guide .guide-intro,
+    #about-guide .guide-story {
+        max-width: 45rem;
+    }
+
+    #about-guide .guide-heading {
+        font-size: clamp(2.5rem, 6vw, 3rem);
+    }
+
+    #about-guide .guide-media {
+        width: 100%;
+        max-width: 42.5rem;
+        margin-top: 2rem;
+    }
+
+    #about-guide .guide-photo-frame {
+        aspect-ratio: 4 / 3;
+    }
+
+    #about-guide .guide-photo-note {
+        width: min(20rem, calc(100% - 2.5rem));
+        margin-right: 1.25rem;
+    }
+
+    #about-guide .guide-story {
+        margin-top: 2rem;
+    }
+
+    #about-guide .guide-values {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 1.25rem;
+    }
+
+    #about-guide .guide-value {
+        display: block;
+        border-bottom: 0;
+        padding: 1rem 0 0;
+    }
+
+    #about-guide .guide-value-number {
+        padding-top: 0;
+    }
+
+    #about-guide .guide-value-title {
+        margin-top: 0.7rem;
+    }
+
+    #about-guide .guide-value-copy {
+        margin-top: 0.3rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    #about-guide .guide-layout {
+        grid-template-areas:
+            "media intro"
+            "media story";
+        column-gap: 3rem;
+        row-gap: 0;
+    }
+
+    #about-guide .guide-media {
+        align-self: center;
     }
 }
 

@@ -10,48 +10,42 @@
                     <img
                         src="{{ asset('images/hero-bg.webp') }}"
                         alt="Bali private tour with Newman Tour Guide"
-                        class="hero-slide-img"
+                        class="hero-slide-img hero-slide-img-gate"
                     >
                     <div class="hero-overlay absolute inset-0"></div>
                 </div>
 
-                <div class="bali-pattern absolute inset-0 opacity-20"></div>
-
-                <div class="hero-slide-content relative z-10 mx-auto flex h-full min-h-[720px] w-[92%] max-w-7xl items-center justify-center pt-24 text-center">
-    <div class="hero-content-block max-w-5xl">
-                        <p class="hero-kicker mb-5 text-sm font-semibold uppercase tracking-[0.38em] text-newman-gold">
+                <div class="hero-slide-content relative z-10 mx-auto flex h-full w-[calc(100%-2rem)] max-w-7xl items-center text-center lg:text-left">
+                    <div class="hero-content-block w-full">
+                        <p class="hero-kicker font-semibold uppercase text-newman-gold">
                             Newman Tour Bali
                         </p>
 
-                        <h1 class="hero-title text-5xl font-extrabold uppercase leading-[0.98] tracking-[-0.05em] md:text-7xl lg:text-[92px]">
+                        <h1 class="hero-title font-extrabold">
                             Discover Bali with Private Local Guide
                         </h1>
 
-                        <p class="hero-description mx-auto mt-7 max-w-2xl text-base leading-8 text-white/78 md:text-lg">
+                        <p class="hero-description mx-auto text-white/82 lg:mx-0">
                             Experience temples, beaches, rice terraces, and hidden local routes with a calm private trip made for your schedule.
                         </p>
 
-                        <div class="hero-actions mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-                                                <a
-                            href="#booking"
-                            class="bg-newman-gold px-8 py-4 text-sm font-bold uppercase tracking-[0.18em] text-newman-navy transition duration-300 hover:bg-white"
-                        >
-                            Start Planning
-                        </a>
+                        <div class="hero-actions flex flex-col items-center justify-center sm:flex-row lg:justify-start">
+                            <a
+                                href="#booking"
+                                class="hero-primary-cta bg-newman-gold font-bold uppercase text-newman-navy transition duration-300 hover:bg-white"
+                            >
+                                Start Planning
+                            </a>
 
-                        <a
-                            href="{{ route('tours') }}"
-                            class="border border-white/35 px-8 py-4 text-sm font-bold uppercase tracking-[0.18em] text-white transition duration-300 hover:border-newman-gold hover:bg-newman-gold hover:text-newman-navy"
-                        >
-                            Browse Tours
-                        </a>
+                            <a
+                                href="{{ route('tours') }}"
+                                class="hero-secondary-cta font-bold uppercase text-white transition duration-300 hover:text-newman-gold"
+                            >
+                                Browse Tours
+                            </a>
                         </div>
 
-                        <div class="hero-line mx-auto mt-16 h-14 w-px overflow-hidden bg-white/20 max-[391px]:hidden ">
-                            <div class="scroll-line h-5 w-px bg-newman-gold"></div>
-                        </div>
-
-                        <p class="hero-meta mt-4 text-[11px] uppercase tracking-[0.32em] text-white/45 max-[391px]:hidden">
+                        <p class="hero-meta uppercase text-white/55">
                             Private Tour · Transport · Custom Route
                         </p>
                     </div>
@@ -63,51 +57,45 @@
                     <img
                         src="{{ asset('images/hero-bg1.webp') }}"
                         alt="Private transport in Bali"
-                        class="hero-slide-img"
+                        class="hero-slide-img hero-slide-img-coast"
                     >
                     <div class="hero-overlay absolute inset-0"></div>
                 </div>
 
-                <div class="bali-pattern absolute inset-0 opacity-20"></div>
+                <div class="hero-slide-content relative z-10 mx-auto flex h-full w-[calc(100%-2rem)] max-w-7xl items-center text-center lg:text-left">
+                    <div class="hero-content-block w-full">
+                        <p class="hero-kicker font-semibold uppercase text-newman-gold">
+                            Private Transport, Arranged Around You
+                        </p>
 
-                <div class="hero-slide-content relative z-10 mx-auto flex h-full min-h-[720px] w-[92%] max-w-7xl items-center justify-center pt-24 text-center">
-    <div class="hero-content-block max-w-5xl">
-                        <p class="hero-kicker mb-5 text-sm font-semibold uppercase tracking-[0.38em] text-newman-gold">
-    Private Transport, Arranged Around You
-</p>
+                        <h1 class="hero-title hero-title-transport font-extrabold">
+                            Comfortable Transport for Every Bali Journey
+                        </h1>
 
-<h1 class="hero-title hero-title-transport text-5xl font-extrabold uppercase leading-[0.98] tracking-[-0.05em] md:text-7xl lg:text-[92px]">
-    Comfortable Transport for Every Bali Journey
-</h1>
+                        <p class="hero-description hero-description-transport mx-auto text-white/82 lg:mx-0">
+                            From couples and families to larger groups, Newman helps match your route,
+                            group size, and luggage with a suitable private vehicle.
+                        </p>
 
-<p class="hero-description hero-description-transport mx-auto mt-7 max-w-2xl text-base leading-8 text-white/78 md:text-lg">
-    From couples and families to larger groups, Newman helps match your route,
-    group size, and luggage with a suitable private vehicle.
-</p>
+                        <div class="hero-actions flex flex-col items-center justify-center sm:flex-row lg:justify-start">
+                            <a
+                                href="#vehicles"
+                                class="hero-primary-cta bg-newman-gold font-bold uppercase text-newman-navy transition duration-300 hover:bg-white"
+                            >
+                                View Vehicle Options
+                            </a>
 
-<div class="hero-actions mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-    <a
-        href="#vehicles"
-        class="bg-newman-gold px-8 py-4 text-sm font-bold uppercase tracking-[0.18em] text-newman-navy transition duration-300 hover:bg-white"
-    >
-        View Vehicle Options
-    </a>
+                            <a
+                                href="{{ route('custom-trip.create') }}"
+                                class="hero-secondary-cta font-bold uppercase text-white transition duration-300 hover:text-newman-gold"
+                            >
+                                Plan Transport Request
+                            </a>
+                        </div>
 
-    <a
-        href="{{ route('custom-trip.create') }}"
-        class="border border-white/35 px-8 py-4 text-sm font-bold uppercase tracking-[0.18em] text-white transition duration-300 hover:border-newman-gold hover:bg-newman-gold hover:text-newman-navy"
-    >
-        Plan Transport Request
-    </a>
-</div>
-
-<div class="hero-line mx-auto mt-16 h-14 w-px overflow-hidden bg-white/20 max-[391px]:hidden">
-    <div class="scroll-line h-5 w-px bg-newman-gold"></div>
-</div>
-
-<p class="hero-meta mt-4 text-[11px] uppercase tracking-[0.32em] text-white/45 max-[391px]:hidden">
-    Small Groups · Larger Groups · Flexible Requests
-</p>
+                        <p class="hero-meta uppercase text-white/55">
+                            Small Groups · Larger Groups · Flexible Requests
+                        </p>
                     </div>
                 </div>
             </div>
@@ -117,48 +105,42 @@
                     <img
                         src="{{ asset('images/hero-bg2.webp') }}"
                         alt="Custom Bali experience"
-                        class="hero-slide-img"
+                        class="hero-slide-img hero-slide-img-temple"
                     >
                     <div class="hero-overlay absolute inset-0"></div>
                 </div>
 
-                <div class="bali-pattern absolute inset-0 opacity-20"></div>
-
-                <div class="hero-slide-content relative z-10 mx-auto flex h-full min-h-[720px] w-[92%] max-w-7xl items-center justify-center pt-24 text-center">
-    <div class="hero-content-block max-w-5xl">
-                        <p class="hero-kicker mb-5 text-sm font-semibold uppercase tracking-[0.38em] text-newman-gold">
+                <div class="hero-slide-content relative z-10 mx-auto flex h-full w-[calc(100%-2rem)] max-w-7xl items-center text-center lg:text-left">
+                    <div class="hero-content-block w-full">
+                        <p class="hero-kicker font-semibold uppercase text-newman-gold">
                             Custom Bali Experience
                         </p>
 
-                        <h1 class="hero-title text-5xl font-extrabold uppercase leading-[0.98] tracking-[-0.05em] md:text-7xl lg:text-[92px]">
+                        <h1 class="hero-title font-extrabold">
                             Your Route, Your Time, Your Bali Story
                         </h1>
 
-                        <p class="hero-description mx-auto mt-7 max-w-2xl text-base leading-8 text-white/78 md:text-lg">
+                        <p class="hero-description mx-auto text-white/82 lg:mx-0">
                             Tell us your destination list, group size, and travel date. We will help arrange a flexible route and suitable transport.
                         </p>
 
-                        <div class="hero-actions mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-                                                        <a
+                        <div class="hero-actions flex flex-col items-center justify-center sm:flex-row lg:justify-start">
+                            <a
                                 href="{{ route('custom-trip.create') }}"
-                                class="bg-newman-gold px-8 py-4 text-sm font-bold uppercase tracking-[0.18em] text-newman-navy transition duration-300 hover:bg-white"
+                                class="hero-primary-cta bg-newman-gold font-bold uppercase text-newman-navy transition duration-300 hover:bg-white"
                             >
                                 Plan Custom Trip
                             </a>
 
                             <a
                                 href="{{ route('contact') }}"
-                                class="border border-white/35 px-8 py-4 text-sm font-bold uppercase tracking-[0.18em] text-white transition duration-300 hover:border-newman-gold hover:bg-newman-gold hover:text-newman-navy"
+                                class="hero-secondary-cta font-bold uppercase text-white transition duration-300 hover:text-newman-gold"
                             >
                                 Contact Newman
                             </a>
                         </div>
 
-                        <div class="hero-line mx-auto mt-16 h-14 w-px overflow-hidden bg-white/20 max-[391px]:hidden">
-                            <div class="scroll-line h-5 w-px bg-newman-gold"></div>
-                        </div>
-
-                        <p class="hero-meta mt-4 text-[11px] uppercase tracking-[0.32em] text-white/45 max-[391px]:hidden">
+                        <p class="hero-meta uppercase text-white/55">
                             Flexible Route · Local Guide · Easy Request
                         </p>
                     </div>
@@ -166,11 +148,11 @@
             </div>
         </div>
 
-        <div class="hero-pagination absolute bottom-11 left-1/2 z-20 -translate-x-1/2"></div>
+        <div class="hero-pagination absolute bottom-6 left-1/2 z-20 -translate-x-1/2 sm:bottom-8"></div>
 
         <button
             type="button"
-            class="hero-prev hero-nav-btn absolute left-6 top-1/2 z-20 hidden h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-white/25 bg-white/10 text-white backdrop-blur-md md:flex"
+            class="hero-prev hero-nav-btn absolute left-5 top-1/2 z-20 hidden h-10 w-10 -translate-y-1/2 items-center justify-center border border-white/35 text-white md:flex lg:left-7"
             aria-label="Previous slide"
         >
             <span>‹</span>
@@ -178,7 +160,7 @@
 
         <button
             type="button"
-            class="hero-next hero-nav-btn absolute right-6 top-1/2 z-20 hidden h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-white/25 bg-white/10 text-white backdrop-blur-md md:flex"
+            class="hero-next hero-nav-btn absolute right-5 top-1/2 z-20 hidden h-10 w-10 -translate-y-1/2 items-center justify-center border border-white/35 text-white md:flex lg:right-7"
             aria-label="Next slide"
         >
             <span>›</span>
@@ -240,24 +222,34 @@
 </section>
 
 
-<section id="about-guide" class="relative overflow-hidden bg-white py-20 sm:py-24 lg:py-28">
-    <div class="absolute left-0 top-0 h-full w-full opacity-[0.04]">
+<section id="about-guide" class="guide-section relative overflow-hidden bg-white py-20 sm:py-24 lg:py-28">
+    <div class="guide-pattern absolute left-0 top-0 h-full w-full opacity-[0.04]">
         <div class="h-full w-full bali-pattern"></div>
     </div>
 
     <div class="relative mx-auto w-[92%] max-w-7xl">
-        <div class="grid gap-12 lg:grid-cols-[0.92fr_1.08fr] lg:items-center">
-            <div data-aos="fade-up" class="order-2 lg:order-1">
+        <div class="guide-layout grid gap-12 lg:grid-cols-[0.92fr_1.08fr] lg:items-center">
+            <div data-aos="fade-up" data-aos-delay="120" class="guide-intro">
+                <p class="guide-kicker text-xs font-bold uppercase tracking-[0.35em] text-newman-gold">
+                    Meet Your Local Guide
+                </p>
+
+                <h2 class="guide-heading mt-5 max-w-3xl text-4xl font-semibold leading-[1.05] tracking-[-0.04em] text-newman-navy sm:text-5xl lg:text-6xl">
+                    A Bali trip that feels personal, calm, and well guided.
+                </h2>
+            </div>
+
+            <div data-aos="fade-up" class="guide-media">
                 <div class="relative">
-                    <div class="overflow-hidden bg-newman-sand shadow-2xl shadow-newman-navy/10">
+                    <div class="guide-photo-frame overflow-hidden bg-newman-sand shadow-2xl shadow-newman-navy/10">
                         <img
                             src="{{ asset('images/owner.jpg') }}"
                             alt="Newman local Bali guide"
-                            class="h-[420px] w-full object-cover sm:h-[520px] lg:h-[640px]"
+                            class="guide-photo h-[420px] w-full object-cover sm:h-[520px] lg:h-[640px]"
                         >
                     </div>
 
-                    <div class="absolute -bottom-6 left-5 right-5 bg-newman-navy p-5 text-white shadow-2xl sm:left-auto sm:right-8 sm:w-[320px]">
+                    <div class="guide-photo-note absolute -bottom-6 left-5 right-5 bg-newman-navy p-5 text-white shadow-2xl sm:left-auto sm:right-8 sm:w-[320px]">
                         <p class="text-xs font-semibold uppercase tracking-[0.28em] text-newman-gold">
                             Local Guide
                         </p>
@@ -272,16 +264,8 @@
                 </div>
             </div>
 
-            <div data-aos="fade-up" data-aos-delay="120" class="order-1 lg:order-2">
-                <p class="text-xs font-bold uppercase tracking-[0.35em] text-newman-gold">
-                    Meet Your Local Guide
-                </p>
-
-                <h2 class="mt-5 max-w-3xl text-4xl font-semibold leading-[1.05] tracking-[-0.04em] text-newman-navy sm:text-5xl lg:text-6xl">
-                    A Bali trip that feels personal, calm, and well guided.
-                </h2>
-
-                <div class="mt-7 space-y-5 text-base leading-8 text-gray-600 sm:text-lg">
+            <div data-aos="fade-up" data-aos-delay="120" class="guide-story">
+                <div class="guide-copy mt-7 space-y-5 text-base leading-8 text-gray-600 sm:text-lg">
                     <p>
                         Newman Tour Guide is handled by a local Bali guide who understands how to make a trip feel comfortable, flexible, and not rushed.
                     </p>
@@ -291,33 +275,33 @@
                     </p>
                 </div>
 
-                <div class="mt-9 grid gap-4 sm:grid-cols-3">
-                    <div class="border border-gray-100 bg-newman-sand p-5">
-                        <p class="text-2xl font-semibold text-newman-navy">01</p>
-                        <h3 class="mt-4 font-semibold text-newman-navy">Local Route</h3>
-                        <p class="mt-2 text-sm leading-6 text-gray-600">
+                <div class="guide-values mt-9 grid gap-4 sm:grid-cols-3">
+                    <div class="guide-value guide-value-sand border border-gray-100 bg-newman-sand p-5">
+                        <p class="guide-value-number text-2xl font-semibold text-newman-navy">01</p>
+                        <h3 class="guide-value-title mt-4 font-semibold text-newman-navy">Local Route</h3>
+                        <p class="guide-value-copy mt-2 text-sm leading-6 text-gray-600">
                             Help you choose places that fit your day.
                         </p>
                     </div>
 
-                    <div class="border border-gray-100 bg-white p-5 shadow-lg shadow-newman-navy/5">
-                        <p class="text-2xl font-semibold text-newman-blue">02</p>
-                        <h3 class="mt-4 font-semibold text-newman-navy">Private Trip</h3>
-                        <p class="mt-2 text-sm leading-6 text-gray-600">
+                    <div class="guide-value guide-value-white border border-gray-100 bg-white p-5 shadow-lg shadow-newman-navy/5">
+                        <p class="guide-value-number text-2xl font-semibold text-newman-blue">02</p>
+                        <h3 class="guide-value-title mt-4 font-semibold text-newman-navy">Private Trip</h3>
+                        <p class="guide-value-copy mt-2 text-sm leading-6 text-gray-600">
                             No mixed group. More calm and flexible.
                         </p>
                     </div>
 
-                    <div class="border border-gray-100 bg-newman-navy p-5 text-white">
-                        <p class="text-2xl font-semibold text-newman-gold">03</p>
-                        <h3 class="mt-4 font-semibold">Transport Ready</h3>
-                        <p class="mt-2 text-sm leading-6 text-white/60">
+                    <div class="guide-value guide-value-navy border border-gray-100 bg-newman-navy p-5 text-white">
+                        <p class="guide-value-number text-2xl font-semibold text-newman-gold">03</p>
+                        <h3 class="guide-value-title mt-4 font-semibold">Transport Ready</h3>
+                        <p class="guide-value-copy mt-2 text-sm leading-6 text-white/60">
                             Avanza, Hiace, or custom car option.
                         </p>
                     </div>
                 </div>
 
-                <div class="mt-10 border-l border-newman-gold/50 pl-6">
+                <div class="guide-quote mt-10 border-l border-newman-gold/50 pl-6">
                     <p class="text-sm font-semibold uppercase tracking-[0.24em] text-newman-blue">
                         Simple Travel Style
                     </p>
@@ -327,9 +311,7 @@
                     </p>
                 </div>
 
-                <div class="mt-10 flex flex-col gap-4 sm:flex-row">
-                        
-
+                <div class="guide-actions mt-10 flex flex-col gap-4 sm:flex-row">
                     <a
                         href="{{ route('about') }}"
                         class="border border-newman-navy/15 px-7 py-4 text-center text-sm font-bold uppercase tracking-[0.18em] text-newman-navy transition duration-300 hover:-translate-y-1 hover:border-newman-gold hover:bg-newman-gold"
@@ -344,12 +326,12 @@
 
 
 
-<section id="tours" class="relative overflow-hidden bg-white py-20 sm:py-24 lg:py-28">
-    <div class="tour-card-overlay absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-newman-gold/30 to-transparent"></div>
+<section id="tours" class="tour-experiences relative overflow-hidden bg-white py-20 sm:py-24 lg:py-28">
+    <div class="tour-experiences-rule absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-newman-gold/30 to-transparent"></div>
 
-    <div class="mx-auto w-[92%] max-w-7xl">
-        <div class=" mb-1 flex flex-col gap-6 sm:mb-1 lg:flex-row lg:items-end lg:justify-between">
-            <div data-aos="fade-up" class="max-w-3xl">
+    <div class="tour-experiences-shell mx-auto w-[92%] max-w-7xl">
+        <div class="tour-experiences-header mb-1 flex flex-col gap-6 sm:mb-1 lg:flex-row lg:items-end lg:justify-between">
+            <div data-aos="fade-up" class="tour-experiences-intro max-w-3xl">
                 <p class="text-xs font-bold uppercase tracking-[0.35em] text-newman-gold">
                     Popular Bali Experiences
                 </p>
@@ -367,13 +349,13 @@
         </div>
 
       
-         <section class="relative overflow-hidden bg-white py-20 sm:py-24">
-    <div class="mx-auto w-[92%] max-w-7xl">
+         <section class="tour-experiences-list relative overflow-hidden bg-white py-20 sm:py-24">
+    <div class="tour-experiences-grid-shell mx-auto w-[92%] max-w-7xl">
         {{-- Section heading tetap gunakan heading Newman milikmu --}}
 
-        <div class="mt-12 grid items-stretch gap-7  md:grid-cols-2 xl:grid-cols-3">
+        <div class="tour-experiences-grid mt-12 grid items-stretch gap-7 md:grid-cols-2 xl:grid-cols-3">
             @foreach ($popularTours as $tour)
-                <div class="h-full">
+                <div class="tour-experiences-item h-full">
                     <x-tour-card :tour="$tour"/>
                 </div>
             @endforeach
@@ -417,168 +399,7 @@
     </div>
 
 
-    {{-- =========================================================
-     A DAY WITH NEWMAN
-     Personal local-guide story section
-     ========================================================= --}}
-
-<section
-    id="day-with-newman"
-    class="relative overflow-hidden  py-16 sm:py-20 lg:py-28"
->
-    {{-- Quiet decorative line --}}
-    <div
-        aria-hidden="true"
-        class="absolute left-0 top-0 h-px w-full bg-newman-navy/8"
-    ></div>
-
-    <div class="relative mx-auto w-[calc(100%-2rem)] max-w-7xl sm:w-[92%]">
-        <div class="grid gap-12 lg:grid-cols-[minmax(0,1.05fr)_minmax(420px,0.95fr)] lg:items-center lg:gap-16 xl:gap-24">
-
-            {{-- Travel imagery --}}
-            <div
-                data-aos="fade-up"
-                class="relative min-w-0"
-            >
-                <div class="relative">
-                    <div class="overflow-hidden bg-newman-sand">
-                        <img
-                            src="{{ asset('images/owner.jpg') }}"
-                            alt="Newman guiding guests during a private Bali journey"
-                            loading="lazy"
-                            decoding="async"
-                            class="h-[430px] w-full object-cover object-center sm:h-[560px] lg:h-[620px]"
-                        >
-                    </div>
-
-                    {{-- Small real travel moment --}}
-                    <div
-                        class="relative -mt-14 ml-auto w-[76%] border-[8px] border-[#f7f3eb] bg-white sm:-mt-24 sm:w-[64%] lg:absolute lg:-bottom-14 lg:-right-8 lg:mt-0 lg:w-[58%]"
-                    >
-                        <div class="overflow-hidden">
-                            <img
-                                src="{{ asset('images/img-review.jpeg') }}"
-                                alt="A relaxed guest moment during a Bali trip"
-                                loading="lazy"
-                                decoding="async"
-                                class="aspect-[4/3] h-full w-full object-cover"
-                            >
-                        </div>
-
-                        <div class="bg-white px-4 py-4 sm:px-5">
-                            <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-newman-gold">
-                                Along the way
-                            </p>
-
-                            <p class="mt-2 text-sm leading-6 text-newman-navy">
-                                Enough time for photographs, small stops,
-                                and moments that were not written into the plan.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                {{-- Image location caption --}}
-                <div class="mt-5 flex items-center gap-3 lg:mt-6">
-                    <span class="h-px w-10 bg-newman-gold"></span>
-
-                    <p class="text-[10px] font-semibold uppercase tracking-[0.18em] text-newman-navy/55">
-                        Private routes around Bali
-                    </p>
-                </div>
-            </div>
-
-            {{-- Story --}}
-            <div
-                data-aos="fade-up"
-                data-aos-delay="120"
-                class="min-w-0 lg:pb-8"
-            >
-                <p class="text-[11px] font-bold uppercase tracking-[0.3em] text-newman-gold">
-                    A day with Newman
-                </p>
-
-                <h2 class="mt-5 max-w-2xl text-4xl font-semibold leading-[1.08] tracking-[-0.045em] text-newman-navy sm:text-5xl lg:text-[58px]">
-                    A Bali day with time to actually enjoy it.
-                </h2>
-
-                <p class="mt-7 max-w-xl text-base leading-8 text-gray-600 sm:text-[17px]">
-                    A private journey does not have to be a race between
-                    destinations. We begin from your confirmed pickup area,
-                    follow a route that makes sense for the day, and leave
-                    enough room to enjoy each place at a comfortable pace.
-                </p>
-
-                <p class="mt-5 max-w-xl text-base leading-8 text-gray-600 sm:text-[17px]">
-                    Traffic, weather, ceremonies, and how your group feels can
-                    shape the final order. Newman stays in touch, adjusts where
-                    needed, and helps keep the day simple.
-                </p>
-
-                {{-- Natural journey notes --}}
-                <div class="mt-9 border-y border-newman-navy/10">
-                    <div class="grid sm:grid-cols-3">
-                        <div class="py-5 sm:pr-5">
-                            <p class="text-[10px] font-bold uppercase tracking-[0.18em] text-newman-gold">
-                                Start
-                            </p>
-
-                            <p class="mt-2 text-sm leading-6 text-newman-navy">
-                                Pickup arranged from the confirmed area.
-                            </p>
-                        </div>
-
-                        <div class="border-t border-newman-navy/10 py-5 sm:border-l sm:border-t-0 sm:px-5">
-                            <p class="text-[10px] font-bold uppercase tracking-[0.18em] text-newman-gold">
-                                Along the route
-                            </p>
-
-                            <p class="mt-2 text-sm leading-6 text-newman-navy">
-                                Stops arranged in a sensible order.
-                            </p>
-                        </div>
-
-                        <div class="border-t border-newman-navy/10 py-5 sm:border-l sm:border-t-0 sm:pl-5">
-                            <p class="text-[10px] font-bold uppercase tracking-[0.18em] text-newman-gold">
-                                Your pace
-                            </p>
-
-                            <p class="mt-2 text-sm leading-6 text-newman-navy">
-                                Time for food, photos, and quieter moments.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                {{-- Personal note --}}
-                <blockquote class="mt-8 border-l-2 border-newman-gold pl-5">
-                    <p class="max-w-xl text-lg leading-8 text-newman-navy">
-                        “Tell me the places you are interested in. I will help
-                        shape a route that feels comfortable for your day.”
-                    </p>
-
-                    <footer class="mt-3 text-xs font-semibold uppercase tracking-[0.15em] text-newman-blue">
-                        Newman · Local Bali guide
-                    </footer>
-                </blockquote>
-
-                <div class="mt-9 flex flex-col gap-3 sm:flex-row">
-
-                    <a
-                        href="{{ route('gallery') }}"
-                        class="inline-flex min-h-13 items-center justify-center border border-newman-navy/15 px-7 py-4 text-center text-xs font-bold uppercase tracking-[0.15em] text-newman-navy transition duration-300 hover:-translate-y-0.5 hover:border-newman-gold hover:bg-newman-gold"
-                    >
-                        See Guest Moments
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>        
-        
-
-       
-</section>
+    </section>
 
 @php
     $vehicles = [
@@ -807,7 +628,6 @@
     </div>
 </section>
 
-
 @php
     $whyItems = [
         [
@@ -898,34 +718,23 @@
 
 <section
     id="why-newman"
-    class="relative overflow-hidden  py-16 sm:py-20 lg:py-28"
+    class="why-newman-section relative overflow-hidden"
 >
-    {{-- Soft background accents --}}
-    <div
-        aria-hidden="true"
-        class="pointer-events-none absolute -left-32 top-24 h-80 w-80 rounded-full bg-newman-gold/[0.055] blur-3xl"
-    ></div>
-
-    <div
-        aria-hidden="true"
-        class="pointer-events-none absolute -right-32 bottom-16 h-80 w-80 rounded-full bg-newman-blue/[0.045] blur-3xl"
-    ></div>
-
-    <div class="relative mx-auto w-[calc(100%-2rem)] max-w-7xl sm:w-[92%]">
+    <div class="why-newman-container relative mx-auto w-[calc(100%-2rem)] max-w-7xl sm:w-[92%]">
         {{-- Section heading --}}
         <div
             data-aos="fade-up"
-            class="mx-auto max-w-3xl text-center"
+            class="why-newman-heading mx-auto max-w-3xl text-center"
         >
             <p class="text-[11px] font-bold uppercase tracking-[0.3em] text-newman-gold">
                 Why travel with Newman?
             </p>
 
-            <h2 class="mt-5 text-4xl font-semibold leading-tight tracking-[-0.045em] text-newman-navy sm:text-5xl lg:text-[58px]">
+            <h2 class="why-newman-title mt-5 font-semibold text-newman-navy">
                 More than getting from one Bali stop to the next.
             </h2>
 
-            <p class="mx-auto mt-5 max-w-2xl text-base leading-8 text-gray-600 sm:text-[17px]">
+            <p class="why-newman-intro mx-auto mt-5 max-w-2xl text-gray-600">
                 Newman helps arrange a private Bali day that feels clear,
                 comfortable, and personal—without turning every hour into a
                 strict schedule.
@@ -933,15 +742,15 @@
         </div>
 
         {{-- Six reasons --}}
-        <div class="mt-12 grid gap-5 md:grid-cols-2 lg:mt-16 lg:grid-cols-3 lg:gap-6">
+        <div class="why-reasons-grid">
             @foreach ($newmanReasons as $index => $reason)
                 <article
                     data-aos="fade-up"
                     data-aos-delay="{{ ($index % 3) * 70 }}"
-                    class="group relative flex min-w-0 flex-col items-center rounded-[24px] border border-newman-navy/8 bg-white px-6 py-8 text-center shadow-[0_14px_45px_rgba(8,36,58,0.055)] transition duration-300 hover:-translate-y-1 hover:border-newman-gold/40 hover:shadow-[0_20px_55px_rgba(8,36,58,0.09)] sm:min-h-[285px] sm:px-8 sm:py-9"
+                    class="why-card group relative min-w-0"
                 >
                     {{-- Icon --}}
-                    <div class="flex h-[72px] w-[72px] shrink-0 items-center justify-center rounded-full border border-newman-gold/20 bg-newman-gold/[0.11] text-newman-navy transition duration-300 group-hover:bg-newman-gold group-hover:text-newman-navy">
+                    <div class="why-card-icon flex shrink-0 items-center justify-center rounded-full text-newman-navy">
                         @switch($reason['icon'])
                             @case('guide')
                                 <svg
@@ -1061,32 +870,14 @@
                         @endswitch
                     </div>
 
-                    <h3 class="mt-6 text-xl font-semibold leading-7 tracking-[-0.025em] text-newman-navy">
-                        {{ $reason['title'] }}
-                    </h3>
+                    <div class="why-card-copy min-w-0">
+                        <h3 class="why-card-title font-semibold text-newman-navy">
+                            {{ $reason['title'] }}
+                        </h3>
 
-                    <p class="mt-4 max-w-sm text-sm leading-7 text-gray-600">
-                        {{ $reason['description'] }}
-                    </p>
-
-                    {{-- Small confirmation marker --}}
-                    <div class="mt-auto pt-6">
-                        <span class="flex h-8 w-8 items-center justify-center rounded-full bg-newman-navy text-newman-gold transition duration-300 group-hover:bg-newman-gold group-hover:text-newman-navy">
-                            <svg
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                class="h-4 w-4"
-                                aria-hidden="true"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    d="m7.5 12 3 3 6-7"
-                                ></path>
-                            </svg>
-                        </span>
+                        <p class="why-card-description text-gray-600">
+                            {{ $reason['description'] }}
+                        </p>
                     </div>
                 </article>
             @endforeach
@@ -1095,22 +886,16 @@
         {{-- Trust / service summary --}}
         <div
             data-aos="fade-up"
-            class="mt-10 overflow-hidden rounded-[24px] bg-gradient-to-r from-newman-navy via-[#123753] to-newman-navy px-6 py-8 text-white shadow-[0_18px_55px_rgba(8,36,58,0.14)] sm:px-8 lg:mt-14 lg:px-10"
+            class="why-newman-facts"
         >
-            <div class="grid grid-cols-2 gap-y-8 sm:grid-cols-4">
+            <div class="why-newman-facts-grid">
                 @foreach ($newmanHighlights as $highlight)
-                    <div
-                        @class([
-                            'min-w-0 text-center',
-                            'border-l border-white/12' => ! $loop->first,
-                            'max-sm:border-l-0' => $loop->iteration === 3,
-                        ])
-                    >
-                        <p class="break-words text-2xl font-semibold tracking-[-0.035em] text-newman-gold sm:text-3xl lg:text-[34px]">
+                    <div class="why-newman-fact min-w-0 text-center">
+                        <p class="why-newman-fact-value break-words font-semibold text-newman-navy">
                             {{ $highlight['value'] }}
                         </p>
 
-                        <p class="mx-auto mt-2 max-w-[170px] text-xs leading-5 text-white/65 sm:text-sm sm:leading-6">
+                        <p class="why-newman-fact-label mx-auto mt-2 max-w-[170px] text-gray-600">
                             {{ $highlight['label'] }}
                         </p>
                     </div>
@@ -1119,6 +904,7 @@
         </div>
     </div>
 </section>
+
 
 
 @php
@@ -1575,33 +1361,182 @@ I will definitely visit again to Bali',
 @endforeach
             </div>
         </div>
+    </div>
+</section>
 
-        <div data-aos="fade-up" class="mt-8 bg-white p-5 shadow-sm shadow-newman-navy/5 sm:p-6 lg:flex lg:items-center lg:justify-between lg:gap-8">
-            <div>
-                <p class="text-xs font-bold uppercase tracking-[0.28em] text-newman-blue">
-                    Real documentation
-                </p>
+{{-- =========================================================
+     BALI TRAVEL PHOTOGRAPHIC BREAK
+     ========================================================= --}}
+<section
+    id="bali-travel-break"
+    aria-labelledby="bali-travel-break-title"
+    class="bg-white py-12 sm:py-16 lg:py-20"
+>
+    <div class="mx-auto w-[calc(100%-1.25rem)] max-w-7xl sm:w-[92%]">
+        <figure
+            data-aos="fade-up"
+            class="relative isolate h-[340px] overflow-hidden bg-newman-navy shadow-[0_18px_50px_rgba(7,30,51,0.10)] min-[375px]:h-[360px] sm:h-[390px] md:h-[420px] lg:h-[460px]  "
+        >
+            <img
+                src="{{ asset('images/wide-img.webp') }}"
+                alt="Newman with guests during a Bali trip overlooking a mountain landscape"
+                loading="lazy"
+                decoding="async"
+                class="absolute inset-0 h-full w-full object-cover object-[60%_48%] min-[375px]:object-[58%_48%] sm:object-[56%_48%] md:object-[52%_46%] lg:object-[50%_46%]"
+            >
 
-                <p class="mt-3 max-w-2xl text-sm leading-7 text-gray-600">
-                    Use real photos from your father’s trips with guests. This will make Newman Tour Guide feel more personal, trusted, and natural.
-                </p>
-            </div>
+            <div
+                aria-hidden="true"
+                class="absolute inset-0 bg-gradient-to-b from-newman-navy/70 via-newman-navy/15 to-newman-navy/45 md:bg-gradient-to-r md:from-newman-navy/72 md:via-newman-navy/20 md:to-transparent"
+            ></div>
 
-            <div class="mt-5 flex flex-col gap-3 sm:flex-row lg:mt-0">
-                <a
-                    href="{{ route('gallery') }}"
-                    class="bg-newman-navy px-6 py-4 text-center text-sm font-bold uppercase tracking-[0.16em] text-white transition duration-300 hover:-translate-y-1 hover:bg-newman-blue hover:shadow-xl"
-                >
-                    View Full Gallery
-                </a>
+            <figcaption class="absolute inset-x-0 top-0 z-10 p-6 text-white sm:p-8 md:p-10 lg:p-12">
+                <div class="max-w-[16rem] min-[375px]:max-w-[18rem] sm:max-w-sm md:max-w-md">
+                    <p class="text-[10px] font-bold uppercase tracking-[0.28em] text-newman-gold sm:text-[11px] sm:tracking-[0.32em]">
+                        Along the way
+                    </p>
 
-                <a
-                    href="#booking"
-                    class="border border-newman-navy/15 px-6 py-4 text-center text-sm font-bold uppercase tracking-[0.16em] text-newman-navy transition duration-300 hover:-translate-y-1 hover:border-newman-gold hover:bg-newman-gold"
-                >
-                    Plan Your Trip
-                </a>
-            </div>
+                    <h2
+                        id="bali-travel-break-title"
+                        class="mt-3 text-[29px] font-semibold leading-[1.08] tracking-[-0.04em] text-white min-[375px]:text-[31px] sm:mt-4 sm:text-4xl md:text-[42px] lg:text-5xl"
+                    >
+                        Leave a little room for Bali.
+                    </h2>
+
+                    <p class="mt-4 max-w-md text-sm leading-6 text-white/82 sm:text-[15px] sm:leading-7 md:mt-5 md:text-base md:leading-7">
+                        A clear plan, without turning every hour into a strict schedule.
+                    </p>
+                </div>
+                <div>
+
+                </div>
+            </figcaption>
+
+        </figure>
+    </div>
+</section>
+
+
+@php
+    $homepageFaqColumns = [
+        [
+            [
+                'question' => 'Are Newman’s Bali tours private?',
+                'answer' => 'Yes. Tour Packages and Custom Trips are arranged for your own couple, family, or group, so there is no mixed-group schedule. Timing and stops can be discussed around your day.',
+            ],
+            [
+                'question' => 'Should I choose a Tour Package or a Custom Trip?',
+                'answer' => 'Choose a Tour Package when a published route is already close to what you want. Choose a Custom Trip when you would rather build the destination list, preferred pace, pickup area, and vehicle from the beginning.',
+            ],
+            [
+                'question' => 'Can the route and timing be adjusted?',
+                'answer' => 'Yes. A published route is a useful starting point. Newman can review the stops, travel time, traffic, weather, and your group’s needs before the final confirmation so the day stays practical and does not feel rushed.',
+            ],
+            [
+                'question' => 'Where can Newman pick us up?',
+                'answer' => 'Private trips can start from common hotel areas around Bali. Share your hotel or pickup area first, then the exact pickup time and availability can be confirmed after Newman reviews the route.',
+            ],
+        ],
+        [
+            [
+                'question' => 'Which vehicle should I choose?',
+                'answer' => 'Avanza is a comfortable starting point for couples and small families, while Hiace gives groups more room. Another arrangement can be requested for bigger groups or special needs. Your selection is a preference; Newman confirms the final vehicle based on guests, luggage, child seats, accessibility, and availability.',
+            ],
+            [
+                'question' => 'Is a booking request already confirmed?',
+                'answer' => 'Not yet. Sending a request creates a pending request. Newman checks the route, availability, vehicle fit, and quotation before contacting you. No payment is collected on the website.',
+            ],
+            [
+                'question' => 'What should I share before planning the trip?',
+                'answer' => 'Send your preferred date, number of guests, hotel area, places you want to visit, and the pace you enjoy. It also helps to mention luggage, child seats, accessibility, or another special request early.',
+            ],
+            [
+                'question' => 'How will Newman contact me after I send a request?',
+                'answer' => 'Newman will follow up through the active WhatsApp number you provide; email is optional for a Custom Trip. This is where the timing, availability, vehicle, and final quotation are confirmed personally.',
+            ],
+        ],
+    ];
+@endphp
+
+{{-- =========================================================
+     FREQUENTLY ASKED QUESTIONS
+     ========================================================= --}}
+<section
+    id="faq"
+    aria-labelledby="faq-title"
+    class="relative isolate overflow-hidden py-14 sm:py-16 md:py-20 lg:py-24"
+>
+    <div aria-hidden="true" class="pointer-events-none absolute inset-0 opacity-[0.035]">
+        <div class="bali-pattern h-full w-full"></div>
+    </div>
+
+    <div class="relative mx-auto w-[calc(100%-1.5rem)] max-w-7xl sm:w-[92%]">
+        <header data-aos="fade-up" class="mx-auto max-w-3xl text-center">
+            <p class="text-[10px] font-bold uppercase tracking-[0.26em] text-newman-gold sm:text-xs sm:tracking-[0.34em]">
+                Frequently Asked Questions
+            </p>
+
+            <h2
+                id="faq-title"
+                class="mt-4 text-[30px] font-semibold leading-[1.12] tracking-[-0.04em] text-newman-navy sm:mt-5 sm:text-4xl md:text-[42px] lg:text-5xl"
+            >
+                Good to know before your Bali day.
+            </h2>
+
+            <p class="mx-auto mt-4 max-w-2xl text-sm leading-7 text-gray-600 sm:mt-5 sm:text-base sm:leading-8">
+                Simple answers about private routes, pickup, transport, and what happens after you send a request.
+            </p>
+
+            <span aria-hidden="true" class="mx-auto mt-6 block h-px w-14 bg-newman-gold sm:mt-7 sm:w-16"></span>
+        </header>
+
+        <div class="mt-9 grid gap-x-12 md:mt-11 md:grid-cols-2 lg:mt-14 lg:gap-x-16">
+            @foreach ($homepageFaqColumns as $column)
+                <div data-aos="fade-up" data-aos-delay="{{ $loop->index * 90 }}">
+                    @foreach ($column as $faq)
+                        @php
+                            $faqId = 'homepage-faq-' . $loop->parent->index . '-' . $loop->index;
+                        @endphp
+
+                        <div class="relative border-b border-newman-navy/15">
+                            <input
+                                id="{{ $faqId }}"
+                                type="checkbox"
+                                aria-controls="{{ $faqId }}-answer"
+                                class="peer sr-only"
+                            >
+
+                            <label
+                                id="{{ $faqId }}-label"
+                                for="{{ $faqId }}"
+                                class="block cursor-pointer py-5 pr-10 text-left text-[15px] font-semibold leading-6 text-newman-navy transition-colors duration-300 hover:text-newman-blue peer-checked:text-newman-blue peer-focus-visible:text-newman-blue sm:py-6 sm:text-base"
+                            >
+                                {{ $faq['question'] }}
+                            </label>
+
+                            <span
+                                aria-hidden="true"
+                                class="pointer-events-none absolute right-0 top-[18px] flex h-6 w-6 items-center justify-center text-[25px] font-light leading-none text-newman-gold transition-transform duration-300 peer-checked:rotate-45 sm:top-[22px]"
+                            >
+                                +
+                            </span>
+
+                            <div
+                                id="{{ $faqId }}-answer"
+                                role="region"
+                                aria-labelledby="{{ $faqId }}-label"
+                                class="grid grid-rows-[0fr] opacity-0 transition-[grid-template-rows,opacity] duration-500 ease-out peer-checked:grid-rows-[1fr] peer-checked:opacity-100"
+                            >
+                                <div class="min-h-0 overflow-hidden">
+                                    <p class="max-w-xl pb-5 pr-9 text-sm leading-7 text-gray-600 sm:pb-6 sm:text-[15px] sm:leading-7">
+                                        {{ $faq['answer'] }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            @endforeach
         </div>
     </div>
 </section>
