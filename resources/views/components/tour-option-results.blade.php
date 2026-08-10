@@ -224,20 +224,20 @@
     "
     x-cloak
     x-show="result"
-    class="scroll-mt-28 border-y border-newman-navy/10 bg-newman-sand/35 py-14 sm:py-18"
+    class="scroll-mt-28 border-y border-newman-navy/10 bg-newman-sand/35 py-10 sm:py-12"
 >
     <div class="mx-auto w-[92%] max-w-7xl">
-        <div class="flex flex-col gap-5 border-b border-newman-navy/10 pb-7 lg:flex-row lg:items-end lg:justify-between">
+        <div class="flex flex-col gap-4 border-b border-newman-navy/10 pb-5 lg:flex-row lg:items-end lg:justify-between">
             <div>
                 <p class="text-xs font-bold uppercase tracking-[0.32em] text-newman-gold">
                     Available tour options
                 </p>
 
-                <h2 class="mt-3 max-w-3xl text-3xl font-semibold tracking-[-0.04em] text-newman-navy sm:text-5xl">
+                <h2 class="mt-2.5 max-w-3xl text-2xl font-semibold leading-tight tracking-[-0.035em] text-newman-navy sm:text-4xl">
                     Choose how you want to experience this tour.
                 </h2>
 
-                <p class="mt-4 max-w-3xl text-sm leading-7 text-gray-600">
+                <p class="mt-3 max-w-3xl text-sm leading-6 text-gray-600">
                     Prices and starting times are calculated
                     from your selected date, language, and
                     participant group.
@@ -245,7 +245,7 @@
             </div>
 
             <div
-                class="rounded-2xl border border-newman-gold/30 bg-white px-5 py-4"
+                class="border-l-2 border-newman-gold bg-white px-4 py-3"
             >
                 <p class="text-[10px] font-bold uppercase tracking-[0.14em] text-gray-400">
                     Your selection
@@ -295,21 +295,27 @@
         {{-- Option cards --}}
         <div
             x-show="hasOptions"
-            class="mt-8 grid gap-6 xl:grid-cols-2"
+            class="mt-6 grid gap-5"
+            :class="options.length > 1 ? 'xl:grid-cols-2' : 'xl:max-w-4xl xl:grid-cols-1'"
         >
             <template
                 x-for="option in options"
                 :key="optionKey(option)"
             >
                 <article
-                    class="overflow-hidden rounded-[26px] border bg-white shadow-[0_18px_55px_rgba(8,36,58,0.08)] transition duration-300"
+                    x-data="{
+                        pickupOpen: false,
+                        includedOpen: false,
+                        excludedOpen: false,
+                    }"
+                    class="overflow-hidden rounded-[18px] border bg-white shadow-[0_14px_38px_rgba(8,36,58,0.07)] transition duration-300"
                     :class="isSelected(option)
                         ? 'border-newman-gold ring-2 ring-newman-gold/20'
                         : 'border-newman-navy/10 hover:border-newman-gold/60'"
                 >
-                    <div class="border-b border-newman-navy/10 p-5 sm:p-7">
-                        <div class="flex items-start justify-between gap-5">
-                            <div>
+                    <div class="border-b border-newman-navy/10 p-4 sm:p-5">
+                        <div class="grid gap-3 min-[380px]:grid-cols-[minmax(0,1fr)_auto] min-[380px]:items-start">
+                            <div class="min-w-0">
                                 <div class="flex flex-wrap items-center gap-2">
                                     <span
                                         x-show="option.is_default"
@@ -327,32 +333,45 @@
                                 </div>
 
                                 <h3
-                                    class="mt-3 text-2xl font-semibold tracking-[-0.03em] text-newman-navy"
+                                    class="mt-2.5 text-xl font-semibold leading-snug tracking-[-0.025em] text-newman-navy sm:text-2xl"
                                     x-text="option.title"
                                 ></h3>
 
                                 <p
                                     x-show="option.short_description"
-                                    class="mt-3 text-sm leading-7 text-gray-600"
+                                    class="mt-2 text-sm leading-6 text-gray-600"
                                     x-text="option.short_description"
                                 ></p>
                             </div>
 
-                            <button
-                                type="button"
-                                @click="chooseOption(option)"
-                                class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border-2 transition"
-                                :class="isSelected(option)
-                                    ? 'border-newman-gold bg-newman-gold text-newman-navy'
-                                    : 'border-newman-navy/15 bg-white text-transparent'"
-                                :aria-label="`Choose ${option.title}`"
-                            >
-                                ✓
-                            </button>
+                            <div class="flex items-center justify-between gap-3 border-t border-newman-navy/10 pt-3 text-left min-[380px]:block min-[380px]:border-l min-[380px]:border-t-0 min-[380px]:pl-4 min-[380px]:pt-0 min-[380px]:text-right">
+                                <div>
+                                    <p class="text-[9px] font-bold uppercase tracking-[0.12em] text-gray-400">
+                                        Estimated total
+                                    </p>
+
+                                    <p
+                                        class="mt-1 text-base font-bold tracking-[-0.025em] text-newman-navy"
+                                        x-text="option.pricing?.formatted_estimated_total || 'Confirm price'"
+                                    ></p>
+                                </div>
+
+                                <button
+                                    type="button"
+                                    @click="chooseOption(option)"
+                                    class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 text-sm transition min-[380px]:ml-auto min-[380px]:mt-2"
+                                    :class="isSelected(option)
+                                        ? 'border-newman-gold bg-newman-gold text-newman-navy'
+                                        : 'border-newman-navy/15 bg-white text-transparent'"
+                                    :aria-label="`Choose ${option.title}`"
+                                >
+                                    ✓
+                                </button>
+                            </div>
                         </div>
 
-                        <div class="mt-5 grid gap-3 sm:grid-cols-3">
-                            <div class="rounded-xl bg-newman-sand/70 p-3">
+                        <div class="mt-4 grid grid-cols-2 gap-2">
+                            <div class="rounded-lg bg-newman-sand/70 p-3">
                                 <p class="text-[10px] font-bold uppercase tracking-[0.12em] text-gray-400">
                                     Duration
                                 </p>
@@ -363,18 +382,7 @@
                                 ></p>
                             </div>
 
-                            <div class="rounded-xl bg-newman-sand/70 p-3">
-                                <p class="text-[10px] font-bold uppercase tracking-[0.12em] text-gray-400">
-                                    Pickup
-                                </p>
-
-                                <p
-                                    class="mt-2 text-sm font-semibold text-newman-navy"
-                                    x-text="option.pickup_label || 'Confirmed later'"
-                                ></p>
-                            </div>
-
-                            <div class="rounded-xl bg-newman-sand/70 p-3">
+                            <div class="rounded-lg bg-newman-sand/70 p-3">
                                 <p class="text-[10px] font-bold uppercase tracking-[0.12em] text-gray-400">
                                     Language
                                 </p>
@@ -391,98 +399,19 @@
                         </div>
                     </div>
 
-                    <div class="grid gap-6 p-5 sm:p-7 lg:grid-cols-2">
-                        {{-- Included --}}
-                        <div>
-                            <p class="text-xs font-bold uppercase tracking-[0.18em] text-newman-gold">
-                                Included
+                    {{-- Starting times stay above secondary information. --}}
+                    <div class="border-b border-newman-navy/10 px-4 py-4 sm:px-5">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <p class="text-[10px] font-bold uppercase tracking-[0.16em] text-newman-gold">
+                                Starting time
                             </p>
 
-                            <div class="mt-4 space-y-3">
-                                <template
-                                    x-for="item in option.included"
-                                    :key="`included-${item.label}`"
-                                >
-                                    <div class="flex gap-3">
-                                        <span class="mt-0.5 text-newman-gold">
-                                            ✓
-                                        </span>
-
-                                        <div>
-                                            <p
-                                                class="text-sm font-medium text-newman-navy"
-                                                x-text="item.label"
-                                            ></p>
-
-                                            <p
-                                                x-show="item.details"
-                                                class="mt-1 text-xs leading-5 text-gray-500"
-                                                x-text="item.details"
-                                            ></p>
-                                        </div>
-                                    </div>
-                                </template>
-
-                                <p
-                                    x-show="!option.included?.length"
-                                    class="text-sm text-gray-500"
-                                >
-                                    Inclusions will be confirmed
-                                    before booking.
-                                </p>
-                            </div>
+                            <p class="text-xs text-gray-500" x-text="result?.selection?.participant_label"></p>
                         </div>
-
-                        {{-- Excluded --}}
-                        <div>
-                            <p class="text-xs font-bold uppercase tracking-[0.18em] text-newman-gold">
-                                Not included
-                            </p>
-
-                            <div class="mt-4 space-y-3">
-                                <template
-                                    x-for="item in option.excluded"
-                                    :key="`excluded-${item.label}`"
-                                >
-                                    <div class="flex gap-3">
-                                        <span class="mt-0.5 text-gray-400">
-                                            —
-                                        </span>
-
-                                        <div>
-                                            <p
-                                                class="text-sm font-medium text-newman-navy"
-                                                x-text="item.label"
-                                            ></p>
-
-                                            <p
-                                                x-show="item.details"
-                                                class="mt-1 text-xs leading-5 text-gray-500"
-                                                x-text="item.details"
-                                            ></p>
-                                        </div>
-                                    </div>
-                                </template>
-
-                                <p
-                                    x-show="!option.excluded?.length"
-                                    class="text-sm text-gray-500"
-                                >
-                                    No exclusions have been listed.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    {{-- Starting times --}}
-                    <div class="border-t border-newman-navy/10 px-5 py-5 sm:px-7">
-                        <p class="text-xs font-bold uppercase tracking-[0.18em] text-newman-gold">
-                            Starting time
-                        </p>
 
                         <div
                             x-show="option.starting_times?.length"
-                            class="mt-4 flex flex-wrap gap-2"
+                            class="mt-3 flex flex-wrap gap-2"
                         >
                             <template
                                 x-for="time in option.starting_times"
@@ -490,17 +419,11 @@
                             >
                                 <button
                                     type="button"
-                                    @click="
-                                        chooseStartingTime(
-                                            option,
-                                            time
-                                        )
-                                    "
-                                    class="min-h-11 rounded-full border px-5 py-2 text-sm font-semibold transition"
+                                    @click="chooseStartingTime(option, time)"
+                                    class="min-h-10 rounded-lg border px-4 py-2 text-sm font-semibold transition"
                                     :class="
                                         isSelected(option)
-                                        && selectedStartingTime
-                                            === time.value
+                                        && selectedStartingTime === time.value
                                             ? 'border-newman-navy bg-newman-navy text-white'
                                             : 'border-newman-navy/15 bg-white text-newman-navy hover:border-newman-gold hover:bg-newman-sand'
                                     "
@@ -511,16 +434,144 @@
 
                         <div
                             x-show="!option.starting_times?.length"
-                            class="mt-4 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm leading-6 text-amber-800"
+                            class="mt-3 border-l-2 border-amber-300 bg-amber-50 px-3 py-2 text-xs leading-5 text-amber-800"
                         >
-                            No selectable starting time was returned
-                            for this option.
+                            Starting time will be confirmed for this option.
+                        </div>
+                    </div>
+
+                    <div class="divide-y divide-newman-navy/10 px-4 sm:px-5">
+                        {{-- Option-specific pickup stays available without making the card tall. --}}
+                        <div>
+                            <button
+                                type="button"
+                                @click="pickupOpen = !pickupOpen"
+                                class="flex w-full items-center justify-between gap-4 py-3.5 text-left"
+                                :aria-expanded="pickupOpen"
+                            >
+                                <span class="text-sm font-semibold text-newman-navy">Pickup details</span>
+                                <span class="text-lg leading-none text-newman-gold" x-text="pickupOpen ? '−' : '+'"></span>
+                            </button>
+
+                            <div
+                                class="grid transition-[grid-template-rows] duration-200 ease-out"
+                                :class="pickupOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'"
+                            >
+                                <div class="min-h-0 overflow-hidden">
+                                    <p
+                                        class="pb-4 text-sm leading-6 text-gray-600"
+                                        x-text="option.pickup_label || 'Pickup will be confirmed later.'"
+                                    ></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        {{-- Included --}}
+                        <div>
+                            <button
+                                type="button"
+                                @click="includedOpen = !includedOpen"
+                                class="flex w-full items-center justify-between gap-4 py-3.5 text-left"
+                                :aria-expanded="includedOpen"
+                            >
+                                <span class="text-sm font-semibold text-newman-navy">What's included</span>
+                                <span class="text-lg leading-none text-newman-gold" x-text="includedOpen ? '−' : '+'"></span>
+                            </button>
+
+                            <div
+                                class="grid transition-[grid-template-rows] duration-200 ease-out"
+                                :class="includedOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'"
+                            >
+                                <div class="min-h-0 overflow-hidden">
+                                    <div class="space-y-3 pb-4">
+                                        <template
+                                            x-for="item in option.included"
+                                            :key="`included-${item.label}`"
+                                        >
+                                            <div class="flex gap-3">
+                                                <span class="mt-0.5 text-newman-gold">✓</span>
+
+                                                <div>
+                                                    <p
+                                                        class="text-sm font-medium text-newman-navy"
+                                                        x-text="item.label"
+                                                    ></p>
+
+                                                    <p
+                                                        x-show="item.details"
+                                                        class="mt-1 text-xs leading-5 text-gray-500"
+                                                        x-text="item.details"
+                                                    ></p>
+                                                </div>
+                                            </div>
+                                        </template>
+
+                                        <p
+                                            x-show="!option.included?.length"
+                                            class="text-sm text-gray-500"
+                                        >
+                                            Inclusions will be confirmed before booking.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {{-- Excluded --}}
+                        <div>
+                            <button
+                                type="button"
+                                @click="excludedOpen = !excludedOpen"
+                                class="flex w-full items-center justify-between gap-4 py-3.5 text-left"
+                                :aria-expanded="excludedOpen"
+                            >
+                                <span class="text-sm font-semibold text-newman-navy">What's not included</span>
+                                <span class="text-lg leading-none text-newman-gold" x-text="excludedOpen ? '−' : '+'"></span>
+                            </button>
+
+                            <div
+                                class="grid transition-[grid-template-rows] duration-200 ease-out"
+                                :class="excludedOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'"
+                            >
+                                <div class="min-h-0 overflow-hidden">
+                                    <div class="space-y-3 pb-4">
+                                        <template
+                                            x-for="item in option.excluded"
+                                            :key="`excluded-${item.label}`"
+                                        >
+                                            <div class="flex gap-3">
+                                                <span class="mt-0.5 text-gray-400">—</span>
+
+                                                <div>
+                                                    <p
+                                                        class="text-sm font-medium text-newman-navy"
+                                                        x-text="item.label"
+                                                    ></p>
+
+                                                    <p
+                                                        x-show="item.details"
+                                                        class="mt-1 text-xs leading-5 text-gray-500"
+                                                        x-text="item.details"
+                                                    ></p>
+                                                </div>
+                                            </div>
+                                        </template>
+
+                                        <p
+                                            x-show="!option.excluded?.length"
+                                            class="text-sm text-gray-500"
+                                        >
+                                            No exclusions have been listed.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
                     {{-- Pricing --}}
-                    <div class="border-t border-newman-navy/10 bg-newman-navy p-5 text-white sm:p-7">
-                        <div class="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+                    <div class="border-t border-newman-navy/10 bg-newman-navy p-4 text-white sm:p-5">
+                        <div class="flex items-end justify-between gap-4">
                             <div>
                                 <p class="text-[10px] font-bold uppercase tracking-[0.18em] text-newman-gold">
                                     Estimated total
@@ -544,7 +595,7 @@
                                         ></p>
 
                                         <p
-                                            class="mt-1 text-3xl font-bold tracking-[-0.04em]"
+                                            class="mt-1 text-2xl font-bold tracking-[-0.035em] sm:text-3xl"
                                             x-text="
                                                 option.pricing
                                                     .formatted_estimated_total
@@ -587,7 +638,7 @@
         isSelected(option)
         && !canContinue
     "
-    class="min-h-12 rounded-xl px-7 py-3 text-xs font-bold uppercase tracking-[0.13em] transition"
+    class="min-h-11 shrink-0 rounded-lg px-5 py-2.5 text-[11px] font-bold uppercase tracking-[0.12em] transition sm:px-6"
     :class="isSelected(option)
         ? 'bg-newman-gold text-newman-navy'
         : 'border border-white/25 bg-white/5 text-white hover:border-newman-gold hover:bg-newman-gold hover:text-newman-navy'"
@@ -603,11 +654,8 @@
 ></button>
                         </div>
 
-                        <p class="mt-4 text-xs leading-5 text-white/55">
-                            Estimated price is calculated by the
-                            Newman pricing service. Final confirmation
-                            is completed before the booking request
-                            is accepted.
+                        <p class="mt-3 text-[11px] leading-5 text-white/55">
+                            Final price is confirmed before the booking request is accepted.
                         </p>
                     </div>
                 </article>

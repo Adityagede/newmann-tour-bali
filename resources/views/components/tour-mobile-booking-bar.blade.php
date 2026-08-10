@@ -60,13 +60,6 @@
         )
         : null;
 
-    $savingText = $promotionActive
-        ? data_get(
-            $promotion,
-            'saving_adult_text'
-        )
-        : null;
-
     $priceLabel = $promotionActive
         ? 'Limited offer'
         : (
@@ -278,13 +271,13 @@
                     inset-x-0
                     bottom-0
                     z-[70]
-                    px-3
+                    px-2
                     lg:hidden
                 "
                 style="
                     padding-bottom:
                         calc(
-                            0.75rem
+                            0.35rem
                             + env(safe-area-inset-bottom)
                         );
                 "
@@ -299,27 +292,27 @@
                         max-w-3xl
                         min-w-0
                         items-center
-                        gap-3
-                        rounded-[20px]
+                        gap-2
+                        rounded-[14px]
                         border
                         border-newman-navy/10
                         bg-white/95
-                        p-3
-                        shadow-[0_-12px_45px_rgba(8,36,58,0.18)]
+                        p-2
+                        shadow-[0_-8px_32px_rgba(8,36,58,0.16)]
                         backdrop-blur-xl
-                        sm:gap-5
-                        sm:p-4
+                        sm:gap-3
+                        sm:p-2.5
                     "
                 >
                     {{-- Price --}}
-                    <div class="min-w-0 flex-1 pl-1">
+                    <div class="min-w-0 flex-1 pl-0.5">
     <div class="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1">
         <p class="text-[9px] font-bold uppercase tracking-[0.16em] text-gray-400 sm:text-[10px]">
             {{ $priceLabel }}
         </p>
 
         @if ($promotionActive && $promotionLabel !== '')
-            <span class="rounded bg-newman-gold/20 px-2 py-1 text-[8px] font-bold uppercase tracking-[0.1em] text-newman-gold">
+            <span class="rounded bg-newman-gold/15 px-1.5 py-0.5 text-[8px] font-bold uppercase tracking-[0.08em] text-newman-gold">
                 {{ $promotionLabel }}
             </span>
         @endif
@@ -332,7 +325,7 @@
     @endif
 
     <div class="mt-1 flex min-w-0 flex-wrap items-baseline gap-x-1.5 gap-y-0.5">
-        <p class="break-words text-lg font-bold leading-tight tracking-[-0.03em] text-newman-navy [overflow-wrap:anywhere] sm:text-xl">
+        <p class="break-words text-base font-bold leading-tight tracking-[-0.03em] text-newman-navy [overflow-wrap:anywhere] sm:text-lg">
             {{ $priceText }}
         </p>
 
@@ -343,15 +336,6 @@
         @endif
     </div>
 
-    @if ($promotionActive && $savingText)
-        <p class="mt-1 hidden text-[9px] font-semibold leading-4 text-newman-gold min-[380px]:block">
-            Save {{ $savingText }}
-        </p>
-    @else
-        <p class="mt-1 hidden text-[10px] leading-4 text-gray-400 min-[390px]:block">
-            No online payment required
-        </p>
-    @endif
 </div>
                     {{-- CTA --}}
                     <button
@@ -359,18 +343,18 @@
                         @click="scrollToBooking()"
                         class="
                             flex
-                            min-h-14
-                            w-[46%]
+                            min-h-12
+                            w-[44%]
                             max-w-[250px]
                             min-w-0
                             shrink-0
                             items-center
                             justify-center
                             gap-2
-                            rounded-[14px]
+                            rounded-[10px]
                             bg-newman-navy
-                            px-3
-                            py-3
+                            px-2.5
+                            py-2.5
                             text-center
                             text-[11px]
                             font-bold
