@@ -16,12 +16,18 @@ import 'swiper/css/effect-fade';
 window.Alpine = Alpine;
 Alpine.start();
 
-AOS.init({
-    duration: 900,
-    once: true,
-    offset: 90,
-    easing: 'ease-out-cubic',
-});
+try {
+    AOS.init({
+        duration: 900,
+        once: true,
+        offset: 90,
+        easing: 'ease-out-cubic',
+    });
+
+    document.documentElement.classList.add('aos-initialized');
+} catch (error) {
+    console.error('AOS initialization failed:', error);
+}
 
 document.addEventListener('DOMContentLoaded', () => {
     const heroSwiperEl = document.querySelector('.hero-swiper');
