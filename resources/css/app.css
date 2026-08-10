@@ -26,6 +26,23 @@ body {
     display: none !important;
 }
 
+/*
+ * Fail open when the JavaScript bundle cannot initialize AOS.
+ * AOS normally keeps animated elements transparent until JavaScript adds
+ * its runtime classes. If the module fails to load or parse, reveal those
+ * elements after a short grace period instead of leaving the page blank.
+ */
+@keyframes aos-fail-open {
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+html:not(.aos-initialized) [data-aos] {
+    animation: aos-fail-open 0s 2s forwards;
+}
+
 
 /* NAVBAR */
 .site-navbar {
