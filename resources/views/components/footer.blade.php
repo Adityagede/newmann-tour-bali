@@ -5,14 +5,7 @@
     |--------------------------------------------------------------------------
     */
 
-    $whatsappNumber = preg_replace(
-        '/\D+/',
-        '',
-        (string) config(
-            'newman.whatsapp_number',
-            '6281246890251'
-        )
-    );
+    $whatsappNumber = '6287887243495';
 
     $whatsappMessage = implode("\n", [
         'Hello Newman, I am visiting your website.',
@@ -20,17 +13,17 @@
         'I would like help planning a private Bali trip.',
     ]);
 
-    $whatsappUrl = 'https://wa.me/'
+    $whatsappUrl = 'https://wa.me/+6287887243495'
         . $whatsappNumber
         . '?text='
         . urlencode($whatsappMessage);
 
     $instagramUrl = trim(
-        (string) config('newman.instagram_url', '')
+        (string) config('newman.instagram_url', 'https://www.instagram.com/newman696?igsh=YmlldjRpaWowc3pj&utm_source=qr')
     );
 
     $facebookUrl = trim(
-        (string) config('newman.facebook_url', '')
+        (string) config('newman.facebook_url', 'https://www.facebook.com/share/19BWUfn99G/?mibextid=wwXIfr')
     );
 
     $contactEmail = trim(
@@ -40,12 +33,7 @@
         )
     );
 
-    $contactPhone = trim(
-        (string) config(
-            'newman.whatsapp_display',
-            '+62 812-4689-0251'
-        )
-    );
+    $contactPhone = '+6287887243495';
 
     $locationText = trim(
         (string) config(

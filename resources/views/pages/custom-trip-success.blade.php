@@ -18,7 +18,7 @@
             'Please help review the route, vehicle arrangement, and quotation. Thank you.',
         ]);
 
-        $whatsappUrl = 'https://wa.me/6281246890251?text=' . urlencode($whatsappMessage);
+        $whatsappUrl = 'https://wa.me/6287887243495?text=' . urlencode($whatsappMessage);
     @endphp
 
     <section

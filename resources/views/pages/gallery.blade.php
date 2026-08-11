@@ -79,7 +79,7 @@
 
             <div data-aos="fade-up" data-aos-delay="120" class="max-w-xl lg:ml-auto">
                 <p class="text-base leading-8 text-gray-600">
-                    These photos are meant to show the real side of Newman Tour Guide: guests, routes, transport, photo stops, and comfortable travel days around Bali.
+                    These photos are meant to show the real side of Newman Tour Bali: guests, routes, transport, photo stops, and comfortable travel days around Bali.
                 </p>
             </div>
         </div>
@@ -126,7 +126,7 @@
     </div>
 </div>
 
-      <div class="mt-10 grid min-w-0 gap-5 sm:grid-cols-2 xl:grid-cols-3">
+      <div data-aos="fade-up" data-aos-delay="180" class="mt-10 grid min-w-0 gap-5 sm:grid-cols-2 xl:grid-cols-3">
     @forelse ($guestMoments as $moment)
         <article
             x-show="
@@ -249,37 +249,7 @@
     @endforelse
 </div>
 
-        <div data-aos="fade-up" class="mt-10 bg-white p-5 shadow-sm shadow-newman-navy/5 sm:p-7 lg:flex lg:items-center lg:justify-between lg:gap-8">
-            <div>
-                <p class="text-xs font-bold uppercase tracking-[0.28em] text-newman-blue">
-                    Want to be part of the next memory?
-                </p>
-
-                <h3 class="mt-3 text-2xl font-semibold tracking-[-0.03em] text-newman-navy sm:text-3xl">
-                    Plan a private Bali route with Newman.
-                </h3>
-
-                <p class="mt-3 max-w-2xl text-sm leading-7 text-gray-600">
-                    Send your trip date, group size, destination plan, and vehicle preference. Newman will help arrange a calm and comfortable Bali day.
-                </p>
-            </div>
-
-            <div class="mt-6 flex flex-col gap-3 sm:flex-row lg:mt-0">
-                <a
-                    href="{{ route('home') }}#booking"
-                    class="bg-newman-navy px-6 py-4 text-center text-sm font-bold uppercase tracking-[0.16em] text-white transition duration-300 hover:-translate-y-1 hover:bg-newman-blue hover:shadow-xl"
-                >
-                    Plan Your Trip
-                </a>
-
-                <a
-                    href="{{ route('tours') }}"
-                    class="border border-newman-navy/15 px-6 py-4 text-center text-sm font-bold uppercase tracking-[0.16em] text-newman-navy transition duration-300 hover:-translate-y-1 hover:border-newman-gold hover:bg-newman-gold"
-                >
-                    View Tours
-                </a>
-            </div>
-        </div>
+        
     </div>
 </section>
 @endsection

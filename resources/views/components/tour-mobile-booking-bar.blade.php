@@ -91,7 +91,7 @@
         );
 
     $priceSuffix = $promotionActive
-        ? 'per adult'
+        ? 'per Person'
         : (
             $priceAvailable
                 ? trim(
@@ -277,7 +277,7 @@
                     fixed
                     inset-x-0
                     bottom-0
-                    z-[70]
+                    tour-mobile-booking-bar
                     px-3
                     lg:hidden
                 "

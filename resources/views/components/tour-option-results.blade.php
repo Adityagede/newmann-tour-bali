@@ -295,7 +295,7 @@
         {{-- Option cards --}}
         <div
             x-show="hasOptions"
-            class="mt-8 grid gap-6 xl:grid-cols-2"
+            class="mx-auto mt-8 grid max-w-3xl gap-6 xl:max-w-none xl:grid-cols-2"
         >
             <template
                 x-for="option in options"
@@ -391,14 +391,15 @@
                         </div>
                     </div>
 
-                    <div class="grid gap-6 p-5 sm:p-7 lg:grid-cols-2">
+                    <div class="grid gap-3 p-5 sm:p-7 md:grid-cols-2">
                         {{-- Included --}}
-                        <div>
-                            <p class="text-xs font-bold uppercase tracking-[0.18em] text-newman-gold">
-                                Included
-                            </p>
+                        <details class="group border-y border-newman-navy/10 md:border-y-0 md:border-r md:pr-6">
+                            <summary class="flex min-h-11 cursor-pointer list-none items-center justify-between gap-4 py-2 text-xs font-bold uppercase tracking-[0.18em] text-newman-gold marker:content-none">
+                                <span>Included</span>
+                                <span aria-hidden="true" class="text-base transition group-open:rotate-45">+</span>
+                            </summary>
 
-                            <div class="mt-4 space-y-3">
+                            <div class="space-y-3 pb-4 pt-2 md:pb-0">
                                 <template
                                     x-for="item in option.included"
                                     :key="`included-${item.label}`"
@@ -431,15 +432,16 @@
                                     before booking.
                                 </p>
                             </div>
-                        </div>
+                        </details>
 
                         {{-- Excluded --}}
-                        <div>
-                            <p class="text-xs font-bold uppercase tracking-[0.18em] text-newman-gold">
-                                Not included
-                            </p>
+                        <details class="group border-b border-newman-navy/10 md:border-b-0 md:pl-3">
+                            <summary class="flex min-h-11 cursor-pointer list-none items-center justify-between gap-4 py-2 text-xs font-bold uppercase tracking-[0.18em] text-newman-gold marker:content-none">
+                                <span>Not included</span>
+                                <span aria-hidden="true" class="text-base transition group-open:rotate-45">+</span>
+                            </summary>
 
-                            <div class="mt-4 space-y-3">
+                            <div class="space-y-3 pb-4 pt-2 md:pb-0">
                                 <template
                                     x-for="item in option.excluded"
                                     :key="`excluded-${item.label}`"
@@ -471,11 +473,11 @@
                                     No exclusions have been listed.
                                 </p>
                             </div>
-                        </div>
+                        </details>
                     </div>
 
                     {{-- Starting times --}}
-                    <div class="border-t border-newman-navy/10 px-5 py-5 sm:px-7">
+                    <div class="border-t border-newman-navy/10 px-5 py-5 sm:px-7 md:py-4">
                         <p class="text-xs font-bold uppercase tracking-[0.18em] text-newman-gold">
                             Starting time
                         </p>
@@ -519,7 +521,7 @@
                     </div>
 
                     {{-- Pricing --}}
-                    <div class="border-t border-newman-navy/10 bg-newman-navy p-5 text-white sm:p-7">
+                    <div class="border-t border-newman-navy/10 bg-newman-navy p-5 text-white sm:p-7 md:py-6">
                         <div class="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
                             <div>
                                 <p class="text-[10px] font-bold uppercase tracking-[0.18em] text-newman-gold">
@@ -544,7 +546,7 @@
                                         ></p>
 
                                         <p
-                                            class="mt-1 text-3xl font-bold tracking-[-0.04em]"
+                                            class="mt-1 text-3xl font-bold tracking-[-0.04em] md:text-[1.75rem]"
                                             x-text="
                                                 option.pricing
                                                     .formatted_estimated_total
@@ -587,7 +589,7 @@
         isSelected(option)
         && !canContinue
     "
-    class="min-h-12 rounded-xl px-7 py-3 text-xs font-bold uppercase tracking-[0.13em] transition"
+    class="min-h-12 shrink-0 rounded-xl px-7 py-3 text-xs font-bold uppercase tracking-[0.13em] transition sm:w-auto"
     :class="isSelected(option)
         ? 'bg-newman-gold text-newman-navy'
         : 'border border-white/25 bg-white/5 text-white hover:border-newman-gold hover:bg-newman-gold hover:text-newman-navy'"
@@ -693,8 +695,6 @@
     >
 </form>
 </section>
-
-
 
 
 

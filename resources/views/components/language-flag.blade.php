@@ -1,0 +1,25 @@
+@props([
+    'code',
+])
+
+<span
+    {{ $attributes->class([
+        'inline-flex h-4 w-6 shrink-0 overflow-hidden border border-current/15 bg-white',
+    ]) }}
+    aria-hidden="true"
+>
+    @if ($code === 'uk')
+        <svg viewBox="0 0 60 30" class="h-full w-full" focusable="false">
+            <rect width="60" height="30" fill="#012169" />
+            <path d="M0 0 60 30M60 0 0 30" stroke="#fff" stroke-width="6" />
+            <path d="M0 0 60 30M60 0 0 30" stroke="#C8102E" stroke-width="2" />
+            <path d="M30 0v30M0 15h60" stroke="#fff" stroke-width="10" />
+            <path d="M30 0v30M0 15h60" stroke="#C8102E" stroke-width="6" />
+        </svg>
+    @elseif ($code === 'id')
+        <svg viewBox="0 0 60 30" class="h-full w-full" focusable="false">
+            <rect width="60" height="15" fill="#CE1126" />  
+            <rect y="15" width="60" height="15" fill="#fff" />
+        </svg>
+    @endif
+</span>

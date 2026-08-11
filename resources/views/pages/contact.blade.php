@@ -55,7 +55,7 @@
                 'Please help me with the details. Thank you.'
             ].join('\n');
 
-            return 'https://wa.me/62XXXXXXXXXXX?text=' + encodeURIComponent(text);
+            return 'https://wa.me/6287887243495?text=' + encodeURIComponent(text);
         }
     }"
     class="relative overflow-hidden bg-white py-16 sm:py-20 lg:py-24"
@@ -78,7 +78,7 @@
                 </p>
 
                 <a
-                    href="https://wa.me/62XXXXXXXXXXX"
+                    href="https://wa.me/6287887243495"
                     target="_blank"
                     class="mt-7 inline-flex bg-newman-navy px-6 py-4 text-sm font-bold uppercase tracking-[0.16em] text-white transition duration-300 hover:-translate-y-1 hover:bg-newman-blue hover:shadow-xl"
                 >
@@ -86,7 +86,7 @@
                 </a>
             </div>
 
-            <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-1">
+            <div data-aos="fade-up" data-aos-delay="100" class="grid gap-5 sm:grid-cols-2 lg:grid-cols-1">
                 <div class="contact-card border border-gray-100 bg-white p-6 shadow-sm shadow-newman-navy/5">
                     <p class="text-xs font-bold uppercase tracking-[0.28em] text-newman-gold">
                         Based In
@@ -116,9 +116,9 @@
                 </div>
             </div>
 
-            <div class="contact-photo-wrap contact-card overflow-hidden border border-gray-100 bg-white shadow-sm shadow-newman-navy/5">
+            <div data-aos="fade-up" data-aos-delay="100" class="contact-photo-wrap contact-card overflow-hidden border border-gray-100 bg-white shadow-sm shadow-newman-navy/5">
                 <img
-                    src="{{ asset('images/owner.jpg') }}"
+                    src="{{ asset('images/gall14.jpeg') }}"
                     alt="Bali trip moment with Newman"
                     class="contact-photo h-64 w-full object-cover"
                 >
@@ -271,14 +271,14 @@
                     Ready to plan more clearly?
                 </p>
 
-                <h3 class="mt-3 text-3xl font-semibold tracking-[-0.04em]">
+                <h3 class="mt-3 text-2xl font-semibold tracking-[-0.04em]">
                     Use the booking request page for full trip details.
                 </h3>
             </div>
 
             <a
                 href="{{ route('custom-trip.create') }}"
-                class="mt-6 inline-flex bg-newman-gold px-7 py-4 text-sm font-bold uppercase tracking-[0.16em] text-newman-navy transition duration-300 hover:-translate-y-1 hover:bg-white lg:mt-0"
+                class="mt-6 inline-flex bg-newman-gold px-6 py-4 text-xs font-bold uppercase tracking-[0.16em] text-newman-navy transition duration-300 hover:-translate-y-1 hover:bg-white lg:mt-0"
             >
                 Open Booking Request
             </a>

@@ -349,7 +349,7 @@
         </div>
 
       
-         <section class="tour-experiences-list relative overflow-hidden bg-white py-20 sm:py-24">
+         <section data-aos="fade-up" data-aos-delay="120" class="tour-experiences-list relative overflow-hidden bg-white py-20 sm:py-24">
     <div class="tour-experiences-grid-shell mx-auto w-[92%] max-w-7xl">
         {{-- Section heading tetap gunakan heading Newman milikmu --}}
 
@@ -366,7 +366,7 @@
     <div data-aos="fade-up" data-aos-delay="120" class="flex justify-center pb-6">
                 <a
                     href="{{ route('tours') }}"
-                    class="group inline-flex items-center justify-center gap-3 border border-newman-navy/15 px-6 py-4 text-sm font-bold uppercase tracking-[0.16em] text-newman-navy transition duration-300 hover:-translate-y-1 hover:border-newman-gold hover:bg-newman-gold"
+                    class="group inline-flex items-center justify-center gap-3 border border-newman-navy/15 px-3 py-3 text-xs md:px-5 md:4  font-bold uppercase tracking-[0.16em] text-newman-navy transition duration-300 hover:-translate-y-1 hover:border-newman-gold hover:bg-newman-gold"
                 >
                     Explore More Tours
                     <span class="transition duration-300 group-hover:translate-x-1">→</span>
@@ -628,35 +628,6 @@
     </div>
 </section>
 
-@php
-    $whyItems = [
-        [
-            'number' => '01',
-            'title' => 'Private route, not a rushed schedule',
-            'description' => 'Your Bali trip can be adjusted based on your time, mood, and group condition. Stop longer when the place feels good, skip what does not fit.',
-        ],
-        [
-            'number' => '02',
-            'title' => 'Local guidance with comfortable transport',
-            'description' => 'From hotel pickup to the last stop of the day, Newman helps arrange the route with Avanza, Hiace, or another car option when needed.',
-        ],
-        [
-            'number' => '03',
-            'title' => 'Easy planning through WhatsApp',
-            'description' => 'Send your destination list, travel date, and group size. The details can be confirmed calmly before the trip starts.',
-        ],
-    ];
-
-    $smallDetails = [
-        'Hotel pickup',
-        'Flexible timing',
-        'Photo stops',
-        'Local food tips',
-    ];
-@endphp
-
-
-
 {{-- =========================================================
      WHY TRAVEL WITH NEWMAN
      Replaces the previous Why Choose Newman section only
@@ -742,7 +713,7 @@
         </div>
 
         {{-- Six reasons --}}
-        <div class="why-reasons-grid">
+        <div data-aos="fade-up" data-aos-delay="100" class="why-reasons-grid">
             @foreach ($newmanReasons as $index => $reason)
                 <article
                     data-aos="fade-up"
@@ -1421,7 +1392,7 @@ I will definitely visit again to Bali',
     $homepageFaqColumns = [
         [
             [
-                'question' => 'Are Newman’s Bali tours private?',
+                'question' => 'Is Newman’s Bali tours private?',
                 'answer' => 'Yes. Tour Packages and Custom Trips are arranged for your own couple, family, or group, so there is no mixed-group schedule. Timing and stops can be discussed around your day.',
             ],
             [

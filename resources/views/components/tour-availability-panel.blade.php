@@ -585,7 +585,7 @@ class="scroll-mt-24 md:scroll-mt-28 lg:sticky lg:top-28"
                     </p>
 
                     <span class="text-xs text-gray-500">
-                        per adult
+                        per Person
                     </span>
                 </div>
 

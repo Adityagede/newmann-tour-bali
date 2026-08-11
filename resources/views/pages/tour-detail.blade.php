@@ -584,7 +584,7 @@
 
                 {{-- Map --}}
                 <div class="min-w-0 lg:sticky lg:top-28 lg:self-start">
-                    <div class="relative min-w-0 overflow-hidden border border-newman-navy/10 bg-newman-sand shadow-lg shadow-newman-navy/8">
+                    <div class="newman-roadmap-map-shell min-w-0 border border-newman-navy/10 bg-newman-sand shadow-lg shadow-newman-navy/8">
                         @if ($mapStops->isNotEmpty())
                             <div
                                 id="{{ $roadmapMapId }}"
@@ -592,7 +592,7 @@
                                 aria-label="Tour itinerary map"
                             ></div>
 
-                            <div class="pointer-events-none absolute left-15 top-3 z-[500] bg-newman-navy/92 px-4 py-3 text-white shadow-lg backdrop-blur">
+                            <div class="newman-roadmap-map-label pointer-events-none absolute left-15 top-3 bg-newman-navy/92 px-4 py-3 text-white shadow-lg backdrop-blur">
                                 <p class="text-[9px] font-bold uppercase tracking-[0.18em] text-newman-gold">
                                     Newman route
                                 </p>
