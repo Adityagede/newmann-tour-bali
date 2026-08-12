@@ -1,0 +1,209 @@
+name: Deploy Newman Frontend to Production
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: newman-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install frontend dependencies
+        run: npm ci
+
+      - name: Build frontend
+        run: npm run build
+
+      - name: Verify Vite build
+        shell: bash
+        run: |
+          set -e
+
+          test -d public/build
+          test -f public/build/manifest.json
+
+          echo "VITE_BUILD_OK"
+
+      - name: Prepare frontend deployment package
+        shell: bash
+        run: |
+          set -e
+
+          mkdir -p deploy-package
+
+          cp -a resources deploy-package/resources
+          cp -a public/build deploy-package/build
+
+          tar \
+            --exclude='public/index.php' \
+            --exclude='public/.htaccess' \
+            --exclude='public/storage' \
+            --exclude='public/build' \
+            -czf deploy-package/public-static.tar.gz \
+            public
+
+          tar -czf newman-frontend-deploy.tar.gz deploy-package
+
+      - name: Prepare SSH
+        shell: bash
+        run: |
+          set -e
+
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+
+          printf '%s' "${{ secrets.CPANEL_SSH_PRIVATE_KEY }}" \
+            | base64 --decode \
+            > ~/.ssh/newman_deploy_key
+
+          chmod 600 ~/.ssh/newman_deploy_key
+
+          ssh-keygen -y \
+            -f ~/.ssh/newman_deploy_key \
+            > /dev/null
+
+          ssh-keyscan \
+            -p "${{ secrets.CPANEL_SSH_PORT }}" \
+            "${{ secrets.CPANEL_SSH_HOST }}" \
+            >> ~/.ssh/known_hosts
+
+          chmod 600 ~/.ssh/known_hosts
+
+      - name: Upload deployment package
+        shell: bash
+        run: |
+          set -e
+
+          scp \
+            -i ~/.ssh/newman_deploy_key \
+            -P "${{ secrets.CPANEL_SSH_PORT }}" \
+            newman-frontend-deploy.tar.gz \
+            "${{ secrets.CPANEL_SSH_USER }}@${{ secrets.CPANEL_SSH_HOST }}:/home/${{ secrets.CPANEL_SSH_USER }}/newman-frontend-deploy.tar.gz"
+
+      - name: Deploy frontend safely
+        shell: bash
+        run: |
+          set -e
+
+          ssh \
+            -o BatchMode=yes \
+            -i ~/.ssh/newman_deploy_key \
+            -p "${{ secrets.CPANEL_SSH_PORT }}" \
+            "${{ secrets.CPANEL_SSH_USER }}@${{ secrets.CPANEL_SSH_HOST }}" \
+            'bash -s' <<'REMOTE_SCRIPT'
+
+          set -e
+
+          HOME_DIR="$HOME"
+          APP_DIR="$HOME_DIR/laravel-core"
+          WEB_DIR="$HOME_DIR/public_html"
+          PACKAGE="$HOME_DIR/newman-frontend-deploy.tar.gz"
+
+          TIMESTAMP="$(date +%Y%m%d-%H%M%S)"
+          RELEASE_DIR="$HOME_DIR/.newman-deploy-$TIMESTAMP"
+          BACKUP_DIR="$HOME_DIR/backups/frontend-$TIMESTAMP"
+
+          echo "Creating deployment workspace..."
+          mkdir -p "$RELEASE_DIR"
+          mkdir -p "$BACKUP_DIR"
+
+          echo "Creating safety backup..."
+
+          if [ -d "$APP_DIR/resources" ]; then
+            cp -a "$APP_DIR/resources" "$BACKUP_DIR/resources"
+          fi
+
+          if [ -d "$APP_DIR/public/build" ]; then
+            cp -a "$APP_DIR/public/build" "$BACKUP_DIR/laravel-public-build"
+          fi
+
+          if [ -d "$WEB_DIR/build" ]; then
+            cp -a "$WEB_DIR/build" "$BACKUP_DIR/public-html-build"
+          fi
+
+          echo "Extracting deployment package..."
+          tar -xzf "$PACKAGE" -C "$RELEASE_DIR"
+
+          echo "Updating Laravel frontend resources..."
+          cp -a "$RELEASE_DIR/deploy-package/resources/." \
+            "$APP_DIR/resources/"
+
+          echo "Replacing Laravel Vite build..."
+          rm -rf "$APP_DIR/public/build.new"
+          mkdir -p "$APP_DIR/public/build.new"
+
+          cp -a "$RELEASE_DIR/deploy-package/build/." \
+            "$APP_DIR/public/build.new/"
+
+          rm -rf "$APP_DIR/public/build.old"
+
+          if [ -d "$APP_DIR/public/build" ]; then
+            mv "$APP_DIR/public/build" "$APP_DIR/public/build.old"
+          fi
+
+          mv "$APP_DIR/public/build.new" "$APP_DIR/public/build"
+          rm -rf "$APP_DIR/public/build.old"
+
+          echo "Replacing public_html Vite build..."
+          rm -rf "$WEB_DIR/build.new"
+          mkdir -p "$WEB_DIR/build.new"
+
+          cp -a "$RELEASE_DIR/deploy-package/build/." \
+            "$WEB_DIR/build.new/"
+
+          rm -rf "$WEB_DIR/build.old"
+
+          if [ -d "$WEB_DIR/build" ]; then
+            mv "$WEB_DIR/build" "$WEB_DIR/build.old"
+          fi
+
+          mv "$WEB_DIR/build.new" "$WEB_DIR/build"
+          rm -rf "$WEB_DIR/build.old"
+
+          echo "Updating safe public static assets..."
+          mkdir -p "$RELEASE_DIR/public-static"
+
+          tar -xzf \
+            "$RELEASE_DIR/deploy-package/public-static.tar.gz" \
+            -C "$RELEASE_DIR/public-static"
+
+          if [ -d "$RELEASE_DIR/public-static/public" ]; then
+            cp -a \
+              "$RELEASE_DIR/public-static/public/." \
+              "$WEB_DIR/"
+          fi
+
+          echo "Cleaning Laravel runtime caches..."
+
+          php "$APP_DIR/artisan" view:clear || true
+          php "$APP_DIR/artisan" config:clear || true
+
+          echo "Validating deployment..."
+
+          test -f "$APP_DIR/public/build/manifest.json"
+          test -f "$WEB_DIR/build/manifest.json"
+          test -f "$WEB_DIR/index.php"
+          test -f "$APP_DIR/artisan"
+          test -f "$APP_DIR/.env"
+
+          echo "Cleaning temporary deployment files..."
+          rm -rf "$RELEASE_DIR"
+          rm -f "$PACKAGE"
+
+          echo "NEWMAN_FRONTEND_DEPLOYMENT_OK"
+          echo "Backup: $BACKUP_DIR"
+
+          REMOTE_SCRIPT

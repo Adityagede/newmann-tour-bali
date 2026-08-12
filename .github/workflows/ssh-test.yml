@@ -11,15 +11,28 @@ jobs:
       - name: Prepare SSH key
         shell: bash
         run: |
+          set -e
+
           mkdir -p ~/.ssh
           chmod 700 ~/.ssh
 
-          printf '%s\n' "${{ secrets.CPANEL_SSH_PRIVATE_KEY }}" > ~/.ssh/newman_deploy_key
+          printf '%s' "${{ secrets.CPANEL_SSH_PRIVATE_KEY }}" \
+            | base64 --decode \
+            > ~/.ssh/newman_deploy_key
+
           chmod 600 ~/.ssh/newman_deploy_key
+
+          ssh-keygen -y \
+            -f ~/.ssh/newman_deploy_key \
+            > /dev/null
+
+          echo "SSH private key decoded successfully"
 
       - name: Add cPanel host
         shell: bash
         run: |
+          set -e
+
           ssh-keyscan \
             -p "${{ secrets.CPANEL_SSH_PORT }}" \
             "${{ secrets.CPANEL_SSH_HOST }}" \
@@ -30,7 +43,10 @@ jobs:
       - name: Test cPanel SSH connection
         shell: bash
         run: |
+          set -e
+
           ssh \
+            -o BatchMode=yes \
             -i ~/.ssh/newman_deploy_key \
             -p "${{ secrets.CPANEL_SSH_PORT }}" \
             "${{ secrets.CPANEL_SSH_USER }}@${{ secrets.CPANEL_SSH_HOST }}" \
