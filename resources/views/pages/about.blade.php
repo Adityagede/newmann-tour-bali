@@ -255,7 +255,7 @@
         </div>
 
         {{-- Six reasons --}}
-        <div class="why-reasons-grid">
+        <div data-aos="fade-up" data-aos-delay="100" class="why-reasons-grid">
             @foreach ($newmanReasons as $index => $reason)
                 <article
                     data-aos="fade-up"
@@ -493,6 +493,49 @@
         ],
     ];
 @endphp
+
+
+@php
+    $homepageFaqColumns = [
+        [
+            [
+                'question' => 'Is Newman’s Bali tours private?',
+                'answer' => 'Yes. Tour Packages and Custom Trips are arranged for your own couple, family, or group, so there is no mixed-group schedule. Timing and stops can be discussed around your day.',
+            ],
+            [
+                'question' => 'Should I choose a Tour Package or a Custom Trip?',
+                'answer' => 'Choose a Tour Package when a published route is already close to what you want. Choose a Custom Trip when you would rather build the destination list, preferred pace, pickup area, and vehicle from the beginning.',
+            ],
+            [
+                'question' => 'Can the route and timing be adjusted?',
+                'answer' => 'Yes. A published route is a useful starting point. Newman can review the stops, travel time, traffic, weather, and your group’s needs before the final confirmation so the day stays practical and does not feel rushed.',
+            ],
+            [
+                'question' => 'Where can Newman pick us up?',
+                'answer' => 'Private trips can start from common hotel areas around Bali. Share your hotel or pickup area first, then the exact pickup time and availability can be confirmed after Newman reviews the route.',
+            ],
+        ],
+        [
+            [
+                'question' => 'Which vehicle should I choose?',
+                'answer' => 'Avanza is a comfortable starting point for couples and small families, while Hiace gives groups more room. Another arrangement can be requested for bigger groups or special needs. Your selection is a preference; Newman confirms the final vehicle based on guests, luggage, child seats, accessibility, and availability.',
+            ],
+            [
+                'question' => 'Is a booking request already confirmed?',
+                'answer' => 'Not yet. Sending a request creates a pending request. Newman checks the route, availability, vehicle fit, and quotation before contacting you. No payment is collected on the website.',
+            ],
+            [
+                'question' => 'What should I share before planning the trip?',
+                'answer' => 'Send your preferred date, number of guests, hotel area, places you want to visit, and the pace you enjoy. It also helps to mention luggage, child seats, accessibility, or another special request early.',
+            ],
+            [
+                'question' => 'How will Newman contact me after I send a request?',
+                'answer' => 'Newman will follow up through the active WhatsApp number you provide; email is optional for a Custom Trip. This is where the timing, availability, vehicle, and final quotation are confirmed personally.',
+            ],
+        ],
+    ];
+@endphp
+
 
 {{-- =========================================================
      FREQUENTLY ASKED QUESTIONS

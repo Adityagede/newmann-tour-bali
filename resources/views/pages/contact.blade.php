@@ -39,7 +39,7 @@
     </div>
 </section>
 
-<div
+<section
     x-data="{
         name: '',
         whatsapp: '',
@@ -55,183 +55,234 @@
                 'Please help me with the details. Thank you.'
             ].join('\n');
 
-            return 'https://wa.me/62XXXXXXXXXXX?text=' + encodeURIComponent(text);
+            return 'https://wa.me/6287887243495?text=' + encodeURIComponent(text);
         }
     }"
+    class="relative overflow-hidden bg-white py-16 sm:py-20 lg:py-24"
 >
-    <section class="relative overflow-hidden bg-white py-14 sm:py-18 lg:py-24">
-        <div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-newman-gold/30 to-transparent"></div>
+    <div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-newman-gold/30 to-transparent"></div>
 
-        <div class="mx-auto grid w-[92%] max-w-7xl gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:gap-16">
-            <div data-aos="fade-up" class="max-w-xl">
-                <p class="text-xs font-bold uppercase tracking-[0.3em] text-newman-gold">
-                    Plan with a local
-                </p>
-
-                <h2 class="mt-4 text-3xl font-semibold leading-tight tracking-[-0.04em] text-newman-navy sm:text-4xl lg:text-5xl">
-                    Tell Newman how you want your Bali days to feel.
-                </h2>
-
-                <p class="mt-5 text-base leading-8 text-gray-600">
-                    You do not need a finished itinerary before you message. Share the places you are curious about, where you are staying, and the pace that suits you. Newman can help shape the route from there.
-                </p>
-
-                <div class="mt-8 border-y border-newman-navy/10">
-                    @foreach ([
-                        'You are not sure which tour fits your time in Bali',
-                        'You would like a private or custom route',
-                        'You have questions about pickup or travel time',
-                        'You are travelling with children or family',
-                        'You want a local recommendation before booking',
-                    ] as $reason)
-                        <div class="flex gap-4 border-b border-newman-navy/10 py-3.5 last:border-b-0">
-                            <span class="mt-0.5 text-xs font-bold text-newman-gold">
-                                {{ str_pad((string) $loop->iteration, 2, '0', STR_PAD_LEFT) }}
-                            </span>
-                            <p class="text-sm leading-6 text-newman-navy">{{ $reason }}</p>
-                        </div>
-                    @endforeach
-                </div>
-
-                <a
-                    href="https://wa.me/62XXXXXXXXXXX"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="mt-7 inline-flex min-h-12 items-center justify-center bg-newman-navy px-6 py-3 text-xs font-bold uppercase tracking-[0.14em] text-white transition hover:bg-newman-blue focus:outline-none focus:ring-2 focus:ring-newman-gold focus:ring-offset-2"
-                >
-                    Chat with Newman on WhatsApp
-                </a>
-            </div>
-
-            <figure data-aos="fade-up" data-aos-delay="100" class="relative min-w-0">
-                <div class="overflow-hidden rounded-[18px] bg-newman-sand">
-                    <img
-                        src="{{ asset('images/owner.jpg') }}"
-                        alt="Newman sharing a local Bali travel moment"
-                        class="h-[420px] w-full object-cover object-center sm:h-[540px] lg:h-[620px]"
-                    >
-                </div>
-
-                <figcaption class="relative -mt-12 ml-4 max-w-[calc(100%-2rem)] border-l-2 border-newman-gold bg-newman-navy px-5 py-4 text-white sm:ml-8 sm:max-w-md sm:px-6">
-                    <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-newman-gold">
-                        A note from the road
-                    </p>
-                    <p class="mt-2 text-sm leading-6 text-white/75">
-                        The best route is not always the one with the most stops. It is the one that gives you time to enjoy the places you came to see.
-                    </p>
-                </figcaption>
-            </figure>
-        </div>
-    </section>
-
-    <section class="border-y border-newman-navy/10 bg-newman-sand/45 py-14 sm:py-18 lg:py-22">
-        <div class="mx-auto grid w-[92%] max-w-7xl gap-10 lg:grid-cols-[0.82fr_1.18fr] lg:gap-16">
-            <div data-aos="fade-up" class="max-w-lg">
+    <div class="mx-auto grid w-[92%] max-w-7xl gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
+        <div data-aos="fade-up" class="space-y-5">
+            <div class="contact-card border border-gray-100 bg-newman-sand p-6 shadow-sm shadow-newman-navy/5 sm:p-7">
                 <p class="text-xs font-bold uppercase tracking-[0.3em] text-newman-blue">
-                    Start with a simple message
+                    Quick Contact
                 </p>
 
                 <h2 class="mt-4 text-3xl font-semibold leading-tight tracking-[-0.04em] text-newman-navy sm:text-4xl">
-                    Share what you know. The rest can be worked out together.
+                    The easiest way is through WhatsApp.
                 </h2>
 
-                <p class="mt-5 text-base leading-8 text-gray-600">
-                    A travel date, your hotel area, and a few places you like are enough for Newman to understand the shape of your day.
+                <p class="mt-4 text-base leading-8 text-gray-600">
+                    Send your question, date, hotel area, or places you want to visit. It does not need to be perfect yet.
                 </p>
 
-                <dl class="mt-8 space-y-5 border-l border-newman-gold/60 pl-5">
-                    <div>
-                        <dt class="text-xs font-bold uppercase tracking-[0.14em] text-newman-navy">Travel date</dt>
-                        <dd class="mt-1 text-sm leading-6 text-gray-600">An exact date or the month you expect to visit.</dd>
-                    </div>
-                    <div>
-                        <dt class="text-xs font-bold uppercase tracking-[0.14em] text-newman-navy">Hotel area</dt>
-                        <dd class="mt-1 text-sm leading-6 text-gray-600">This helps Newman plan pickup and a natural order of stops.</dd>
-                    </div>
-                    <div>
-                        <dt class="text-xs font-bold uppercase tracking-[0.14em] text-newman-navy">Your group</dt>
-                        <dd class="mt-1 text-sm leading-6 text-gray-600">Let Newman know if you are travelling as a couple, family, or group.</dd>
-                    </div>
-                </dl>
+                <a
+                    href="https://wa.me/6287887243495"
+                    target="_blank"
+                    class="mt-7 inline-flex bg-newman-navy px-6 py-4 text-sm font-bold uppercase tracking-[0.16em] text-white transition duration-300 hover:-translate-y-1 hover:bg-newman-blue hover:shadow-xl"
+                >
+                    Chat on WhatsApp
+                </a>
             </div>
 
-            <div data-aos="fade-up" data-aos-delay="100" class="border border-newman-navy/10 bg-white p-5 sm:p-7 lg:p-8">
-                <div class="border-b border-newman-navy/10 pb-6">
+            <div data-aos="fade-up" data-aos-delay="100" class="grid gap-5 sm:grid-cols-2 lg:grid-cols-1">
+                <div class="contact-card border border-gray-100 bg-white p-6 shadow-sm shadow-newman-navy/5">
                     <p class="text-xs font-bold uppercase tracking-[0.28em] text-newman-gold">
-                        Message Newman
+                        Based In
                     </p>
-                    <h3 class="mt-3 text-2xl font-semibold tracking-[-0.03em] text-newman-navy sm:text-3xl">
-                        What would you like help planning?
+
+                    <h3 class="mt-3 text-2xl font-semibold text-newman-navy">
+                        Bali, Indonesia
                     </h3>
-                    <p class="mt-3 text-sm leading-6 text-gray-600">
-                        Your answers open as a prepared WhatsApp message. You can edit it before sending.
+
+                    <p class="mt-3 text-sm leading-7 text-gray-600">
+                        Private trips can start from common hotel areas around Bali based on route and availability.
                     </p>
                 </div>
 
-                <form class="mt-6 grid gap-5">
-                    <div class="grid gap-5 sm:grid-cols-2">
-                        <div>
-                            <label for="contact-name" class="text-sm font-semibold text-newman-navy">Name</label>
-                            <input
-                                id="contact-name"
-                                x-model="name"
-                                type="text"
-                                autocomplete="name"
-                                placeholder="Your name"
-                                class="contact-input mt-2"
-                            >
-                        </div>
+                <div class="contact-card border border-gray-100 bg-white p-6 shadow-sm shadow-newman-navy/5">
+                    <p class="text-xs font-bold uppercase tracking-[0.28em] text-newman-gold">
+                        Best For
+                    </p>
 
-                        <div>
-                            <label for="contact-whatsapp" class="text-sm font-semibold text-newman-navy">WhatsApp</label>
-                            <input
-                                id="contact-whatsapp"
-                                x-model="whatsapp"
-                                type="tel"
-                                autocomplete="tel"
-                                placeholder="+62..."
-                                class="contact-input mt-2"
-                            >
-                        </div>
+                    <h3 class="mt-3 text-2xl font-semibold text-newman-navy">
+                        Simple trip questions
+                    </h3>
+
+                    <p class="mt-3 text-sm leading-7 text-gray-600">
+                        Ask about route ideas, pickup timing, custom plans, or which tour fits your day best.
+                    </p>
+                </div>
+            </div>
+
+            <div data-aos="fade-up" data-aos-delay="100" class="contact-photo-wrap contact-card overflow-hidden border border-gray-100 bg-white shadow-sm shadow-newman-navy/5">
+                <img
+                    src="{{ asset('images/gall14.jpeg') }}"
+                    alt="Bali trip moment with Newman"
+                    class="contact-photo h-64 w-full object-cover"
+                >
+
+                <div class="p-5">
+                    <p class="text-xs font-bold uppercase tracking-[0.28em] text-newman-blue">
+                        Travel Note
+                    </p>
+
+                    <p class="mt-3 text-sm leading-7 text-gray-600">
+                        A good Bali plan usually starts from one simple question: “Where do you want the day to feel slow, beautiful, and comfortable?”
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div data-aos="fade-up" data-aos-delay="120" class="contact-card border border-gray-100 bg-white p-5 shadow-sm shadow-newman-navy/5 sm:p-7 lg:p-8">
+            <div class="mb-8">
+                <p class="text-xs font-bold uppercase tracking-[0.35em] text-newman-gold">
+                    Send A Message
+                </p>
+
+                <h2 class="mt-4 text-3xl font-semibold leading-tight tracking-[-0.04em] text-newman-navy sm:text-5xl">
+                    Tell us what you need help with.
+                </h2>
+
+                <p class="mt-5 max-w-2xl text-base leading-8 text-gray-600">
+                    This message will open WhatsApp with your details filled in, so it feels quick and natural.
+                </p>
+            </div>
+
+            <form class="grid gap-5">
+                <div class="grid gap-5 sm:grid-cols-2">
+                    <div>
+                        <label class="text-sm font-semibold text-newman-navy">
+                            Name
+                        </label>
+
+                        <input
+                            x-model="name"
+                            type="text"
+                            placeholder="Your name"
+                            class="contact-input mt-2"
+                        >
                     </div>
 
                     <div>
-                        <label for="contact-message" class="text-sm font-semibold text-newman-navy">
-                            Tell Newman about your trip
+                        <label class="text-sm font-semibold text-newman-navy">
+                            WhatsApp
                         </label>
-                        <textarea
-                            id="contact-message"
-                            x-model="message"
-                            rows="6"
-                            placeholder="For example: We are staying in Ubud for two days and would like a relaxed private tour with a rice terrace and waterfall."
-                            class="contact-input mt-2 resize-none"
-                        ></textarea>
-                    </div>
 
-                    <div class="flex flex-col gap-3 sm:flex-row">
-                        <a
-                            :href="whatsappUrl"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            class="flex min-h-12 flex-1 items-center justify-center bg-newman-navy px-6 py-3 text-center text-xs font-bold uppercase tracking-[0.14em] text-white transition hover:bg-newman-blue focus:outline-none focus:ring-2 focus:ring-newman-gold focus:ring-offset-2"
+                        <input
+                            x-model="whatsapp"
+                            type="text"
+                            placeholder="+62..."
+                            class="contact-input mt-2"
                         >
-                            Continue in WhatsApp
-                        </a>
-
-                        <a
-                            href="{{ route('custom-trip.create') }}"
-                            class="flex min-h-12 flex-1 items-center justify-center border border-newman-navy/15 px-6 py-3 text-center text-xs font-bold uppercase tracking-[0.14em] text-newman-navy transition hover:border-newman-gold hover:bg-newman-gold focus:outline-none focus:ring-2 focus:ring-newman-gold focus:ring-offset-2"
-                        >
-                            Plan a custom trip
-                        </a>
                     </div>
+                </div>
 
-                    <p class="text-xs leading-5 text-gray-500">
-                        Replace the WhatsApp number on this page with Newman’s real number before publishing.
-                    </p>
-                </form>
+                <div>
+                    <label class="text-sm font-semibold text-newman-navy">
+                        What do you want to ask?
+                    </label>
+
+                    <textarea
+                        x-model="message"
+                        rows="7"
+                        placeholder="Example: Hi Newman, we will stay in Ubud for 2 days and want a relaxed private tour with rice terrace and waterfall."
+                        class="contact-input mt-2 resize-none"
+                    ></textarea>
+                </div>
+
+                <div class="grid gap-3 sm:grid-cols-2">
+                    <a
+                        :href="whatsappUrl"
+                        target="_blank"
+                        class="flex items-center justify-center bg-newman-navy px-6 py-4 text-center text-sm font-bold uppercase tracking-[0.16em] text-white transition duration-300 hover:-translate-y-1 hover:bg-newman-blue hover:shadow-xl"
+                    >
+                        Send via WhatsApp
+                    </a>
+
+                    <a
+                        href="{{ route('custom-trip.create') }}"
+                        class="border border-newman-navy/15 px-6 py-4 text-center text-sm font-bold uppercase tracking-[0.16em] text-newman-navy transition duration-300 hover:-translate-y-1 hover:border-newman-gold hover:bg-newman-gold"
+                    >
+                        Booking Request
+                    </a>
+                </div>
+
+                <p class="text-sm leading-7 text-gray-500">
+                    Replace the WhatsApp number in this page with your father’s real number before publishing.
+                </p>
+            </form>
+        </div>
+    </div>
+</section>
+
+<section class="relative overflow-hidden bg-newman-sand/45 py-16 sm:py-20 lg:py-24">
+    <div class="absolute inset-0 opacity-[0.05]">
+        <div class="h-full w-full bali-pattern"></div>
+    </div>
+
+    <div class="relative mx-auto w-[92%] max-w-7xl">
+        <div data-aos="fade-up" class="mb-10 max-w-3xl">
+            <p class="text-xs font-bold uppercase tracking-[0.35em] text-newman-blue">
+                Before You Message
+            </p>
+
+            <h2 class="mt-4 text-3xl font-semibold leading-tight tracking-[-0.04em] text-newman-navy sm:text-5xl">
+                A few details help make the reply easier.
+            </h2>
+        </div>
+
+        <div class="grid gap-5 md:grid-cols-3">
+            <div data-aos="fade-up" class="contact-card border border-gray-100 bg-white p-6 shadow-sm shadow-newman-navy/5">
+                <p class="text-3xl font-semibold text-newman-gold">01</p>
+                <h3 class="mt-5 text-xl font-semibold text-newman-navy">
+                    Your travel date
+                </h3>
+                <p class="mt-3 text-sm leading-7 text-gray-600">
+                    Mention the date or month of your trip so availability can be checked.
+                </p>
+            </div>
+
+            <div data-aos="fade-up" data-aos-delay="90" class="contact-card border border-gray-100 bg-white p-6 shadow-sm shadow-newman-navy/5">
+                <p class="text-3xl font-semibold text-newman-gold">02</p>
+                <h3 class="mt-5 text-xl font-semibold text-newman-navy">
+                    Places you like
+                </h3>
+                <p class="mt-3 text-sm leading-7 text-gray-600">
+                    Send any places you want to visit, even if the route is not fixed yet.
+                </p>
+            </div>
+
+            <div data-aos="fade-up" data-aos-delay="180" class="contact-card border border-gray-100 bg-white p-6 shadow-sm shadow-newman-navy/5">
+                <p class="text-3xl font-semibold text-newman-gold">03</p>
+                <h3 class="mt-5 text-xl font-semibold text-newman-navy">
+                    Your hotel area
+                </h3>
+                <p class="mt-3 text-sm leading-7 text-gray-600">
+                    Pickup area helps estimate route timing and the best order of stops.
+                </p>
             </div>
         </div>
-    </section>
-</div>
+
+        <div data-aos="fade-up" class="mt-10 bg-newman-navy p-6 text-white sm:p-8 lg:flex lg:items-center lg:justify-between lg:gap-8">
+            <div>
+                <p class="text-xs font-bold uppercase tracking-[0.3em] text-newman-gold">
+                    Ready to plan more clearly?
+                </p>
+
+                <h3 class="mt-3 text-2xl font-semibold tracking-[-0.04em]">
+                    Use the booking request page for full trip details.
+                </h3>
+            </div>
+
+            <a
+                href="{{ route('custom-trip.create') }}"
+                class="mt-6 inline-flex bg-newman-gold px-6 py-4 text-xs font-bold uppercase tracking-[0.16em] text-newman-navy transition duration-300 hover:-translate-y-1 hover:bg-white lg:mt-0"
+            >
+                Open Booking Request
+            </a>
+        </div>
+    </div>
+</section>
 @endsection

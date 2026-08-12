@@ -108,8 +108,8 @@
 
 <main class="bg-white">
     {{-- Tour Heading --}}
-    <section class="tour-detail-heading border-b border-newman-navy/10 bg-white pt-28 sm:pt-32 lg:pt-36">
-        <div class="mx-auto w-[92%] max-w-7xl pb-6 sm:pb-8">
+    <section class="border-b border-newman-navy/10 bg-white pt-32 sm:pt-36">
+        <div class="mx-auto w-[92%] max-w-7xl pb-8 sm:pb-10">
             <a
                 href="{{ route('tours') }}"
                 class="inline-flex items-center gap-2 text-sm font-semibold text-newman-navy transition hover:text-newman-blue"
@@ -118,8 +118,8 @@
                 Back to tours
             </a>
 
-            <div class="mt-5 flex flex-wrap items-center gap-2.5">
-                <span class="rounded-lg bg-newman-sand px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.14em] text-newman-navy">
+            <div class="mt-6 flex flex-wrap items-center gap-3">
+                <span class="rounded-full bg-newman-sand px-4 py-2 text-[11px] font-bold uppercase tracking-[0.16em] text-newman-navy">
                     {{ $tour['badge'] }}
                 </span>
         
@@ -135,12 +135,12 @@
                 </span>
             </div>
 
-            <h1 class="mt-4 max-w-5xl text-3xl font-semibold leading-[1.14] tracking-[-0.04em] text-newman-navy sm:text-4xl lg:text-5xl">
+            <h1 class="mt-5 max-w-5xl text-4xl font-semibold leading-[1.08] tracking-[-0.05em] text-newman-navy sm:text-5xl lg:text-6xl">
                 {{ $tour['title'] }}
             </h1>
 
             @if ($tour['has_rating'] || $tour['social_proof_text'])
-                <div class="mt-4 flex flex-wrap items-center gap-2 text-sm">
+                <div class="mt-5 flex flex-wrap items-center gap-2 text-sm">
                     @if ($tour['has_rating'])
                         <span class="font-semibold text-newman-navy">
                             <span class="text-newman-gold">★</span>
@@ -163,10 +163,10 @@
     </section>
 
     {{-- Gallery and Availability --}}
-<section class="tour-detail-booking py-6 sm:py-8 lg:py-10">
+<section class="py-8 sm:py-10 lg:py-12">
     <div
-        class="mx-auto grid w-[92%] max-w-7xl gap-6 lg:gap-8
-            lg:grid-cols-[minmax(0,1fr)_380px]
+        class="mx-auto grid w-[92%] max-w-7xl gap-8
+            lg:grid-cols-[minmax(0,1fr)_390px]
             lg:items-start"
     >
         <div class="min-w-0">
@@ -178,49 +178,49 @@
             />
 
             @if ($tour['intro'])
-                <p class="mt-5 max-w-4xl text-[15px] leading-7 text-gray-600 sm:text-base sm:leading-8">
+                <p class="mt-6 max-w-4xl text-base leading-8 text-gray-600 sm:text-lg">
                     {{ $tour['intro'] }}
                 </p>
             @endif
 
             {{-- Tour Quick Information --}}
-            <div class="tour-detail-facts mt-6 grid grid-cols-2 border-y border-newman-navy/10 sm:grid-cols-4">
-                <div class="tour-detail-fact py-3 pr-3 sm:px-3 sm:first:pl-0">
+            <div class="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                <div class="rounded-2xl bg-newman-sand/70 p-4">
                     <p class="text-[11px] font-bold uppercase tracking-[0.16em] text-newman-gold">
                         Duration
                     </p>
 
-                    <p class="mt-1.5 text-sm font-semibold leading-5 text-newman-navy">
+                    <p class="mt-2 font-semibold text-newman-navy">
                         {{ $tour['duration'] }}
                     </p>
                 </div>
 
-                <div class="tour-detail-fact border-l border-newman-navy/10 py-3 pl-3 sm:px-3">
+                <div class="rounded-2xl bg-newman-sand/70 p-4">
                     <p class="text-[11px] font-bold uppercase tracking-[0.16em] text-newman-gold">
                         Pickup
                     </p>
 
-                    <p class="mt-1.5 text-sm font-semibold leading-5 text-newman-navy">
+                    <p class="mt-2 font-semibold text-newman-navy">
                         {{ $tour['pickup_text'] }}
                     </p>
                 </div>
 
-                <div class="tour-detail-fact border-t border-newman-navy/10 py-3 pr-3 sm:border-l sm:border-t-0 sm:px-3">
+                <div class="rounded-2xl bg-newman-sand/70 p-4">
                     <p class="text-[11px] font-bold uppercase tracking-[0.16em] text-newman-gold">
                         Vehicle
                     </p>
 
-                    <p class="mt-1.5 text-sm font-semibold leading-5 text-newman-navy">
+                    <p class="mt-2 font-semibold text-newman-navy">
                         {{ $tour['vehicle'] }}
                     </p>
                 </div>
 
-                <div class="tour-detail-fact border-l border-t border-newman-navy/10 py-3 pl-3 sm:border-t-0 sm:px-3 sm:last:pr-0">
+                <div class="rounded-2xl bg-newman-sand/70 p-4">
                     <p class="text-[11px] font-bold uppercase tracking-[0.16em] text-newman-gold">
                         Confirmation
                     </p>
 
-                    <p class="mt-1.5 text-sm font-semibold leading-5 text-newman-navy">
+                    <p class="mt-2 font-semibold text-newman-navy">
                         {{ $tour['confirmation_text'] }}
                     </p>
                 </div>
@@ -584,7 +584,7 @@
 
                 {{-- Map --}}
                 <div class="min-w-0 lg:sticky lg:top-28 lg:self-start">
-                    <div class="relative min-w-0 overflow-hidden border border-newman-navy/10 bg-newman-sand shadow-lg shadow-newman-navy/8">
+                    <div class="newman-roadmap-map-shell min-w-0 border border-newman-navy/10 bg-newman-sand shadow-lg shadow-newman-navy/8">
                         @if ($mapStops->isNotEmpty())
                             <div
                                 id="{{ $roadmapMapId }}"
@@ -592,7 +592,7 @@
                                 aria-label="Tour itinerary map"
                             ></div>
 
-                            <div class="pointer-events-none absolute left-15 top-3 z-[500] bg-newman-navy/92 px-4 py-3 text-white shadow-lg backdrop-blur">
+                            <div class="newman-roadmap-map-label pointer-events-none absolute left-15 top-3 bg-newman-navy/92 px-4 py-3 text-white shadow-lg backdrop-blur">
                                 <p class="text-[9px] font-bold uppercase tracking-[0.18em] text-newman-gold">
                                     Newman route
                                 </p>
@@ -700,7 +700,7 @@
     {{-- Space agar konten terakhir tidak tertutup mobile booking bar --}}
 <div
     aria-hidden="true"
-    class="h-20 lg:hidden"
+    class="h-24 lg:hidden"
 ></div>
 
 <x-tour-mobile-booking-bar

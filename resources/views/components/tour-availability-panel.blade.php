@@ -554,14 +554,14 @@ class="scroll-mt-24 md:scroll-mt-28 lg:sticky lg:top-28"
 
 
 
-    <div class="tour-availability-card overflow-hidden rounded-[18px] border border-newman-navy/10 bg-white shadow-[0_16px_44px_rgba(8,36,58,0.10)]">
+    <div class="overflow-hidden rounded-[22px] border border-newman-navy/10 bg-white shadow-[0_24px_70px_rgba(8,36,58,0.12)]">
         @if ($preview)
     <div class="border-b border-amber-200 bg-amber-50 px-5 py-3 text-xs font-semibold leading-5 text-amber-800 sm:px-6">
         Admin preview. This Tour Product is still hidden
         from public tour listings.
     </div>
 @endif
-        <div class="border-b border-newman-navy/10 px-5 py-5 sm:px-6">
+        <div class="border-b border-newman-navy/10 px-6 py-6 sm:px-7">
     <div class="flex min-w-0 items-start justify-between gap-4">
         <div class="min-w-0">
             <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-newman-gold">
@@ -569,7 +569,7 @@ class="scroll-mt-24 md:scroll-mt-28 lg:sticky lg:top-28"
             </p>
 
             @if ($promotionActive)
-                <p class="mt-3 text-[10px] font-bold uppercase tracking-[0.15em] text-newman-blue">
+                <p class="mt-4 text-[10px] font-bold uppercase tracking-[0.15em] text-newman-blue">
                     {{ $promotionName }}
                 </p>
 
@@ -585,12 +585,12 @@ class="scroll-mt-24 md:scroll-mt-28 lg:sticky lg:top-28"
                     </p>
 
                     <span class="text-xs text-gray-500">
-                        per adult
+                        per Person
                     </span>
                 </div>
 
                 @if ($displayChildPriceText)
-                    <p class="mt-2 text-xs text-gray-500">
+                    <p class="mt-3 text-sm text-gray-500">
                         Children from {{ $displayChildPriceText }}
                     </p>
                 @endif
@@ -601,7 +601,7 @@ class="scroll-mt-24 md:scroll-mt-28 lg:sticky lg:top-28"
                     </p>
                 @endif
 
-                <p class="mt-1.5 text-[10px] leading-4 text-gray-400">
+                <p class="mt-2 text-[11px] leading-5 text-gray-400">
                     Final price is recalculated after selecting the
                     travel date and participants.
                 </p>
@@ -619,7 +619,7 @@ class="scroll-mt-24 md:scroll-mt-28 lg:sticky lg:top-28"
                 </div>
 
                 @if ($displayChildPriceText)
-                    <p class="mt-2 text-xs text-gray-500">
+                    <p class="mt-3 text-sm text-gray-500">
                         Children from {{ $displayChildPriceText }}
                     </p>
                 @endif
@@ -634,7 +634,7 @@ class="scroll-mt-24 md:scroll-mt-28 lg:sticky lg:top-28"
     </div>
 </div>
 
-        <div class="space-y-3.5 p-4 sm:p-5">
+        <div class="space-y-4 p-5 sm:p-6">
             {{-- Participants --}}
             <div class="relative">
                 <label class="text-sm font-semibold text-newman-navy">
@@ -644,7 +644,7 @@ class="scroll-mt-24 md:scroll-mt-28 lg:sticky lg:top-28"
                 <button
                     type="button"
                     @click="participantsOpen = !participantsOpen"
-                    class="mt-1.5 flex min-h-12 w-full items-center justify-between rounded-lg border border-newman-navy/10 bg-newman-sand/70 px-3.5 text-left text-sm font-semibold text-newman-navy transition hover:border-newman-gold/70"
+                    class="mt-2 flex min-h-14 w-full items-center justify-between rounded-xl border border-newman-navy/10 bg-newman-sand/70 px-4 text-left text-sm font-semibold text-newman-navy transition hover:border-newman-gold/70"
                 >
                     <span x-text="participantLabel"></span>
                     <span class="text-lg" :class="participantsOpen ? 'rotate-180' : ''">⌄</span>
@@ -784,7 +784,7 @@ class="scroll-mt-24 md:scroll-mt-28 lg:sticky lg:top-28"
                     @change="resetResult()"
                     type="date"
                     min="{{ now()->toDateString() }}"
-                    class="booking-input mt-1.5 min-h-12 rounded-lg border-newman-navy/10 bg-newman-sand/70 py-3"
+                    class="booking-input mt-2 min-h-14 rounded-xl border-newman-navy/10 bg-newman-sand/70"
                 >
             </div>
 
@@ -802,7 +802,7 @@ class="scroll-mt-24 md:scroll-mt-28 lg:sticky lg:top-28"
             id="tour-language-{{ $tour['id'] }}"
             x-model="language"
             @change="resetResult()"
-            class="booking-input booking-select mt-1.5 min-h-12 rounded-lg border-newman-navy/10 bg-newman-sand/70 py-3"
+            class="booking-input booking-select mt-2 min-h-14 rounded-xl border-newman-navy/10 bg-newman-sand/70"
         >
             @foreach ($languages as $languageOption)
                 <option value="{{ $languageOption }}">
@@ -829,7 +829,7 @@ class="scroll-mt-24 md:scroll-mt-28 lg:sticky lg:top-28"
                     && !language
                 )
             "
-                class="flex min-h-12 w-full items-center justify-center rounded-lg bg-newman-navy px-5 py-3 text-xs font-bold uppercase tracking-[0.12em] text-white transition hover:-translate-y-0.5 hover:bg-newman-blue disabled:cursor-wait disabled:opacity-60"
+                class="flex min-h-14 w-full items-center justify-center rounded-xl bg-newman-navy px-5 py-4 text-sm font-bold uppercase tracking-[0.12em] text-white transition hover:-translate-y-0.5 hover:bg-newman-blue disabled:cursor-wait disabled:opacity-60"
             >
                 <span x-show="!loading">Check availability</span>
                 <span x-show="loading">Checking...</span>

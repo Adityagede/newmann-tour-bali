@@ -41,18 +41,11 @@
     |--------------------------------------------------------------------------
     |
     | Gunakan format internasional tanpa tanda +, spasi, atau strip.
-    | Nomor fallback disamakan dengan nomor yang sudah dipakai project.
+    | Nomor ini khusus untuk tautan kontak publik di front end.
     |
     */
 
-    $whatsappNumber = preg_replace(
-        '/\D+/',
-        '',
-        (string) config(
-            'newman.whatsapp_number',
-            '6281246890251'
-        )
-    );
+    $whatsappNumber = '6287887243495';
 
     /*
     |--------------------------------------------------------------------------

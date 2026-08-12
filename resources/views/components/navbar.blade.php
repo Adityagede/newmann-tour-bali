@@ -11,17 +11,17 @@
 
     $navigationItems = [
         [
-            'label' => 'Home',
+            'label' => __('navigation.home'),
             'route' => 'home',
             'active' => request()->routeIs('home'),
         ],
         [
-            'label' => 'About',
+            'label' => __('navigation.about'),
             'route' => 'about',
             'active' => request()->routeIs('about'),
         ],
         [
-            'label' => 'Tours',
+            'label' => __('navigation.tours'),
             'route' => 'tours',
             'active' => request()->routeIs(
                 'tours',
@@ -30,25 +30,50 @@
             ),
         ],
         [
-            'label' => 'Gallery',
+            'label' => __('navigation.gallery'),
             'route' => 'gallery',
             'active' => request()->routeIs('gallery'),
         ],
         [
-            'label' => 'Contact',
+            'label' => __('navigation.contact'),
             'route' => 'contact',
             'active' => request()->routeIs('contact'),
         ],
     ];
 
     $customTripActive = request()->routeIs('custom-trip.*');
+
+    $languageOptions = [
+        'en' => [
+            'code' => 'EN',
+            'flag' => 'uk',
+            'name' => __('navigation.english'),
+        ],
+        'id' => [
+            'code' => 'ID',
+            'flag' => 'id',
+            'name' => __('navigation.indonesian'),
+        ],
+    ];
+
+    $currentLocale = array_key_exists(
+        app()->getLocale(),
+        $languageOptions,
+    )
+        ? app()->getLocale()
+        : 'en';
+
+    $currentLanguage = $languageOptions[$currentLocale];
 @endphp
 
 
 <header
     x-data="{
         open: false,
+        languageOpen: false,
         scrolled: false,
+        openMenuLabel: @js(__('navigation.open_menu')),
+        closeMenuLabel: @js(__('navigation.close_menu')),
         init() {
             this.scrolled = window.scrollY > 36;
 
@@ -59,13 +84,15 @@
             window.addEventListener('resize', () => {
                 if (window.innerWidth >= 1024) {
                     this.open = false;
+                } else {
+                    this.languageOpen = false;
                 }
             });
         }
     }"
     x-effect="document.body.classList.toggle('overflow-hidden', open)"
-    @keydown.escape.window="open = false"
-    class="fixed left-0 top-0 z-90 w-full"
+    @keydown.escape.window="open = false; languageOpen = false"
+    class="site-header fixed left-0 top-0 w-full"
 >
     <nav
         id="siteNavbar"
@@ -90,14 +117,14 @@
 
             <div
     class="hidden items-center gap-9 text-[12px] font-semibold uppercase tracking-[0.18em] text-white/80 lg:flex"
-    aria-label="Primary navigation"
+    aria-label="{{ __('navigation.primary_navigation') }}"
 >
     <a
         href="{{ route('home') }}"
         class="nav-link {{ request()->routeIs('home') ? 'is-active' : '' }}"
         @if (request()->routeIs('home')) aria-current="page" @endif
     >
-        Home
+        {{ __('navigation.home') }}
     </a>
 
     <a
@@ -105,7 +132,7 @@
         class="nav-link {{ request()->routeIs('about') ? 'is-active' : '' }}"
         @if (request()->routeIs('about')) aria-current="page" @endif
     >
-        About
+        {{ __('navigation.about') }}
     </a>
 
     <a
@@ -113,7 +140,7 @@
         class="nav-link {{ request()->routeIs('tours', 'tours.*', 'booking-requests.success') ? 'is-active' : '' }}"
         @if (request()->routeIs('tours', 'tours.*', 'booking-requests.success')) aria-current="page" @endif
     >
-        Tours
+        {{ __('navigation.tours') }}
     </a>
 
     <a
@@ -121,7 +148,7 @@
         class="nav-link {{ request()->routeIs('gallery') ? 'is-active' : '' }}"
         @if (request()->routeIs('gallery')) aria-current="page" @endif
     >
-        Gallery
+        {{ __('navigation.gallery') }}
     </a>
 
     <a
@@ -129,10 +156,79 @@
         class="nav-link {{ request()->routeIs('contact') ? 'is-active' : '' }}"
         @if (request()->routeIs('contact')) aria-current="page" @endif
     >
-        Contact
+        {{ __('navigation.contact') }}
     </a>
 </div>
-            <div class="hidden lg:block">
+            <div class="hidden items-center gap-3 lg:flex">
+                <div class="relative" @click.outside="languageOpen = false">
+                    <button
+                        type="button"
+                        class="flex min-h-11 items-center gap-2 border border-white/20 bg-white/5 px-3 text-[11px] font-bold uppercase tracking-[0.14em] text-white transition duration-200 hover:border-newman-gold hover:text-newman-gold focus:outline-none focus:ring-2 focus:ring-newman-gold focus:ring-offset-2 focus:ring-offset-newman-navy"
+                        @click="languageOpen = !languageOpen"
+                        @keydown.arrow-down.prevent="languageOpen = true; $nextTick(() => $refs.languageMenu.querySelector('button:not([disabled])')?.focus())"
+                        :aria-expanded="languageOpen.toString()"
+                        aria-haspopup="menu"
+                        aria-label="{{ __('navigation.choose_language', ['language' => $currentLanguage['name']]) }}"
+                    >
+                        <x-language-flag :code="$currentLanguage['flag']" />
+                        <span>{{ $currentLanguage['code'] }}</span>
+                        <svg
+                            viewBox="0 0 12 8"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.5"
+                            class="h-2 w-3 transition-transform duration-200"
+                            :class="languageOpen ? 'rotate-180' : ''"
+                            aria-hidden="true"
+                        >
+                            <path d="m1 1.5 5 5 5-5" />
+                        </svg>
+                    </button>
+
+                    <div
+                        x-cloak
+                        x-show="languageOpen"
+                        x-transition.origin.top.right
+                        x-ref="languageMenu"
+                        role="menu"
+                        aria-label="{{ __('navigation.language_options') }}"
+                        class="absolute right-0 top-full mt-3 w-36 border border-newman-navy/10 bg-white p-1.5 text-left normal-case tracking-normal text-newman-navy shadow-xl shadow-newman-navy/15"
+                    >
+                        @foreach ($languageOptions as $locale => $language)
+                            <form
+                                method="POST"
+                                action="{{ route('language.update') }}"
+                                class="{{ $loop->first ? '' : 'mt-1' }}"
+                            >
+                                @csrf
+
+                                <button
+                                    type="submit"
+                                    name="locale"
+                                    value="{{ $locale }}"
+                                    role="menuitem"
+                                    @class([
+                                        'flex min-h-11 w-full items-center gap-2 px-3 py-2 text-xs font-bold tracking-[0.12em] transition focus:outline-none focus:ring-2 focus:ring-inset focus:ring-newman-gold',
+                                        'border-l-2 border-newman-gold bg-newman-sand' => $locale === $currentLocale,
+                                        'border-l-2 border-transparent hover:bg-newman-sand/60' => $locale !== $currentLocale,
+                                    ])
+                                    @if ($locale === $currentLocale)
+                                        aria-current="true"
+                                    @endif
+                                >
+                                    <x-language-flag :code="$language['flag']" />
+                                    <span>{{ $language['code'] }}</span>
+
+                                    @if ($locale === $currentLocale)
+                                        <span class="ml-auto text-newman-blue" aria-hidden="true">✓</span>
+                                        <span class="sr-only">{{ __('navigation.current_language') }}</span>
+                                    @endif
+                                </button>
+                            </form>
+                        @endforeach
+                    </div>
+                </div>
+
                 <a
                     href="{{ route('custom-trip.create') }}"
                     @class([
@@ -144,7 +240,7 @@
                         aria-current="page"
                     @endif
                 >
-                    Book Your Trip
+                    {{ __('navigation.book_trip') }}
                 </a>
             </div>
 
@@ -153,7 +249,8 @@
                 class="relative flex h-11 w-11 shrink-0 items-center justify-center border border-white/20 bg-white/10 transition duration-300 hover:bg-white/15 lg:hidden"
                 @click="open = !open"
                 :aria-expanded="open.toString()"
-                aria-label="Toggle navigation menu"
+                aria-controls="mobileNavigation"
+                :aria-label="open ? closeMenuLabel : openMenuLabel"
             >
                 <span
                     class="absolute h-[2px] w-5 bg-white transition duration-300 ease-out"
@@ -186,7 +283,7 @@
             x-transition:leave="transition duration-300 ease-in"
             x-transition:leave-start="opacity-100"
             x-transition:leave-end="opacity-0"
-            class="fixed inset-0 top-[73px] bg-newman-navy/70 backdrop-blur-md md:top-[81px]"
+            class="mobile-nav-backdrop fixed inset-x-0 bottom-0 bg-newman-navy/70 backdrop-blur-md"
             @click="open = false"
         ></div>
 
@@ -198,9 +295,10 @@
             x-transition:leave="transition duration-300 ease-in"
             x-transition:leave-start="translate-y-0 opacity-100"
             x-transition:leave-end="-translate-y-3 opacity-0"
-            class="absolute left-0 right-0 top-full border-b border-white/10 bg-newman-navy/95 text-white shadow-2xl shadow-black/30 backdrop-blur-2xl"
+            id="mobileNavigation"
+            class="mobile-nav-panel absolute left-0 right-0 top-full overflow-hidden border-b border-white/10 bg-newman-navy/95 text-white shadow-2xl shadow-black/30 backdrop-blur-2xl"
         >
-            <div class="mx-auto max-w-7xl px-5 py-6 md:px-10">
+            <div class="mobile-nav-scroll mx-auto h-full max-w-7xl overflow-y-auto overscroll-contain px-5 py-6 md:px-10">
                 <div class="grid gap-2">
     @foreach ($navigationItems as $item)
         <a
@@ -237,19 +335,58 @@
     @endforeach
 </div>
 
+                <div class="mobile-language-section mt-5 border-y border-white/10 py-4">
+                    <p class="px-4 text-[10px] font-bold uppercase tracking-[0.2em] text-newman-gold">
+                        {{ __('navigation.language') }}
+                    </p>
+
+                    <div class="mt-3 grid grid-cols-2 gap-2 px-4">
+                        @foreach ($languageOptions as $locale => $language)
+                            <form
+                                method="POST"
+                                action="{{ route('language.update') }}"
+                                class="min-w-0"
+                            >
+                                @csrf
+
+                                <button
+                                    type="submit"
+                                    name="locale"
+                                    value="{{ $locale }}"
+                                    @class([
+                                        'flex min-h-11 w-full items-center justify-center gap-2 border px-3 py-2 text-xs font-bold tracking-[0.12em] transition focus:outline-none focus:ring-2 focus:ring-white',
+                                        'border-newman-gold bg-newman-gold text-newman-navy' => $locale === $currentLocale,
+                                        'border-white/20 text-white/70 hover:border-newman-gold hover:text-newman-gold' => $locale !== $currentLocale,
+                                    ])
+                                    @if ($locale === $currentLocale)
+                                        aria-current="true"
+                                    @endif
+                                >
+                                    <x-language-flag :code="$language['flag']" />
+                                    <span>{{ $language['code'] }}</span>
+
+                                    @if ($locale === $currentLocale)
+                                        <span class="sr-only">{{ __('navigation.current_language') }}</span>
+                                    @endif
+                                </button>
+                            </form>
+                        @endforeach
+                    </div>
+                </div>
+
                 <div
                     x-show="open"
                     x-transition:enter="transition delay-200 duration-500 ease-out"
                     x-transition:enter-start="translate-y-4 opacity-0"
                     x-transition:enter-end="translate-y-0 opacity-100"
-                    class="mt-6 border border-white/10 bg-white/8 p-5"
+                    class="mobile-nav-utility mt-6 border border-white/10 bg-white/8 p-5"
                 >
                     <p class="text-sm font-semibold text-newman-gold">
-                        Private Bali Tour & Transport
+                        {{ __('navigation.private_tour') }}
                     </p>
 
                     <p class="mt-2 text-sm leading-6 text-white/60">
-                        Choose Avanza, Hiace, or request another car for your Bali trip.
+                        {{ __('navigation.private_tour_description') }}
                     </p>
 
                     <a
@@ -264,11 +401,10 @@
         aria-current="page"
     @endif
 >
-    Book Your Trip
+    {{ __('navigation.book_trip') }}
 </a>
                 </div>
             </div>
         </div>
     </div>
 </header>   
-
