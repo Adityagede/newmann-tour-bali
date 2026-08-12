@@ -1,0 +1,37 @@
+name: Test cPanel SSH Connection
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test-ssh:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Prepare SSH key
+        shell: bash
+        run: |
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+
+          printf '%s\n' "${{ secrets.CPANEL_SSH_PRIVATE_KEY }}" > ~/.ssh/newman_deploy_key
+          chmod 600 ~/.ssh/newman_deploy_key
+
+      - name: Add cPanel host
+        shell: bash
+        run: |
+          ssh-keyscan \
+            -p "${{ secrets.CPANEL_SSH_PORT }}" \
+            "${{ secrets.CPANEL_SSH_HOST }}" \
+            >> ~/.ssh/known_hosts
+
+          chmod 600 ~/.ssh/known_hosts
+
+      - name: Test cPanel SSH connection
+        shell: bash
+        run: |
+          ssh \
+            -i ~/.ssh/newman_deploy_key \
+            -p "${{ secrets.CPANEL_SSH_PORT }}" \
+            "${{ secrets.CPANEL_SSH_USER }}@${{ secrets.CPANEL_SSH_HOST }}" \
+            'echo "SSH_CONNECTION_OK" && whoami && hostname && pwd'
