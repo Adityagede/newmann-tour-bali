@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CustomTripRequestController;
 use App\Http\Controllers\Admin\AdminAuthController;
@@ -22,6 +23,26 @@ use App\Http\Controllers\Admin\AdminTourPublishingReadinessController;
 use App\Http\Controllers\TourReviewController;
 use App\Http\Controllers\TourBookingRequestController;
 use App\Http\Controllers\Admin\AdminTourBookingRequestController;
+
+Route::post('/language', function (Request $request) {
+    $validated = $request->validate([
+        'locale' => [
+            'required',
+            'string',
+            'in:'.implode(
+                ',',
+                config('app.supported_locales', ['en', 'id']),
+            ),
+        ],
+    ]);
+
+    $request->session()->put(
+        'locale',
+        $validated['locale'],
+    );
+
+    return redirect()->back(303);
+})->name('language.update');
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/about', function () {
