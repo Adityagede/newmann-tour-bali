@@ -13,17 +13,17 @@
         'I would like help planning a private Bali trip.',
     ]);
 
-    $whatsappUrl = 'https://wa.me/+6287887243495'
+    $whatsappUrl = 'https://wa.me/'
         . $whatsappNumber
         . '?text='
         . urlencode($whatsappMessage);
 
     $instagramUrl = trim(
-        (string) config('newman.instagram_url', 'https://www.instagram.com/newman696?igsh=YmlldjRpaWowc3pj&utm_source=qr')
+        (string) config('newman.instagram_url', '')
     );
 
     $facebookUrl = trim(
-        (string) config('newman.facebook_url', 'https://www.facebook.com/share/19BWUfn99G/?mibextid=wwXIfr')
+        (string) config('newman.facebook_url', '')
     );
 
     $contactEmail = trim(
@@ -109,8 +109,11 @@
                             <img
                                 src="{{ asset('images/logo-newman.png') }}"
                                 alt="Newman Tour Bali"
+                                width="500"
+                                height="500"
                                 class="h-9 w-9 object-contain"
                                 loading="lazy"
+                                decoding="async"
                                 onerror="this.style.display='none'"
                             >
                         </span>
@@ -474,7 +477,7 @@
         <div class="border-t border-white/10 py-6">
             <div class="flex flex-col gap-4 text-xs text-white/38 sm:flex-row sm:items-center sm:justify-between">
                 <p>
-                    © {{ now()->year }} Newman Tour Guide.
+                    © {{ now()->year }} Newman Tour Bali.
                     Private Bali tours and transport.
                 </p>
 

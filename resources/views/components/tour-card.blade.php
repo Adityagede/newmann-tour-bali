@@ -107,18 +107,22 @@
             </a>
         </h3>
 
-        {{-- Rating --}}
-        <div class="tour-experience-rating mt-3 flex flex-wrap items-center gap-2 text-sm">
-            <span class="font-semibold text-newman-navy">
-                <span class="text-newman-gold">★</span>
-                {{ number_format($card['rating'], 1) }}
-            </span>
+        {{-- Verified ratings only; hosted guest totals remain on detail pages. --}}
+        <div class="tour-experience-rating mt-3 flex min-h-6 flex-wrap items-center gap-2 text-sm">
+            @if ($card['has_rating'])
+                <span class="font-semibold text-newman-navy">
+                    <span class="text-newman-gold" aria-hidden="true">★</span>
+                    {{ number_format($card['rating'], 1) }}
+                </span>
 
-            <span class="h-1 w-1 rounded-full bg-gray-300"></span>
+                <span class="h-1 w-1 rounded-full bg-gray-300" aria-hidden="true"></span>
 
-            <span class="text-gray-500">
-                {{ $card['review_text'] }}
-            </span>
+                <span class="text-gray-500">
+                    {{ $card['rating_text'] }}
+                </span>
+            @else
+                <span class="text-gray-500">New tour</span>
+            @endif
         </div>
 
         {{-- Tour Information --}}

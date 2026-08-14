@@ -2,212 +2,197 @@
 
 @section('content')
     @php
-        $tour =
-            $booking->tour_snapshot
-            ?? [];
+        $tour = $booking->tour_snapshot ?? [];
+        $option = $booking->option_snapshot ?? [];
+        $selection = $booking->selection_snapshot ?? [];
+        $transport = $booking->transport_snapshot;
 
-        $option =
-            $booking->option_snapshot
-            ?? [];
-
-        $selection =
-            $booking->selection_snapshot
-            ?? [];
-
-        $transport =
-            $booking->transport_snapshot;
-
-        $transportLabel = is_string(
-            $transport
-        )
+        $transportLabel = is_string($transport)
             ? $transport
             : (
                 $transport['label']
                 ?? $transport['vehicle_name']
                 ?? $transport['name']
-                ?? 'Confirmed by Newman'
+                ?? 'Arranged personally by Newman'
             );
 
-        $money = static fn (
-            int $amount
-        ): string =>
+        $money = static fn (int $amount): string =>
             $booking->currency
             . ' '
-            . number_format(
-                $amount,
-                0,
-                ',',
-                '.'
-            );
+            . number_format($amount, 0, ',', '.');
+
+        $participantLabel = $selection['participant_label']
+            ?? $booking->total_participants
+                . ' '
+                . ($booking->total_participants === 1 ? 'guest' : 'guests');
     @endphp
 
-    <main class="min-h-[75vh] bg-newman-sand/35 py-14 sm:py-20">
-        <div class="mx-auto w-[92%] max-w-5xl">
-            <section class="overflow-hidden rounded-[30px] border border-newman-gold/35 bg-white shadow-[0_24px_70px_rgba(8,36,58,0.11)]">
-                <header class="bg-newman-navy px-6 py-10 text-center text-white sm:px-10 sm:py-14">
-                    <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full border border-newman-gold/50 bg-newman-gold text-3xl text-newman-navy">
-                        ✓
+    <main class="min-h-screen overflow-hidden bg-white pb-16 pt-28 text-newman-navy sm:pb-20 sm:pt-32 lg:pb-24 lg:pt-36">
+        <div class="mx-auto w-[calc(100%-2rem)] max-w-6xl sm:w-[92%]">
+            <header class="grid gap-8 border-b border-newman-navy/15 pb-10 sm:pb-12 lg:grid-cols-[minmax(0,1fr)_19rem] lg:items-end lg:gap-16">
+                <div class="max-w-3xl">
+                    <div class="flex items-center gap-3">
+                        <span class="flex h-9 w-9 items-center justify-center rounded-full bg-newman-gold text-lg font-bold text-newman-navy" aria-hidden="true">
+                            ✓
+                        </span>
+
+                        <p class="text-xs font-semibold uppercase tracking-[0.22em] text-newman-gold">
+                            Request received
+                        </p>
                     </div>
 
-                    <p class="mt-6 text-xs font-bold uppercase tracking-[0.3em] text-newman-gold">
-                        Booking request received
-                    </p>
-
-                    <h1 class="mx-auto mt-4 max-w-3xl text-4xl font-semibold tracking-[-0.045em] sm:text-6xl">
-                        Your Bali trip request is now pending confirmation.
+                    <h1 class="mt-6 text-4xl font-semibold leading-[1.03] tracking-[-0.05em] sm:text-6xl lg:text-7xl">
+                        Your Bali day is taking shape.
                     </h1>
 
-                    <p class="mx-auto mt-5 max-w-2xl text-sm leading-7 text-white/65">
-                        Newman will review the selected option,
-                        schedule, pickup details, and transport
-                        arrangement before confirming the request.
-                    </p>
-                </header>
-
-                <div class="p-6 sm:p-10">
-                    <div class="rounded-2xl border border-newman-gold/35 bg-newman-sand/45 p-5 text-center">
-                        <p class="text-[10px] font-bold uppercase tracking-[0.18em] text-gray-400">
-                            Booking reference
-                        </p>
-
-                        <p class="mt-3 text-2xl font-bold tracking-[0.08em] text-newman-navy sm:text-3xl">
-                            {{ $booking->booking_reference }}
-                        </p>
-
-                        <p class="mt-2 text-xs font-semibold uppercase tracking-[0.12em] text-amber-700">
-                            Status: Pending confirmation
-                        </p>
-                    </div>
-
-                    <div class="mt-8 grid gap-4 sm:grid-cols-2">
-                        <div class="rounded-2xl bg-newman-sand/55 p-5">
-                            <p class="text-[10px] font-bold uppercase tracking-[0.14em] text-gray-400">
-                                Tour
-                            </p>
-
-                            <p class="mt-2 font-semibold text-newman-navy">
-                                {{ $tour['title'] ?? 'Tour request' }}
-                            </p>
-
-                            <p class="mt-1 text-sm text-gray-500">
-                                {{ $option['title'] ?? 'Selected Tour Option' }}
-                            </p>
-                        </div>
-
-                        <div class="rounded-2xl bg-newman-sand/55 p-5">
-                            <p class="text-[10px] font-bold uppercase tracking-[0.14em] text-gray-400">
-                                Travel schedule
-                            </p>
-
-                            <p class="mt-2 font-semibold text-newman-navy">
-                                {{ $booking->travel_date?->format('d M Y') }}
-                                ·
-                                {{ substr((string) $booking->starting_time, 0, 5) }}
-                            </p>
-
-                            <p class="mt-1 text-sm text-gray-500">
-                                {{ $booking->language }}
-                            </p>
-                        </div>
-
-                        <div class="rounded-2xl bg-newman-sand/55 p-5">
-                            <p class="text-[10px] font-bold uppercase tracking-[0.14em] text-gray-400">
-                                Participants
-                            </p>
-
-                            <p class="mt-2 font-semibold text-newman-navy">
-                                {{ $selection['participant_label']
-                                    ?? (
-                                        $booking->total_participants
-                                        . ' participants'
-                                    ) }}
-                            </p>
-
-                            <p class="mt-1 text-sm text-gray-500">
-                                {{ $transportLabel }}
-                            </p>
-                        </div>
-
-                        <div class="rounded-2xl bg-newman-navy p-5 text-white">
-                            <p class="text-[10px] font-bold uppercase tracking-[0.14em] text-newman-gold">
-                                Estimated total
-                            </p>
-
-                            <p class="mt-2 text-2xl font-bold">
-                                {{ $money(
-                                    (int) $booking->estimated_total
-                                ) }}
-                            </p>
-
-                            @if ($booking->discount_amount > 0)
-                                <p class="mt-1 text-xs text-newman-gold">
-                                    Discount:
-                                    {{ $money(
-                                        (int) $booking->discount_amount
-                                    ) }}
-                                </p>
-                            @endif
-                        </div>
-                    </div>
-
-                    <div class="mt-8 rounded-2xl border border-newman-navy/10 p-5 sm:p-6">
-                        <p class="text-xs font-bold uppercase tracking-[0.16em] text-newman-gold">
-                            What happens next?
-                        </p>
-
-                        <div class="mt-4 grid gap-4 text-sm leading-7 text-gray-600 sm:grid-cols-3">
-                            <div>
-                                <strong class="block text-newman-navy">
-                                    1. Newman reviews
-                                </strong>
-
-                                Availability and trip details
-                                are checked manually.
-                            </div>
-
-                            <div>
-                                <strong class="block text-newman-navy">
-                                    2. We contact you
-                                </strong>
-
-                                Confirmation is sent through
-                                the contact details provided.
-                            </div>
-
-                            <div>
-                                <strong class="block text-newman-navy">
-                                    3. Trip confirmation
-                                </strong>
-
-                                Your request remains Pending
-                                until Newman confirms it.
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
-                        <a
-                            href="{{ route('tours') }}"
-                            class="flex min-h-12 items-center justify-center rounded-xl bg-newman-navy px-7 py-3 text-xs font-bold uppercase tracking-[0.13em] text-white transition hover:bg-newman-gold hover:text-newman-navy"
-                        >
-                            Explore other tours
-                        </a>
-
-                        <a
-                            href="{{ route('home') }}"
-                            class="flex min-h-12 items-center justify-center rounded-xl border border-newman-navy/15 bg-white px-7 py-3 text-xs font-bold uppercase tracking-[0.13em] text-newman-navy transition hover:border-newman-gold hover:bg-newman-sand"
-                        >
-                            Back to home
-                        </a>
-                    </div>
-
-                    <p class="mt-7 text-center text-xs leading-5 text-gray-500">
-                        Keep your booking reference for future
-                        communication. This page does not represent
-                        a completed payment or final booking confirmation.
+                    <p class="mt-6 max-w-2xl text-base leading-8 text-gray-600 sm:text-lg">
+                        Newman will personally check your date, route and pickup details before confirming the trip.
                     </p>
                 </div>
-            </section>
+
+                <div class="border-l-2 border-newman-gold pl-5 sm:pl-6">
+                    <p class="text-xs font-semibold uppercase tracking-[0.18em] text-gray-400">
+                        Booking reference
+                    </p>
+
+                    <p class="mt-2 break-all font-mono text-xl font-semibold tracking-[0.04em] sm:text-2xl">
+                        {{ $booking->booking_reference }}
+                    </p>
+
+                    <p class="mt-3 inline-flex bg-amber-100 px-3 py-1.5 text-xs font-semibold text-amber-800">
+                        Pending confirmation
+                    </p>
+                </div>
+            </header>
+
+            <div class="grid gap-12 py-10 sm:py-14 lg:grid-cols-[minmax(0,1.25fr)_minmax(17rem,0.75fr)] lg:gap-16 lg:py-16">
+                <section aria-labelledby="journey-summary-heading">
+                    <p class="text-xs font-semibold uppercase tracking-[0.22em] text-newman-gold">
+                        Your journey
+                    </p>
+
+                    <h2 id="journey-summary-heading" class="mt-3 text-3xl font-semibold tracking-[-0.035em] sm:text-4xl">
+                        {{ $tour['title'] ?? 'Private Bali tour' }}
+                    </h2>
+
+                    <p class="mt-2 text-base text-gray-500">
+                        {{ $option['title'] ?? 'Selected tour experience' }}
+                    </p>
+
+                    <dl class="mt-9 divide-y divide-newman-navy/10 border-y border-newman-navy/10">
+                        <div class="grid gap-2 py-5 sm:grid-cols-[10rem_1fr] sm:gap-6">
+                            <dt class="text-sm text-gray-500">Travel date</dt>
+                            <dd class="font-semibold">
+                                {{ $booking->travel_date?->format('d F Y') }}
+                                <span class="font-normal text-gray-400">at</span>
+                                {{ substr((string) $booking->starting_time, 0, 5) }}
+                            </dd>
+                        </div>
+
+                        <div class="grid gap-2 py-5 sm:grid-cols-[10rem_1fr] sm:gap-6">
+                            <dt class="text-sm text-gray-500">Guests</dt>
+                            <dd class="font-semibold">{{ $participantLabel }}</dd>
+                        </div>
+
+                        <div class="grid gap-2 py-5 sm:grid-cols-[10rem_1fr] sm:gap-6">
+                            <dt class="text-sm text-gray-500">Language</dt>
+                            <dd class="font-semibold">{{ $booking->language }}</dd>
+                        </div>
+
+                        <div class="grid gap-2 py-5 sm:grid-cols-[10rem_1fr] sm:gap-6">
+                            <dt class="text-sm text-gray-500">Transport</dt>
+                            <dd class="font-semibold">{{ $transportLabel }}</dd>
+                        </div>
+
+                        <div class="grid gap-2 py-5 sm:grid-cols-[10rem_1fr] sm:gap-6">
+                            <dt class="text-sm text-gray-500">Estimated total</dt>
+                            <dd>
+                                <p class="text-2xl font-semibold tracking-[-0.03em]">
+                                    {{ $money((int) $booking->estimated_total) }}
+                                </p>
+
+                                @if ($booking->discount_amount > 0)
+                                    <p class="mt-1 text-sm text-newman-gold">
+                                        Includes {{ $money((int) $booking->discount_amount) }} discount
+                                    </p>
+                                @endif
+                            </dd>
+                        </div>
+                    </dl>
+
+                    <p class="mt-5 text-xs leading-6 text-gray-500">
+                        This is an estimate, not a completed payment or final confirmation. Keep your reference when contacting Newman.
+                    </p>
+                </section>
+
+                <aside aria-labelledby="next-steps-heading" class="lg:border-l lg:border-newman-navy/10 lg:pl-10">
+                    <p class="text-xs font-semibold uppercase tracking-[0.22em] text-newman-gold">
+                        What happens next
+                    </p>
+
+                    <h2 id="next-steps-heading" class="mt-3 text-2xl font-semibold tracking-[-0.03em]">
+                        A personal confirmation, not an automatic one.
+                    </h2>
+
+                    <ol class="mt-8 space-y-7">
+                        <li class="grid grid-cols-[2rem_1fr] gap-4">
+                            <span class="font-semibold text-newman-gold">01</span>
+                            <div>
+                                <h3 class="font-semibold">Newman checks your plan</h3>
+                                <p class="mt-1 text-sm leading-6 text-gray-500">
+                                    We review availability, timing and pickup details.
+                                </p>
+                            </div>
+                        </li>
+
+                        <li class="grid grid-cols-[2rem_1fr] gap-4">
+                            <span class="font-semibold text-newman-gold">02</span>
+                            <div>
+                                <h3 class="font-semibold">We get in touch</h3>
+                                <p class="mt-1 text-sm leading-6 text-gray-500">
+                                    Your confirmation is sent using the contact details you provided.
+                                </p>
+                            </div>
+                        </li>
+
+                        <li class="grid grid-cols-[2rem_1fr] gap-4">
+                            <span class="font-semibold text-newman-gold">03</span>
+                            <div>
+                                <h3 class="font-semibold">Your trip is confirmed</h3>
+                                <p class="mt-1 text-sm leading-6 text-gray-500">
+                                    Once everything is ready, your Bali day is officially set.
+                                </p>
+                            </div>
+                        </li>
+                    </ol>
+
+                    <p class="mt-8 border-t border-newman-navy/10 pt-6 text-sm leading-6 text-gray-500">
+                        Ratings are not collected at the booking-request stage. After the trip is completed, Newman can send you a secure private link to rate the experience and leave an optional private review.
+                    </p>
+                </aside>
+            </div>
+
+            <footer class="flex flex-col gap-4 border-t border-newman-navy/15 pt-8 sm:flex-row sm:items-center sm:justify-between">
+                <p class="max-w-lg text-sm leading-6 text-gray-500">
+                    Until Newman confirms it personally, your request remains pending.
+                </p>
+
+                <nav aria-label="Booking confirmation actions" class="flex flex-col gap-3 sm:flex-row">
+                    <a
+                        href="{{ route('tours') }}"
+                        class="inline-flex min-h-12 items-center justify-center bg-newman-navy px-6 py-3 text-sm font-semibold text-white transition hover:bg-newman-blue focus:outline-none focus:ring-2 focus:ring-newman-gold focus:ring-offset-2"
+                    >
+                        Explore other tours
+                    </a>
+
+                    <a
+                        href="{{ route('home') }}"
+                        class="inline-flex min-h-12 items-center justify-center border border-newman-navy/20 px-6 py-3 text-sm font-semibold text-newman-navy transition hover:border-newman-gold focus:outline-none focus:ring-2 focus:ring-newman-gold focus:ring-offset-2"
+                    >
+                        Back to home
+                    </a>
+                </nav>
+            </footer>
         </div>
     </main>
 @endsection

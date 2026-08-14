@@ -30,6 +30,7 @@ class HomeController extends Controller
         $popularTours = TourPackage::query()
             ->where('status', 'active')
             ->where('is_popular', true)
+            ->withVerifiedStatistics()
             ->with([
                 'defaultActiveOption.prices',
             ])
@@ -41,6 +42,7 @@ class HomeController extends Controller
         if ($popularTours->isEmpty()) {
             $popularTours = TourPackage::query()
                 ->where('status', 'active')
+                ->withVerifiedStatistics()
                 ->with([
                     'defaultActiveOption.prices',
                 ])

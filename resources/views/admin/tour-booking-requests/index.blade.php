@@ -185,6 +185,10 @@
                         Status
                     </th>
 
+                    <th class="px-5 py-4">
+                        Rating
+                    </th>
+
                     <th class="px-5 py-4 text-right">
                         Action
                     </th>
@@ -316,6 +320,29 @@
                             </span>
                         </td>
 
+                        <td class="px-5 py-5">
+                            @if ($item->ratingRecord)
+                                <a
+                                    href="{{ route('admin.tour-booking-requests.show', $item) }}#verified-trip-rating"
+                                    class="font-semibold text-newman-navy underline decoration-newman-gold/60 underline-offset-4 hover:text-newman-gold"
+                                >
+                                    <span class="text-newman-gold" aria-hidden="true">★</span>
+                                    {{ $item->ratingRecord->rating }}/5 received
+                                </a>
+                            @elseif ($item->status === \App\Models\TourBookingRequest::STATUS_COMPLETED)
+                                <a
+                                    href="{{ route('admin.tour-booking-requests.show', $item) }}#verified-trip-rating"
+                                    class="text-xs font-bold uppercase tracking-[0.12em] text-green-700 underline decoration-green-300 underline-offset-4 hover:text-green-900"
+                                >
+                                    Send rating link
+                                </a>
+                            @else
+                                <span class="text-xs text-gray-400">
+                                    After completion
+                                </span>
+                            @endif
+                        </td>
+
                         <td class="px-5 py-5 text-right">
                             <a
                                 href="{{ route(
@@ -331,7 +358,7 @@
                 @empty
                     <tr>
                         <td
-                            colspan="8"
+                            colspan="9"
                             class="px-6 py-16 text-center"
                         >
                             <p class="text-lg font-semibold text-newman-navy">

@@ -139,26 +139,28 @@
                 {{ $tour['title'] }}
             </h1>
 
-            @if ($tour['has_rating'] || $tour['social_proof_text'])
-                <div class="mt-5 flex flex-wrap items-center gap-2 text-sm">
-                    @if ($tour['has_rating'])
-                        <span class="font-semibold text-newman-navy">
-                            <span class="text-newman-gold">★</span>
-                            {{ number_format($tour['rating'], 1) }}
-                        </span>
-                    @endif
+            <div class="mt-5 flex flex-wrap items-center gap-2 text-sm">
+                @if (! empty($tour['has_rating']) && isset($tour['rating']))
+                    <span class="font-semibold text-newman-navy">
+                        <span class="text-newman-gold" aria-hidden="true">★</span>
+                        {{ number_format($tour['rating'], 1) }}
+                    </span>
 
-                    @if ($tour['has_rating'] && $tour['social_proof_text'])
-                        <span class="h-1 w-1 rounded-full bg-gray-300"></span>
-                    @endif
+                    <span class="text-gray-500">
+                        {{ $tour['rating_text'] ?? '' }}
+                    </span>
+                @else
+                    <span class="text-gray-500">New tour</span>
+                @endif
 
-                    @if ($tour['social_proof_text'])
-                        <span class="text-gray-500">
-                            {{ $tour['social_proof_text'] }}
-                        </span>
-                    @endif
-                </div>
-            @endif
+                @if (! empty($tour['hosted_guest_text']))
+                    <span class="h-1 w-1 rounded-full bg-gray-300" aria-hidden="true"></span>
+
+                    <span class="text-gray-500">
+                        {{ $tour['hosted_guest_text'] }}
+                    </span>
+                @endif
+            </div>
         </div>
     </section>
 
@@ -711,8 +713,24 @@
 
 @endsection
 
+@if ($mapStops->isNotEmpty())
+    @push('styles')
+        <link
+            rel="stylesheet"
+            href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+            integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+            crossorigin=""
+        >
+    @endpush
+@endif
+
 @push('scripts')
     @if ($mapStops->isNotEmpty())
+        <script
+            src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+            crossorigin=""
+        ></script>
         <script>
             document.addEventListener('DOMContentLoaded', () => {
                 const mapElement = document.getElementById(

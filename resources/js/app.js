@@ -5,9 +5,6 @@ import Alpine from 'alpinejs';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
-import Swiper from 'swiper';
-import { Navigation, Pagination, Autoplay, EffectFade } from 'swiper/modules';
-
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
@@ -29,7 +26,37 @@ try {
     console.error('AOS initialization failed:', error);
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+    const swiperSelector = [
+        '.hero-swiper',
+        '.tour-swiper',
+        '.review-swiper',
+        '.tour-detail-swiper',
+    ].join(',');
+
+    if (!document.querySelector(swiperSelector)) {
+        return;
+    }
+
+    let Swiper;
+    let Navigation;
+    let Pagination;
+    let Autoplay;
+    let EffectFade;
+
+    try {
+        ({
+            Swiper,
+            Navigation,
+            Pagination,
+            Autoplay,
+            EffectFade,
+        } = await import('./swiper-runtime.js'));
+    } catch (error) {
+        console.error('Swiper initialization failed:', error);
+        return;
+    }
+
     const heroSwiperEl = document.querySelector('.hero-swiper');
 
     if (heroSwiperEl) {

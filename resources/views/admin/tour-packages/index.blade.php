@@ -158,7 +158,14 @@
                         </td>
 
                         <td class="py-4 pr-4">
-                            {{ $tour->rating }}
+                            @if ($tour->verified_rating_count > 0)
+                                {{ number_format((float) $tour->verified_rating_average, 1) }}
+                                <span class="text-xs text-gray-400">
+                                    ({{ $tour->verified_rating_count }})
+                                </span>
+                            @else
+                                <span class="text-gray-400">No ratings</span>
+                            @endif
                         </td>
 
                         <td class="py-4 pr-4">

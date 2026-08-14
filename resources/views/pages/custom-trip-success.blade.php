@@ -6,7 +6,7 @@
         $suggestedVehicle = $customTripRequest->suggestedVehicleLabel();
 
         $whatsappMessage = implode("\n", [
-            'Hello Newman Tour Guide, I have submitted a custom trip request from the website.',
+            'Hello Newman Tour Bali, I have submitted a custom trip request from the website.',
             '',
             'Reference: ' . $customTripRequest->booking_code,
             'Name: ' . $customTripRequest->name,

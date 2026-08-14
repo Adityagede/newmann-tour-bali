@@ -100,7 +100,7 @@
 
     $message = implode("\n", [
         'Hello ' . $tourBookingRequest->guest_name
-            . ', thank you for your Tour Booking Request with Newman Tour Guide.',
+            . ', thank you for your Tour Booking Request with Newman Tour Bali.',
 
         '',
 
@@ -142,6 +142,25 @@
             . $customerWhatsapp
             . '?text='
             . urlencode($message)
+        : null;
+
+    $ratingMessage = $ratingUrl
+        ? implode("\n", [
+            'Hello ' . $tourBookingRequest->guest_name . ',',
+            '',
+            'Thank you for exploring Bali with Newman Tour Bali.',
+            'We would love to hear how your trip went.',
+            '',
+            'Rate your experience:',
+            $ratingUrl,
+        ])
+        : null;
+
+    $ratingWhatsappUrl = $customerWhatsapp && $ratingMessage
+        ? 'https://wa.me/'
+            . $customerWhatsapp
+            . '?text='
+            . urlencode($ratingMessage)
         : null;
 
     $statusClass =
@@ -518,6 +537,77 @@
             @else
                 <p class="mt-3 text-sm text-gray-500">
                     No valid WhatsApp number available.
+                </p>
+            @endif
+        </section>
+
+        <section
+            id="verified-trip-rating"
+            class="scroll-mt-24 border border-newman-navy/10 bg-white p-6"
+        >
+            <p class="text-xs font-bold uppercase tracking-[0.16em] text-newman-gold">
+                Verified trip rating
+            </p>
+
+            @if ($tourBookingRequest->ratingRecord)
+                <p class="mt-4 text-2xl font-semibold text-newman-navy">
+                    <span class="text-newman-gold" aria-hidden="true">★</span>
+                    {{ $tourBookingRequest->ratingRecord->rating }}/5
+                </p>
+
+                <p class="mt-2 text-sm leading-6 text-gray-500">
+                    Received from this completed booking.
+                </p>
+
+                @if ($tourBookingRequest->ratingRecord->feedback)
+                    <div class="mt-5 border-l-2 border-newman-gold pl-4">
+                        <p class="text-[10px] font-bold uppercase tracking-[0.14em] text-gray-400">
+                            Private feedback
+                        </p>
+
+                        <p class="mt-2 whitespace-pre-line text-sm leading-6 text-newman-navy">
+                            {{ $tourBookingRequest->ratingRecord->feedback }}
+                        </p>
+                    </div>
+                @endif
+            @elseif ($ratingUrl)
+                <p class="mt-3 text-sm leading-6 text-gray-500">
+                    This trip is completed and waiting for a verified rating. Send the secure one-rating link through WhatsApp.
+                </p>
+
+                @if ($ratingWhatsappUrl)
+                    <a
+                        href="{{ $ratingWhatsappUrl }}"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="mt-4 flex min-h-12 w-full items-center justify-center bg-green-600 px-5 py-3 text-center text-xs font-bold uppercase tracking-[0.14em] text-white transition hover:bg-green-700"
+                    >
+                        Send rating link
+                    </a>
+                @endif
+
+                <label
+                    for="secure-rating-url"
+                    class="mt-5 block text-[10px] font-bold uppercase tracking-[0.14em] text-gray-400"
+                >
+                    Secure rating URL
+                </label>
+
+                <input
+                    id="secure-rating-url"
+                    type="text"
+                    value="{{ $ratingUrl }}"
+                    readonly
+                    onclick="this.select()"
+                    class="mt-2 w-full border border-newman-navy/15 bg-newman-sand/35 px-3 py-3 text-xs text-newman-navy outline-none focus:border-newman-gold"
+                >
+            @elseif ($tourBookingRequest->status === 'completed')
+                <p class="mt-3 text-sm leading-6 text-gray-500">
+                    A secure link cannot be created because this booking is no longer connected to a TourPackage.
+                </p>
+            @else
+                <p class="mt-3 text-sm leading-6 text-gray-500">
+                    The secure rating link becomes available after the trip is marked Completed.
                 </p>
             @endif
         </section>

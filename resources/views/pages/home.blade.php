@@ -9,7 +9,12 @@
                 <div class="absolute inset-0">
                     <img
                         src="{{ asset('images/hero-bg.webp') }}"
-                        alt="Bali private tour with Newman Tour Guide"
+                        alt="Bali private tour with Newman Tour Bali"
+                        width="2268"
+                        height="4032"
+                        loading="eager"
+                        fetchpriority="high"
+                        decoding="async"
                         class="hero-slide-img hero-slide-img-gate"
                     >
                     <div class="hero-overlay absolute inset-0"></div>
@@ -57,6 +62,11 @@
                     <img
                         src="{{ asset('images/hero-bg1.webp') }}"
                         alt="Private transport in Bali"
+                        width="1376"
+                        height="544"
+                        loading="lazy"
+                        fetchpriority="low"
+                        decoding="async"
                         class="hero-slide-img hero-slide-img-coast"
                     >
                     <div class="hero-overlay absolute inset-0"></div>
@@ -105,6 +115,11 @@
                     <img
                         src="{{ asset('images/hero-bg2.webp') }}"
                         alt="Custom Bali experience"
+                        width="3024"
+                        height="4032"
+                        loading="lazy"
+                        fetchpriority="low"
+                        decoding="async"
                         class="hero-slide-img hero-slide-img-temple"
                     >
                     <div class="hero-overlay absolute inset-0"></div>
@@ -245,6 +260,10 @@
                         <img
                             src="{{ asset('images/owner.jpg') }}"
                             alt="Newman local Bali guide"
+                            width="1600"
+                            height="1578"
+                            loading="lazy"
+                            decoding="async"
                             class="guide-photo h-[420px] w-full object-cover sm:h-[520px] lg:h-[640px]"
                         >
                     </div>
@@ -267,7 +286,7 @@
             <div data-aos="fade-up" data-aos-delay="120" class="guide-story">
                 <div class="guide-copy mt-7 space-y-5 text-base leading-8 text-gray-600 sm:text-lg">
                     <p>
-                        Newman Tour Guide is handled by a local Bali guide who understands how to make a trip feel comfortable, flexible, and not rushed.
+                        Newman Tour Bali is handled by a local Bali guide who understands how to make a trip feel comfortable, flexible, and not rushed.
                     </p>
 
                     <p>
@@ -385,7 +404,7 @@
                 </h3>
 
                 <p class="mt-3 max-w-2xl leading-7 text-gray-600">
-                    Send your plan, date, group size, and preferred vehicle. Newman Tour Guide will help arrange the route and timing.
+                    Send your plan, date, group size, and preferred vehicle. Newman Tour Bali will help arrange the route and timing.
                 </p>
             </div>
 
@@ -473,6 +492,8 @@
                         <img
                             src="{{ asset($vehicle['image']) }}"
                             alt="{{ $vehicle['name'] }}"
+                            loading="lazy"
+                            decoding="async"
                             class="vehicle-image h-full w-full object-cover"
                         >
 
@@ -565,7 +586,7 @@
                         </h3>
 
                         <p class="mt-5 leading-8 text-white/65">
-                            For bigger groups or special requests, choose another car option and tell us your group size. Newman Tour Guide will help recommend the suitable vehicle.
+                            For bigger groups or special requests, choose another car option and tell us your group size. Newman Tour Bali will help recommend the suitable vehicle.
                         </p>
                     </div>
 
@@ -996,14 +1017,23 @@ I will definitely visit again to Bali',
             <aside data-aos="fade-up" class="mx-auto w-full max-w-sm text-center lg:mx-0">
                 <div class="border border-gray-100 bg-newman-sand/70 p-7 shadow-sm shadow-newman-navy/5 sm:p-8">
                     <img
-                     src="{{ asset('images/img-review.jpeg') }}"
-                      alt="background-review"
-                      class="pb-4 rounded-lg">
+                        src="{{ asset('images/img-review.jpeg') }}"
+                        alt="Bali guest review highlight"
+                        width="1280"
+                        height="960"
+                        loading="lazy"
+                        decoding="async"
+                        class="rounded-lg pb-4"
+                    >
 
                     <div class="mx-auto flex h-20 w-20 items-center justify-center rounded-2xl bg-white shadow-lg">
                         <img
                             src="{{ asset('logo/tripadvisor.png') }}"
                             alt="Tripadvisor"
+                            width="512"
+                            height="512"
+                            loading="lazy"
+                            decoding="async"
                             class="h-10 w-auto"
                             onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
                         >
@@ -1017,7 +1047,7 @@ I will definitely visit again to Bali',
                     </h3>
 
                     <p class="mt-2 text-sm text-gray-500">
-                       Newman Bali Tour & Transport
+                       Newman Tour Bali
                     </p>
 
                     <div class="mt-5 flex justify-center gap-1.5">
@@ -1206,6 +1236,8 @@ I will definitely visit again to Bali',
                 <img
                     src="{{ asset($guestMoments[0]['image']) }}"
                     alt="{{ $guestMoments[0]['title'] }}"
+                    loading="lazy"
+                    decoding="async"
                     class="guest-gallery-image absolute inset-0 h-full w-full object-cover opacity-85"
                 >
 

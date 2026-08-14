@@ -8,7 +8,7 @@
     $customerWhatsapp = preg_replace('/\D+/', '', $customTripRequest->whatsapp);
 
     $message = implode("\n", [
-        'Hello ' . $customTripRequest->name . ', thank you for your custom trip request with Newman Tour Guide.',
+        'Hello ' . $customTripRequest->name . ', thank you for your custom trip request with Newman Tour Bali.',
         '',
         'Reference: ' . $customTripRequest->booking_code,
         'Trip Date: ' . ($customTripRequest->trip_date?->format('Y-m-d') ?? '-'),
