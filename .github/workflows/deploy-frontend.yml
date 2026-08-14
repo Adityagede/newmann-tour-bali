@@ -1,7 +1,10 @@
-name: Deploy Newman Frontend to Production
+name: Deploy Newman Production
 
 on:
   workflow_dispatch:
+
+permissions:
+  contents: read
 
 concurrency:
   group: newman-production
@@ -13,10 +16,10 @@ jobs:
 
     steps:
       - name: Checkout main
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: npm
@@ -37,15 +40,58 @@ jobs:
 
           echo "VITE_BUILD_OK"
 
-      - name: Prepare frontend deployment package
+      - name: Verify required Newman application files
         shell: bash
         run: |
           set -e
 
+          test -f app/Http/Middleware/SetLocale.php
+          test -f bootstrap/app.php
+          test -f config/app.php
+          test -f routes/web.php
+          test -f lang/en/navigation.php
+          test -f lang/id/navigation.php
+
+          echo "NEWMAN_APPLICATION_FILES_OK"
+
+      - name: Prepare production deployment package
+        shell: bash
+        run: |
+          set -e
+
+          rm -rf deploy-package
           mkdir -p deploy-package
 
+          echo "Packaging frontend resources..."
           cp -a resources deploy-package/resources
+
+          echo "Packaging Vite build..."
           cp -a public/build deploy-package/build
+
+          echo "Packaging locale middleware..."
+          mkdir -p deploy-package/app/Http/Middleware
+          cp app/Http/Middleware/SetLocale.php \
+            deploy-package/app/Http/Middleware/SetLocale.php
+
+          echo "Packaging Laravel bootstrap..."
+          mkdir -p deploy-package/bootstrap
+          cp bootstrap/app.php \
+            deploy-package/bootstrap/app.php
+
+          echo "Packaging Laravel configuration..."
+          mkdir -p deploy-package/config
+          cp config/app.php \
+            deploy-package/config/app.php
+
+          echo "Packaging translations..."
+          cp -a lang deploy-package/lang
+
+          echo "Packaging routes..."
+          mkdir -p deploy-package/routes
+          cp routes/web.php \
+            deploy-package/routes/web.php
+
+          echo "Packaging safe public assets..."
 
           tar \
             --exclude='public/index.php' \
@@ -55,7 +101,15 @@ jobs:
             -czf deploy-package/public-static.tar.gz \
             public
 
-          tar -czf newman-frontend-deploy.tar.gz deploy-package
+          echo "Creating deployment archive..."
+
+          tar \
+            -czf newman-production-deploy.tar.gz \
+            deploy-package
+
+          test -f newman-production-deploy.tar.gz
+
+          echo "DEPLOYMENT_PACKAGE_OK"
 
       - name: Prepare SSH
         shell: bash
@@ -82,18 +136,23 @@ jobs:
 
           chmod 600 ~/.ssh/known_hosts
 
+          echo "SSH_CONFIGURATION_OK"
+
       - name: Upload deployment package
         shell: bash
         run: |
           set -e
 
           scp \
+            -o BatchMode=yes \
             -i ~/.ssh/newman_deploy_key \
             -P "${{ secrets.CPANEL_SSH_PORT }}" \
-            newman-frontend-deploy.tar.gz \
-            "${{ secrets.CPANEL_SSH_USER }}@${{ secrets.CPANEL_SSH_HOST }}:/home/${{ secrets.CPANEL_SSH_USER }}/newman-frontend-deploy.tar.gz"
+            newman-production-deploy.tar.gz \
+            "${{ secrets.CPANEL_SSH_USER }}@${{ secrets.CPANEL_SSH_HOST }}:/home/${{ secrets.CPANEL_SSH_USER }}/newman-production-deploy.tar.gz"
 
-      - name: Deploy frontend safely
+          echo "UPLOAD_OK"
+
+      - name: Deploy Newman production safely
         shell: bash
         run: |
           set -e
@@ -110,74 +169,192 @@ jobs:
           HOME_DIR="$HOME"
           APP_DIR="$HOME_DIR/laravel-core"
           WEB_DIR="$HOME_DIR/public_html"
-          PACKAGE="$HOME_DIR/newman-frontend-deploy.tar.gz"
+          PACKAGE="$HOME_DIR/newman-production-deploy.tar.gz"
 
           TIMESTAMP="$(date +%Y%m%d-%H%M%S)"
           RELEASE_DIR="$HOME_DIR/.newman-deploy-$TIMESTAMP"
-          BACKUP_DIR="$HOME_DIR/backups/frontend-$TIMESTAMP"
+          BACKUP_DIR="$HOME_DIR/backups/newman-production-$TIMESTAMP"
+
+          echo "=========================================="
+          echo "NEWMAN PRODUCTION DEPLOYMENT"
+          echo "=========================================="
+
+          echo "Checking production directories..."
+
+          test -d "$APP_DIR"
+          test -d "$WEB_DIR"
+          test -f "$APP_DIR/artisan"
+          test -f "$APP_DIR/.env"
+          test -f "$WEB_DIR/index.php"
+          test -f "$PACKAGE"
+
+          echo "Production directories verified."
 
           echo "Creating deployment workspace..."
+
           mkdir -p "$RELEASE_DIR"
           mkdir -p "$BACKUP_DIR"
 
           echo "Creating safety backup..."
 
           if [ -d "$APP_DIR/resources" ]; then
-            cp -a "$APP_DIR/resources" "$BACKUP_DIR/resources"
+            cp -a \
+              "$APP_DIR/resources" \
+              "$BACKUP_DIR/resources"
           fi
 
           if [ -d "$APP_DIR/public/build" ]; then
-            cp -a "$APP_DIR/public/build" "$BACKUP_DIR/laravel-public-build"
+            cp -a \
+              "$APP_DIR/public/build" \
+              "$BACKUP_DIR/laravel-public-build"
           fi
 
           if [ -d "$WEB_DIR/build" ]; then
-            cp -a "$WEB_DIR/build" "$BACKUP_DIR/public-html-build"
+            cp -a \
+              "$WEB_DIR/build" \
+              "$BACKUP_DIR/public-html-build"
           fi
 
-          echo "Extracting deployment package..."
-          tar -xzf "$PACKAGE" -C "$RELEASE_DIR"
+          if [ -f "$APP_DIR/app/Http/Middleware/SetLocale.php" ]; then
+            mkdir -p "$BACKUP_DIR/app/Http/Middleware"
 
-          echo "Updating Laravel frontend resources..."
-          cp -a "$RELEASE_DIR/deploy-package/resources/." \
+            cp -a \
+              "$APP_DIR/app/Http/Middleware/SetLocale.php" \
+              "$BACKUP_DIR/app/Http/Middleware/SetLocale.php"
+          fi
+
+          mkdir -p "$BACKUP_DIR/bootstrap"
+          cp -a \
+            "$APP_DIR/bootstrap/app.php" \
+            "$BACKUP_DIR/bootstrap/app.php"
+
+          mkdir -p "$BACKUP_DIR/config"
+          cp -a \
+            "$APP_DIR/config/app.php" \
+            "$BACKUP_DIR/config/app.php"
+
+          if [ -d "$APP_DIR/lang" ]; then
+            cp -a \
+              "$APP_DIR/lang" \
+              "$BACKUP_DIR/lang"
+          fi
+
+          mkdir -p "$BACKUP_DIR/routes"
+          cp -a \
+            "$APP_DIR/routes/web.php" \
+            "$BACKUP_DIR/routes/web.php"
+
+          echo "BACKUP_OK"
+          echo "Backup directory: $BACKUP_DIR"
+
+          echo "Extracting deployment archive..."
+
+          tar \
+            -xzf "$PACKAGE" \
+            -C "$RELEASE_DIR"
+
+          test -d "$RELEASE_DIR/deploy-package"
+          test -d "$RELEASE_DIR/deploy-package/resources"
+          test -d "$RELEASE_DIR/deploy-package/build"
+
+          echo "PACKAGE_EXTRACTION_OK"
+
+          echo "Deploying Laravel frontend resources..."
+
+          cp -a \
+            "$RELEASE_DIR/deploy-package/resources/." \
             "$APP_DIR/resources/"
 
+          echo "Deploying locale middleware..."
+
+          mkdir -p "$APP_DIR/app/Http/Middleware"
+
+          cp -a \
+            "$RELEASE_DIR/deploy-package/app/Http/Middleware/SetLocale.php" \
+            "$APP_DIR/app/Http/Middleware/SetLocale.php"
+
+          echo "Deploying Laravel bootstrap..."
+
+          cp -a \
+            "$RELEASE_DIR/deploy-package/bootstrap/app.php" \
+            "$APP_DIR/bootstrap/app.php"
+
+          echo "Deploying Laravel configuration..."
+
+          cp -a \
+            "$RELEASE_DIR/deploy-package/config/app.php" \
+            "$APP_DIR/config/app.php"
+
+          echo "Deploying language files..."
+
+          mkdir -p "$APP_DIR/lang"
+
+          cp -a \
+            "$RELEASE_DIR/deploy-package/lang/." \
+            "$APP_DIR/lang/"
+
+          echo "Deploying routes..."
+
+          cp -a \
+            "$RELEASE_DIR/deploy-package/routes/web.php" \
+            "$APP_DIR/routes/web.php"
+
           echo "Replacing Laravel Vite build..."
+
           rm -rf "$APP_DIR/public/build.new"
           mkdir -p "$APP_DIR/public/build.new"
 
-          cp -a "$RELEASE_DIR/deploy-package/build/." \
+          cp -a \
+            "$RELEASE_DIR/deploy-package/build/." \
             "$APP_DIR/public/build.new/"
+
+          test -f "$APP_DIR/public/build.new/manifest.json"
 
           rm -rf "$APP_DIR/public/build.old"
 
           if [ -d "$APP_DIR/public/build" ]; then
-            mv "$APP_DIR/public/build" "$APP_DIR/public/build.old"
+            mv \
+              "$APP_DIR/public/build" \
+              "$APP_DIR/public/build.old"
           fi
 
-          mv "$APP_DIR/public/build.new" "$APP_DIR/public/build"
+          mv \
+            "$APP_DIR/public/build.new" \
+            "$APP_DIR/public/build"
+
           rm -rf "$APP_DIR/public/build.old"
 
           echo "Replacing public_html Vite build..."
+
           rm -rf "$WEB_DIR/build.new"
           mkdir -p "$WEB_DIR/build.new"
 
-          cp -a "$RELEASE_DIR/deploy-package/build/." \
+          cp -a \
+            "$RELEASE_DIR/deploy-package/build/." \
             "$WEB_DIR/build.new/"
+
+          test -f "$WEB_DIR/build.new/manifest.json"
 
           rm -rf "$WEB_DIR/build.old"
 
           if [ -d "$WEB_DIR/build" ]; then
-            mv "$WEB_DIR/build" "$WEB_DIR/build.old"
+            mv \
+              "$WEB_DIR/build" \
+              "$WEB_DIR/build.old"
           fi
 
-          mv "$WEB_DIR/build.new" "$WEB_DIR/build"
+          mv \
+            "$WEB_DIR/build.new" \
+            "$WEB_DIR/build"
+
           rm -rf "$WEB_DIR/build.old"
 
           echo "Updating safe public static assets..."
+
           mkdir -p "$RELEASE_DIR/public-static"
 
-          tar -xzf \
-            "$RELEASE_DIR/deploy-package/public-static.tar.gz" \
+          tar \
+            -xzf "$RELEASE_DIR/deploy-package/public-static.tar.gz" \
             -C "$RELEASE_DIR/public-static"
 
           if [ -d "$RELEASE_DIR/public-static/public" ]; then
@@ -186,24 +363,44 @@ jobs:
               "$WEB_DIR/"
           fi
 
-          echo "Cleaning Laravel runtime caches..."
+          echo "Clearing Laravel runtime caches..."
 
-          php "$APP_DIR/artisan" view:clear || true
-          php "$APP_DIR/artisan" config:clear || true
+          php "$APP_DIR/artisan" optimize:clear
 
-          echo "Validating deployment..."
+          echo "Validating protected production files..."
+
+          test -f "$APP_DIR/.env"
+          test -f "$APP_DIR/artisan"
+          test -f "$WEB_DIR/index.php"
+
+          echo "Validating deployed application files..."
+
+          test -f "$APP_DIR/app/Http/Middleware/SetLocale.php"
+          test -f "$APP_DIR/bootstrap/app.php"
+          test -f "$APP_DIR/config/app.php"
+          test -f "$APP_DIR/routes/web.php"
+
+          test -f "$APP_DIR/lang/en/navigation.php"
+          test -f "$APP_DIR/lang/id/navigation.php"
 
           test -f "$APP_DIR/public/build/manifest.json"
           test -f "$WEB_DIR/build/manifest.json"
-          test -f "$WEB_DIR/index.php"
-          test -f "$APP_DIR/artisan"
-          test -f "$APP_DIR/.env"
+
+          echo "Validating language route..."
+
+          php "$APP_DIR/artisan" route:list --name=language \
+            | grep -q "language.update"
+
+          echo "LANGUAGE_ROUTE_OK"
 
           echo "Cleaning temporary deployment files..."
+
           rm -rf "$RELEASE_DIR"
           rm -f "$PACKAGE"
 
-          echo "NEWMAN_FRONTEND_DEPLOYMENT_OK"
+          echo "=========================================="
+          echo "NEWMAN_PRODUCTION_DEPLOYMENT_OK"
           echo "Backup: $BACKUP_DIR"
+          echo "=========================================="
 
           REMOTE_SCRIPT
