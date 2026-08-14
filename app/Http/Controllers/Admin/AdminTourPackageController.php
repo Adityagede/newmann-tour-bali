@@ -23,6 +23,7 @@ class AdminTourPackageController extends Controller
         $category = $request->query('category');
 
         $tourPackages = TourPackage::query()
+            ->withVerifiedStatistics()
             ->withCount('options')
             ->when(
                 $status,
@@ -285,8 +286,8 @@ class AdminTourPackageController extends Controller
                 'default_vehicle' => null,
 
                 /*
-                 * Nilai nol berarti belum mempunyai
-                 * verified rating.
+                 * Legacy columns stay neutral for backward compatibility.
+                 * Public statistics are derived from bookings and ratings.
                  */
                 'rating' => 0,
                 'guests' => null,

@@ -16,7 +16,7 @@
         [
             'number' => '03',
             'title' => 'Personal trip experience',
-            'description' => 'Newman Tour Guide is not made to feel like a big agency. It is a more personal way to explore Bali with simple communication and local care.',
+            'description' => 'Newman Tour Bali is not made to feel like a big agency. It is a more personal way to explore Bali with simple communication and local care.',
         ],
     ];
 
@@ -40,7 +40,12 @@
     <div class="absolute inset-0">
         <img
             src="{{ asset('images/owner.jpg') }}"
-            alt="Newman Tour Guide in Bali"
+            alt="Newman Tour Bali local guide"
+            width="1600"
+            height="1578"
+            loading="eager"
+            fetchpriority="high"
+            decoding="async"
             class="h-full w-full object-cover opacity-55"
         >
         <div class="absolute inset-0 bg-gradient-to-t from-newman-navy via-newman-navy/76 to-newman-navy/30"></div>
@@ -68,7 +73,7 @@
             </h1>
 
             <p class="mt-6 max-w-2xl text-base leading-8 text-white/70 sm:text-lg">
-                Newman Tour Guide is built around simple, warm, and flexible Bali travel. The focus is not only visiting places, but making the day feel comfortable, natural, and easy to enjoy.
+                Newman Tour Bali is built around simple, warm, and flexible Bali travel. The focus is not only visiting places, but making the day feel comfortable, natural, and easy to enjoy.
             </p>
         </div>
     </div>
@@ -97,6 +102,10 @@
                         <img
                             src="{{ asset('images/owner.jpg') }}"
                             alt="Newman local Bali guide"
+                            width="1600"
+                            height="1578"
+                            loading="lazy"
+                            decoding="async"
                             class="guide-photo h-[420px] w-full object-cover sm:h-[520px] lg:h-[640px]"
                         >
                     </div>
@@ -119,7 +128,7 @@
             <div data-aos="fade-up" data-aos-delay="120" class="guide-story">
                 <div class="guide-copy mt-7 space-y-5 text-base leading-8 text-gray-600 sm:text-lg">
                     <p>
-                        Newman Tour Guide is handled by a local Bali guide who understands how to make a trip feel comfortable, flexible, and not rushed.
+                        Newman Tour Bali is handled by a local Bali guide who understands how to make a trip feel comfortable, flexible, and not rushed.
                     </p>
 
                     <p>

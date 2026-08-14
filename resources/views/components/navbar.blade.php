@@ -102,7 +102,13 @@
         <div class="mx-auto flex max-w-7xl items-center justify-between gap-4">
             <a href="{{ route('home') }}" class="group flex min-w-0 items-center gap-3" @click="open = false">
                 <div class="flex h-10 w-10 shrink-0 items-center justify-center border border-newman-gold/50 bg-white/10 text-base font-semibold text-newman-gold backdrop-blur-md transition duration-300 group-hover:bg-newman-gold group-hover:text-newman-navy md:h-11 md:w-11 md:text-lg">
-                    <img src="{{ asset('images/logo-newman.png') }}" alt="">
+                    <img
+                        src="{{ asset('images/logo-newman.png') }}"
+                        alt=""
+                        width="500"
+                        height="500"
+                        decoding="async"
+                    >
                 </div>
 
                 <div class="min-w-0">

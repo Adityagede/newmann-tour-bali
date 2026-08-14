@@ -6,6 +6,11 @@
         <img
             src="{{ asset('images/hero-bg1.webp') }}"
             alt="Bali private tour packages"
+            width="1376"
+            height="544"
+            loading="eager"
+            fetchpriority="high"
+            decoding="async"
             class="h-full w-full object-cover opacity-55"
         >
         <div class="absolute inset-0 bg-gradient-to-t from-newman-navy via-newman-navy/70 to-newman-navy/35"></div>

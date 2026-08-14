@@ -72,6 +72,11 @@
         <img
             src="{{ asset('images/hero-booking.webp') }}"
             alt="Plan a flexible private Bali trip with Newman"
+            width="4081"
+            height="6121"
+            loading="eager"
+            fetchpriority="high"
+            decoding="async"
             class="h-full w-full object-cover opacity-50"
         >
 
@@ -889,4 +894,3 @@
     </div>
 </section >
 @endsection
-

@@ -130,7 +130,7 @@
                 Local, flexible, and calm from pickup to sunset.
             </h2>
             <p class="mt-6 max-w-xl leading-8 text-white/65">
-                Newman Tour Guide is made for travelers who want a comfortable Bali trip without rushing. Routes can be adjusted, transport is private, and every trip is handled with local care.
+                Newman Tour Bali is made for travelers who want a comfortable Bali trip without rushing. Routes can be adjusted, transport is private, and every trip is handled with local care.
             </p>
         </div>
 
@@ -180,7 +180,7 @@
                 Tell us your plan. We will help arrange the trip.
             </h2>
             <p class="mt-6 max-w-xl leading-8 text-gray-600">
-                This is a booking request, not an automatic payment checkout. Newman Tour Guide will confirm availability, car option, route, and final details through WhatsApp.
+                This is a booking request, not an automatic payment checkout. Newman Tour Bali will confirm availability, car option, route, and final details through WhatsApp.
             </p>
         </div>
 

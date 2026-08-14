@@ -24,6 +24,7 @@ final class TourController extends Controller
     {
         $tours = TourPackage::query()
             ->where('status', 'active')
+            ->withVerifiedStatistics()
             ->with(['defaultActiveOption.prices'])
             ->latest()
             ->get();
@@ -59,6 +60,7 @@ final class TourController extends Controller
         $tourPackage = TourPackage::query()
             ->where('slug', $slug)
             ->where('status', 'active')
+            ->withVerifiedStatistics()
             ->with(['defaultActiveOption.prices'])
             ->firstOrFail();
 
@@ -77,6 +79,10 @@ final class TourController extends Controller
     public function preview(
         TourPackage $tourPackage
     ): View {
+        $tourPackage = TourPackage::query()
+            ->withVerifiedStatistics()
+            ->findOrFail($tourPackage->id);
+
         return view('pages.tour-detail', [
             'tour' => $this->detailDataWithBooking(
                 $tourPackage
@@ -1216,7 +1222,7 @@ $itinerary = $structuredItinerary !== []
     );
 
 
-    return [
+    return array_merge($card, [
             'id' => $tourPackage->id,
 
             'title' => $card['title'],
@@ -1233,13 +1239,11 @@ $itinerary = $structuredItinerary !== []
             'trip_type' => $card['trip_type'],
             'vehicle' => $card['vehicle'],
 
-            'has_rating' => $card['has_rating'],
-            'rating' => $card['rating'],
-
-            'guest_count' => $card['guest_count'],
-            'guests' => $card['social_proof_text'],
-            'social_proof_text' =>
-                $card['social_proof_text'],
+            /*
+             * Keep the legacy guests field separate from verified hosted
+             * guest statistics supplied by TourViewData.
+             */
+            'guests' => $tourPackage->guests,
 
             'pricing_type' => $card['pricing_type'],
             'price_available' =>
@@ -1308,7 +1312,7 @@ $itinerary = $structuredItinerary !== []
             'is_featured' =>
                 (bool) $tourPackage->is_featured,
             'status' => $tourPackage->status,
-        ];
+        ]);
     }
 
     /**

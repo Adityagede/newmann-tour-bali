@@ -6,9 +6,24 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 final class TourBookingRequest extends Model
 {
+    public const STATUS_PENDING = 'pending';
+    public const STATUS_CONTACTED = 'contacted';
+    public const STATUS_CONFIRMED = 'confirmed';
+    public const STATUS_CANCELLED = 'cancelled';
+    public const STATUS_COMPLETED = 'completed';
+
+    public const STATUSES = [
+        self::STATUS_PENDING,
+        self::STATUS_CONTACTED,
+        self::STATUS_CONFIRMED,
+        self::STATUS_CANCELLED,
+        self::STATUS_COMPLETED,
+    ];
+
     protected $fillable = [
         'booking_reference',
         'tour_package_id',
@@ -90,5 +105,16 @@ final class TourBookingRequest extends Model
         return $this->belongsTo(
             TourOption::class
         );
+    }
+
+    public function ratingRecord(): HasOne
+    {
+        return $this->hasOne(TourRating::class);
+    }
+
+    public function isRatingEligible(): bool
+    {
+        return $this->status === self::STATUS_COMPLETED
+            && $this->tour_package_id !== null;
     }
 }

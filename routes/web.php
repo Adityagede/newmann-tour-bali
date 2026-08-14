@@ -23,6 +23,7 @@ use App\Http\Controllers\Admin\AdminTourPublishingReadinessController;
 use App\Http\Controllers\TourReviewController;
 use App\Http\Controllers\TourBookingRequestController;
 use App\Http\Controllers\Admin\AdminTourBookingRequestController;
+use App\Http\Controllers\GuestTourRatingController;
 
 Route::post('/language', function (Request $request) {
     $validated = $request->validate([
@@ -91,6 +92,20 @@ Route::post(
     ->name(
         'tours.booking-request.store'
     );
+
+Route::middleware('signed')->group(function (): void {
+    Route::get(
+        '/rate-your-trip/{bookingReference}',
+        [GuestTourRatingController::class, 'show']
+    )->name('tour-ratings.show');
+
+    Route::post(
+        '/rate-your-trip/{bookingReference}',
+        [GuestTourRatingController::class, 'store']
+    )
+        ->middleware('throttle:10,1')
+        ->name('tour-ratings.store');
+});
 
 Route::get(
     '/booking-requests/{reference}/success',

@@ -12,19 +12,12 @@ use App\Models\TourPackage;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 
 final class AdminTourBookingRequestController extends Controller
 {
-    private const STATUSES = [
-        'pending',
-        'contacted',
-        'confirmed',
-        'cancelled',
-        'completed',
-    ];
-
     public function dashboard(): View
 {
     $stats = [
@@ -107,7 +100,7 @@ final class AdminTourBookingRequestController extends Controller
             'status' => [
                 'nullable',
                 'string',
-                Rule::in(self::STATUSES),
+                Rule::in(TourBookingRequest::STATUSES),
             ],
 
             'q' => [
@@ -132,6 +125,7 @@ final class AdminTourBookingRequestController extends Controller
                 ->with([
                     'tourPackage:id,title,slug',
                     'tourOption:id,title,slug',
+                    'ratingRecord:id,tour_booking_request_id,rating',
                 ])
                 ->when(
                     $status,
@@ -237,7 +231,7 @@ final class AdminTourBookingRequestController extends Controller
                 'search' => $search,
 
                 'availableStatuses' =>
-                    self::STATUSES,
+                    TourBookingRequest::STATUSES,
             ]
         );
     }
@@ -248,7 +242,15 @@ final class AdminTourBookingRequestController extends Controller
         $tourBookingRequest->load([
             'tourPackage:id,title,slug',
             'tourOption:id,title,slug',
+            'ratingRecord:id,tour_booking_request_id,rating,feedback,created_at',
         ]);
+
+        $ratingUrl = $tourBookingRequest->isRatingEligible()
+            && $tourBookingRequest->ratingRecord === null
+                ? URL::signedRoute('tour-ratings.show', [
+                    'bookingReference' => $tourBookingRequest->booking_reference,
+                ])
+                : null;
 
         return view(
             'admin.tour-booking-requests.show',
@@ -257,7 +259,9 @@ final class AdminTourBookingRequestController extends Controller
                     $tourBookingRequest,
 
                 'availableStatuses' =>
-                    self::STATUSES,
+                    TourBookingRequest::STATUSES,
+
+                'ratingUrl' => $ratingUrl,
             ]
         );
     }
@@ -270,7 +274,7 @@ final class AdminTourBookingRequestController extends Controller
             'status' => [
                 'required',
                 'string',
-                Rule::in(self::STATUSES),
+                Rule::in(TourBookingRequest::STATUSES),
             ],
         ]);
 
@@ -293,16 +297,25 @@ final class AdminTourBookingRequestController extends Controller
             'status' => $newStatus,
         ]);
 
-        return back()->with(
-            'success',
-            'Tour Booking Request '
-            . $tourBookingRequest
-                ->booking_reference
+        $message = 'Tour Booking Request '
+            . $tourBookingRequest->booking_reference
             . ' updated from '
             . ucfirst($oldStatus)
             . ' to '
             . ucfirst($newStatus)
-            . '.'
-        );
+            . '.';
+
+        if ($newStatus === TourBookingRequest::STATUS_COMPLETED) {
+            $message .= ' The verified rating link is ready below; send it to the guest when appropriate.';
+
+            return redirect()
+                ->to(route(
+                    'admin.tour-booking-requests.show',
+                    $tourBookingRequest
+                ) . '#verified-trip-rating')
+                ->with('success', $message);
+        }
+
+        return back()->with('success', $message);
     }
 }

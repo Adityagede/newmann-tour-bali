@@ -6,7 +6,12 @@
     <div class="absolute inset-0">
         <img
             src="{{ asset('images/hero-gallery.webp') }}"
-            alt="Guest moments with Newman Tour Guide"
+            alt="Guest moments with Newman Tour Bali"
+            width="7090"
+            height="4732"
+            loading="eager"
+            fetchpriority="high"
+            decoding="async"
             class="h-full w-full object-cover opacity-55"
         >
         <div class="absolute inset-0 bg-gradient-to-t from-newman-navy via-newman-navy/75 to-newman-navy/35"></div>
@@ -34,7 +39,7 @@
             </h1>
 
             <p class="mt-6 max-w-2xl text-base leading-8 text-white/70 sm:text-lg">
-                A collection of simple, warm, and personal memories from private Bali trips with Newman Tour Guide.
+                A collection of simple, warm, and personal memories from private Bali trips with Newman Tour Bali.
             </p>
         </div>
 

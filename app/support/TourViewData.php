@@ -9,8 +9,8 @@ final class TourViewData
 {
     /**
      * Menormalisasi data TourPackage agar seluruh tampilan public
-     * membaca format yang sama tanpa bergantung pada kolom badge
-     * atau review_count yang memang belum tersedia.
+     * membaca format yang sama. Statistik publik hanya memakai aggregate
+     * booking selesai dan rating terverifikasi yang dimuat oleh query.
      */
     public static function make(mixed $tour): array
     {
@@ -73,27 +73,36 @@ final class TourViewData
                 ?: data_get($tour, 'thumbnail')
         );
 
-        /* Rating and Social Proof */
-        $ratingValue = data_get($tour, 'rating')
-            ?? data_get($tour, 'average_rating');
+        /* Verified booking and rating statistics */
+        $ratingValue = data_get($tour, 'verified_rating_average');
+        $ratingCount = max(
+            0,
+            (int) data_get($tour, 'verified_rating_count', 0)
+        );
 
-        $hasRating = is_numeric($ratingValue) && (float) $ratingValue > 0;
+        $hasRating = $ratingCount > 0
+            && is_numeric($ratingValue)
+            && (float) $ratingValue > 0;
         $rating = $hasRating
             ? max(0, min(5, (float) $ratingValue))
             : null;
 
-        /*
-         * Project belum mempunyai review_count.
-         * Gunakan field guests yang sudah ada, lalu ambil angka saja.
-         * Contoh "120guest" menjadi "120+ guests".
-         */
-        $guestCount = self::integerFromText(
-            data_get($tour, 'guests')
-                ?: data_get($tour, 'guest_count')
+        $ratingText = $hasRating
+            ? number_format($ratingCount)
+                . ' verified '
+                . ($ratingCount === 1 ? 'rating' : 'ratings')
+            : null;
+
+        $guestCount = max(
+            0,
+            (int) data_get($tour, 'verified_guest_count', 0)
         );
 
-        $socialProofText = $guestCount > 0
-            ? number_format($guestCount, 0, ',', '.') . '+ guests'
+        $hostedGuestText = $guestCount > 0
+            ? number_format($guestCount)
+                . ' '
+                . ($guestCount === 1 ? 'guest' : 'guests')
+                . ' hosted'
             : null;
 
         /* Vehicle and Pickup */
@@ -239,9 +248,13 @@ final class TourViewData
 
             'has_rating' => $hasRating,
             'rating' => $rating,
+            'rating_count' => $ratingCount,
+            'rating_text' => $ratingText,
             'guest_count' => $guestCount,
-            'review_text' => $socialProofText,
-            'social_proof_text' => $socialProofText,
+            'hosted_guest_count' => $guestCount,
+            'hosted_guest_text' => $hostedGuestText,
+            'review_text' => $ratingText,
+            'social_proof_text' => $ratingText,
 
             'description' => $description,
 

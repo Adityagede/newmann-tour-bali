@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -107,5 +108,59 @@ public function sharedStops(): HasMany
         ->orderBy('day_number')
         ->orderBy('sort_order')
         ->orderBy('id');
+}
+
+public function bookingRequests(): HasMany
+{
+    return $this->hasMany(TourBookingRequest::class);
+}
+
+public function completedBookingRequests(): HasMany
+{
+    return $this->bookingRequests()
+        ->where('status', TourBookingRequest::STATUS_COMPLETED);
+}
+
+public function ratings(): HasMany
+{
+    return $this->hasMany(TourRating::class);
+}
+
+public function verifiedRatings(): HasMany
+{
+    return $this->ratings()
+        ->whereHas(
+            'bookingRequest',
+            fn (Builder $query): Builder => $query->where(
+                'status',
+                TourBookingRequest::STATUS_COMPLETED
+            )
+        );
+}
+
+public function scopeWithVerifiedStatistics(Builder $query): Builder
+{
+    return $query
+        ->withAvg(
+            'verifiedRatings as verified_rating_average',
+            'rating'
+        )
+        ->withCount(
+            'verifiedRatings as verified_rating_count'
+        )
+        ->addSelect([
+            'verified_guest_count' => TourBookingRequest::query()
+                ->selectRaw(
+                    'COALESCE(SUM(adult_count + child_count + infant_count), 0)'
+                )
+                ->whereColumn(
+                    'tour_package_id',
+                    'tour_packages.id'
+                )
+                ->where(
+                    'status',
+                    TourBookingRequest::STATUS_COMPLETED
+                ),
+        ]);
 }
 }
