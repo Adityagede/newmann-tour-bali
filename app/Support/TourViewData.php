@@ -36,7 +36,7 @@ final class TourViewData
             'Flexible duration'
         );
 
-        /* Tour Type */
+        /* Tour Type */ 
         $tourFormat = self::normaliseKey(
             self::text(data_get($tour, 'tour_format'), 'full_day')
         );
