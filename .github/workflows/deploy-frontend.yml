@@ -33,66 +33,74 @@ jobs:
       - name: Verify Vite build
         shell: bash
         run: |
-          set -e
+          set -euo pipefail
 
           test -d public/build
           test -f public/build/manifest.json
 
           echo "VITE_BUILD_OK"
 
-      - name: Verify required Newman application files
+      - name: Verify required Newman application source
         shell: bash
         run: |
-          set -e
+          set -euo pipefail
 
-          test -f app/Http/Middleware/SetLocale.php
+          test -d app
+          test -d app/Http/Controllers
+          test -d app/Models
+          test -d resources
+          test -d resources/views
+          test -d config
+          test -d routes
+          test -d database/migrations
+
           test -f bootstrap/app.php
-          test -f config/app.php
           test -f routes/web.php
-          test -f lang/en/navigation.php
-          test -f lang/id/navigation.php
 
-          echo "NEWMAN_APPLICATION_FILES_OK"
+          echo "NEWMAN_APPLICATION_SOURCE_OK"
 
       - name: Prepare production deployment package
         shell: bash
         run: |
-          set -e
+          set -euo pipefail
 
           rm -rf deploy-package
           mkdir -p deploy-package
 
+          echo "Packaging Laravel application code..."
+          cp -a app deploy-package/app
+
           echo "Packaging frontend resources..."
           cp -a resources deploy-package/resources
+
+          echo "Packaging Laravel configuration..."
+          cp -a config deploy-package/config
+
+          echo "Packaging Laravel routes..."
+          cp -a routes deploy-package/routes
+
+          echo "Packaging Laravel bootstrap files..."
+          mkdir -p deploy-package/bootstrap
+          cp bootstrap/app.php deploy-package/bootstrap/app.php
+
+          if [ -f bootstrap/providers.php ]; then
+            cp bootstrap/providers.php deploy-package/bootstrap/providers.php
+          fi
+
+          echo "Packaging translation files when present..."
+          if [ -d lang ]; then
+            cp -a lang deploy-package/lang
+          fi
+
+          echo "Packaging database migration SOURCE FILES only..."
+          echo "No database migration will be executed automatically."
+          mkdir -p deploy-package/database
+          cp -a database/migrations deploy-package/database/migrations
 
           echo "Packaging Vite build..."
           cp -a public/build deploy-package/build
 
-          echo "Packaging locale middleware..."
-          mkdir -p deploy-package/app/Http/Middleware
-          cp app/Http/Middleware/SetLocale.php \
-            deploy-package/app/Http/Middleware/SetLocale.php
-
-          echo "Packaging Laravel bootstrap..."
-          mkdir -p deploy-package/bootstrap
-          cp bootstrap/app.php \
-            deploy-package/bootstrap/app.php
-
-          echo "Packaging Laravel configuration..."
-          mkdir -p deploy-package/config
-          cp config/app.php \
-            deploy-package/config/app.php
-
-          echo "Packaging translations..."
-          cp -a lang deploy-package/lang
-
-          echo "Packaging routes..."
-          mkdir -p deploy-package/routes
-          cp routes/web.php \
-            deploy-package/routes/web.php
-
           echo "Packaging safe public assets..."
-
           tar \
             --exclude='public/index.php' \
             --exclude='public/.htaccess' \
@@ -102,7 +110,6 @@ jobs:
             public
 
           echo "Creating deployment archive..."
-
           tar \
             -czf newman-production-deploy.tar.gz \
             deploy-package
@@ -114,7 +121,7 @@ jobs:
       - name: Prepare SSH
         shell: bash
         run: |
-          set -e
+          set -euo pipefail
 
           mkdir -p ~/.ssh
           chmod 700 ~/.ssh
@@ -141,7 +148,7 @@ jobs:
       - name: Upload deployment package
         shell: bash
         run: |
-          set -e
+          set -euo pipefail
 
           scp \
             -o BatchMode=yes \
@@ -155,7 +162,7 @@ jobs:
       - name: Deploy Newman production safely
         shell: bash
         run: |
-          set -e
+          set -euo pipefail
 
           ssh \
             -o BatchMode=yes \
@@ -164,7 +171,7 @@ jobs:
             "${{ secrets.CPANEL_SSH_USER }}@${{ secrets.CPANEL_SSH_HOST }}" \
             'bash -s' <<'REMOTE_SCRIPT'
 
-          set -e
+          set -Eeuo pipefail
 
           HOME_DIR="$HOME"
           APP_DIR="$HOME_DIR/laravel-core"
@@ -174,6 +181,106 @@ jobs:
           TIMESTAMP="$(date +%Y%m%d-%H%M%S)"
           RELEASE_DIR="$HOME_DIR/.newman-deploy-$TIMESTAMP"
           BACKUP_DIR="$HOME_DIR/backups/newman-production-$TIMESTAMP"
+
+          DEPLOY_STARTED=0
+
+          restore_directory() {
+            local backup_path="$1"
+            local destination="$2"
+
+            if [ -d "$backup_path" ]; then
+              rm -rf "$destination"
+              mkdir -p "$(dirname "$destination")"
+              cp -a "$backup_path" "$destination"
+            fi
+          }
+
+          rollback() {
+            local exit_code=$?
+
+            trap - ERR
+            set +e
+
+            if [ "$DEPLOY_STARTED" -eq 1 ]; then
+              echo "=========================================="
+              echo "DEPLOYMENT_FAILED_ROLLING_BACK"
+              echo "=========================================="
+
+              restore_directory "$BACKUP_DIR/app" "$APP_DIR/app"
+              restore_directory "$BACKUP_DIR/resources" "$APP_DIR/resources"
+              restore_directory "$BACKUP_DIR/config" "$APP_DIR/config"
+              restore_directory "$BACKUP_DIR/routes" "$APP_DIR/routes"
+
+              if [ -d "$BACKUP_DIR/lang" ]; then
+                restore_directory "$BACKUP_DIR/lang" "$APP_DIR/lang"
+              fi
+
+              if [ -d "$BACKUP_DIR/database/migrations" ]; then
+                rm -rf "$APP_DIR/database/migrations"
+                mkdir -p "$APP_DIR/database"
+                cp -a \
+                  "$BACKUP_DIR/database/migrations" \
+                  "$APP_DIR/database/migrations"
+              fi
+
+              if [ -f "$BACKUP_DIR/bootstrap/app.php" ]; then
+                cp -a \
+                  "$BACKUP_DIR/bootstrap/app.php" \
+                  "$APP_DIR/bootstrap/app.php"
+              fi
+
+              if [ -f "$BACKUP_DIR/bootstrap/providers.php" ]; then
+                cp -a \
+                  "$BACKUP_DIR/bootstrap/providers.php" \
+                  "$APP_DIR/bootstrap/providers.php"
+              fi
+
+              if [ -d "$BACKUP_DIR/laravel-public-build" ]; then
+                rm -rf "$APP_DIR/public/build"
+                cp -a \
+                  "$BACKUP_DIR/laravel-public-build" \
+                  "$APP_DIR/public/build"
+              fi
+
+              if [ -d "$BACKUP_DIR/public-html-build" ]; then
+                rm -rf "$WEB_DIR/build"
+                cp -a \
+                  "$BACKUP_DIR/public-html-build" \
+                  "$WEB_DIR/build"
+              fi
+
+              php "$APP_DIR/artisan" optimize:clear >/dev/null 2>&1 || true
+
+              echo "ROLLBACK_OK"
+              echo "Restored from: $BACKUP_DIR"
+            fi
+
+            rm -rf "$RELEASE_DIR"
+            rm -f "$PACKAGE"
+
+            exit "$exit_code"
+          }
+
+          trap rollback ERR
+
+          replace_directory() {
+            local source="$1"
+            local destination="$2"
+            local new_dir="${destination}.new"
+            local old_dir="${destination}.old"
+
+            rm -rf "$new_dir" "$old_dir"
+            mkdir -p "$new_dir"
+
+            cp -a "$source/." "$new_dir/"
+
+            if [ -d "$destination" ]; then
+              mv "$destination" "$old_dir"
+            fi
+
+            mv "$new_dir" "$destination"
+            rm -rf "$old_dir"
+          }
 
           echo "=========================================="
           echo "NEWMAN PRODUCTION DEPLOYMENT"
@@ -195,12 +302,53 @@ jobs:
           mkdir -p "$RELEASE_DIR"
           mkdir -p "$BACKUP_DIR"
 
+          echo "Extracting deployment archive..."
+
+          tar \
+            -xzf "$PACKAGE" \
+            -C "$RELEASE_DIR"
+
+          test -d "$RELEASE_DIR/deploy-package"
+          test -d "$RELEASE_DIR/deploy-package/app"
+          test -d "$RELEASE_DIR/deploy-package/resources"
+          test -d "$RELEASE_DIR/deploy-package/config"
+          test -d "$RELEASE_DIR/deploy-package/routes"
+          test -d "$RELEASE_DIR/deploy-package/database/migrations"
+          test -d "$RELEASE_DIR/deploy-package/build"
+
+          test -f "$RELEASE_DIR/deploy-package/bootstrap/app.php"
+          test -f "$RELEASE_DIR/deploy-package/routes/web.php"
+          test -f "$RELEASE_DIR/deploy-package/build/manifest.json"
+
+          echo "PACKAGE_EXTRACTION_OK"
+
           echo "Creating safety backup..."
 
-          if [ -d "$APP_DIR/resources" ]; then
+          cp -a "$APP_DIR/app" "$BACKUP_DIR/app"
+          cp -a "$APP_DIR/resources" "$BACKUP_DIR/resources"
+          cp -a "$APP_DIR/config" "$BACKUP_DIR/config"
+          cp -a "$APP_DIR/routes" "$BACKUP_DIR/routes"
+
+          if [ -d "$APP_DIR/lang" ]; then
+            cp -a "$APP_DIR/lang" "$BACKUP_DIR/lang"
+          fi
+
+          if [ -d "$APP_DIR/database/migrations" ]; then
+            mkdir -p "$BACKUP_DIR/database"
             cp -a \
-              "$APP_DIR/resources" \
-              "$BACKUP_DIR/resources"
+              "$APP_DIR/database/migrations" \
+              "$BACKUP_DIR/database/migrations"
+          fi
+
+          mkdir -p "$BACKUP_DIR/bootstrap"
+          cp -a \
+            "$APP_DIR/bootstrap/app.php" \
+            "$BACKUP_DIR/bootstrap/app.php"
+
+          if [ -f "$APP_DIR/bootstrap/providers.php" ]; then
+            cp -a \
+              "$APP_DIR/bootstrap/providers.php" \
+              "$BACKUP_DIR/bootstrap/providers.php"
           fi
 
           if [ -d "$APP_DIR/public/build" ]; then
@@ -215,89 +363,56 @@ jobs:
               "$BACKUP_DIR/public-html-build"
           fi
 
-          if [ -f "$APP_DIR/app/Http/Middleware/SetLocale.php" ]; then
-            mkdir -p "$BACKUP_DIR/app/Http/Middleware"
-
-            cp -a \
-              "$APP_DIR/app/Http/Middleware/SetLocale.php" \
-              "$BACKUP_DIR/app/Http/Middleware/SetLocale.php"
-          fi
-
-          mkdir -p "$BACKUP_DIR/bootstrap"
-          cp -a \
-            "$APP_DIR/bootstrap/app.php" \
-            "$BACKUP_DIR/bootstrap/app.php"
-
-          mkdir -p "$BACKUP_DIR/config"
-          cp -a \
-            "$APP_DIR/config/app.php" \
-            "$BACKUP_DIR/config/app.php"
-
-          if [ -d "$APP_DIR/lang" ]; then
-            cp -a \
-              "$APP_DIR/lang" \
-              "$BACKUP_DIR/lang"
-          fi
-
-          mkdir -p "$BACKUP_DIR/routes"
-          cp -a \
-            "$APP_DIR/routes/web.php" \
-            "$BACKUP_DIR/routes/web.php"
-
           echo "BACKUP_OK"
           echo "Backup directory: $BACKUP_DIR"
 
-          echo "Extracting deployment archive..."
+          DEPLOY_STARTED=1
 
-          tar \
-            -xzf "$PACKAGE" \
-            -C "$RELEASE_DIR"
+          echo "Deploying Laravel application code..."
+          replace_directory \
+            "$RELEASE_DIR/deploy-package/app" \
+            "$APP_DIR/app"
 
-          test -d "$RELEASE_DIR/deploy-package"
-          test -d "$RELEASE_DIR/deploy-package/resources"
-          test -d "$RELEASE_DIR/deploy-package/build"
+          echo "Deploying frontend resources..."
+          replace_directory \
+            "$RELEASE_DIR/deploy-package/resources" \
+            "$APP_DIR/resources"
 
-          echo "PACKAGE_EXTRACTION_OK"
+          echo "Deploying Laravel configuration..."
+          replace_directory \
+            "$RELEASE_DIR/deploy-package/config" \
+            "$APP_DIR/config"
 
-          echo "Deploying Laravel frontend resources..."
-
-          cp -a \
-            "$RELEASE_DIR/deploy-package/resources/." \
-            "$APP_DIR/resources/"
-
-          echo "Deploying locale middleware..."
-
-          mkdir -p "$APP_DIR/app/Http/Middleware"
-
-          cp -a \
-            "$RELEASE_DIR/deploy-package/app/Http/Middleware/SetLocale.php" \
-            "$APP_DIR/app/Http/Middleware/SetLocale.php"
+          echo "Deploying Laravel routes..."
+          replace_directory \
+            "$RELEASE_DIR/deploy-package/routes" \
+            "$APP_DIR/routes"
 
           echo "Deploying Laravel bootstrap..."
-
           cp -a \
             "$RELEASE_DIR/deploy-package/bootstrap/app.php" \
             "$APP_DIR/bootstrap/app.php"
 
-          echo "Deploying Laravel configuration..."
+          if [ -f "$RELEASE_DIR/deploy-package/bootstrap/providers.php" ]; then
+            cp -a \
+              "$RELEASE_DIR/deploy-package/bootstrap/providers.php" \
+              "$APP_DIR/bootstrap/providers.php"
+          fi
 
+          if [ -d "$RELEASE_DIR/deploy-package/lang" ]; then
+            echo "Deploying translation files..."
+            replace_directory \
+              "$RELEASE_DIR/deploy-package/lang" \
+              "$APP_DIR/lang"
+          fi
+
+          echo "Deploying migration source files only..."
+          echo "No migration command is executed by this workflow."
+
+          mkdir -p "$APP_DIR/database/migrations"
           cp -a \
-            "$RELEASE_DIR/deploy-package/config/app.php" \
-            "$APP_DIR/config/app.php"
-
-          echo "Deploying language files..."
-
-          mkdir -p "$APP_DIR/lang"
-
-          cp -a \
-            "$RELEASE_DIR/deploy-package/lang/." \
-            "$APP_DIR/lang/"
-
-          echo "Deploying routes..."
-
-          cp -a \
-            "$RELEASE_DIR/deploy-package/routes/web.php" \
-            "$APP_DIR/routes/web.php"
+            "$RELEASE_DIR/deploy-package/database/migrations/." \
+            "$APP_DIR/database/migrations/"
 
           echo "Replacing Laravel Vite build..."
 
@@ -373,27 +488,54 @@ jobs:
           test -f "$APP_DIR/artisan"
           test -f "$WEB_DIR/index.php"
 
-          echo "Validating deployed application files..."
+          echo "Validating deployed application source..."
 
-          test -f "$APP_DIR/app/Http/Middleware/SetLocale.php"
+          test -d "$APP_DIR/app/Http/Controllers"
+          test -d "$APP_DIR/app/Models"
+          test -d "$APP_DIR/resources/views"
+          test -d "$APP_DIR/config"
+          test -d "$APP_DIR/routes"
+
           test -f "$APP_DIR/bootstrap/app.php"
-          test -f "$APP_DIR/config/app.php"
           test -f "$APP_DIR/routes/web.php"
-
-          test -f "$APP_DIR/lang/en/navigation.php"
-          test -f "$APP_DIR/lang/id/navigation.php"
 
           test -f "$APP_DIR/public/build/manifest.json"
           test -f "$WEB_DIR/build/manifest.json"
 
-          echo "Validating language route..."
+          echo "Validating Laravel application boot..."
 
-          php "$APP_DIR/artisan" route:list --name=language \
-            | grep -q "language.update"
+          php "$APP_DIR/artisan" about > /dev/null
 
-          echo "LANGUAGE_ROUTE_OK"
+          echo "LARAVEL_BOOT_OK"
+
+          echo "Validating Laravel route registration..."
+
+          php "$APP_DIR/artisan" route:list \
+            > "$RELEASE_DIR/route-list.txt"
+
+          test -s "$RELEASE_DIR/route-list.txt"
+
+          echo "ROUTE_REGISTRATION_OK"
+
+          if [ -f "$APP_DIR/app/Http/Controllers/Admin/AdminRatingController.php" ]; then
+            echo "Validating Admin Ratings routes..."
+
+            grep -q "admin.ratings.index" \
+              "$RELEASE_DIR/route-list.txt"
+
+            grep -q "admin.ratings.show" \
+              "$RELEASE_DIR/route-list.txt"
+
+            echo "ADMIN_RATINGS_ROUTES_OK"
+          fi
+
+          echo "Database migration execution intentionally skipped."
+          echo "Migration status must be reviewed manually in cPanel/SSH when schema changes are part of a release."
 
           echo "Cleaning temporary deployment files..."
+
+          trap - ERR
+          DEPLOY_STARTED=0
 
           rm -rf "$RELEASE_DIR"
           rm -f "$PACKAGE"
