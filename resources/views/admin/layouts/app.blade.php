@@ -27,6 +27,11 @@
                 'active' => 'admin.custom-trip-requests.*',
             ],
             [
+                'label' => 'Ratings & Reviews',
+                'route' => 'admin.ratings.index',
+                'active' => 'admin.ratings.*',
+            ],
+            [
                 'label' => 'Tour Packages',
                 'route' => 'admin.tour-packages.index',
                 'active' => 'admin.tour-packages.*',

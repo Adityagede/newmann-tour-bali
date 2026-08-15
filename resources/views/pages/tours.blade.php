@@ -55,8 +55,9 @@
 </section>
 
 <section
+    id="tours"
     x-data="{ activeCategory: 'all' }"
-    class="relative overflow-hidden bg-white py-16 sm:py-20 lg:py-24"
+    class="tour-experiences relative overflow-hidden bg-white py-16 sm:py-20 lg:py-24"
 >
     <div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-newman-gold/30 to-transparent"></div>
 
@@ -116,26 +117,30 @@
     </div>
 </div>
 
-        <div class="mt-12 grid items-stretch gap-7 pb-8 sm:grid-cols-2 lg:grid-cols-3">
-    @forelse ($tours as $tour)
-        <x-tour-card
-            :tour="$tour"
-            :filterable="true"
-        />
-    @empty
-        <div class="sm:col-span-2 lg:col-span-3">
-            <div class="border border-newman-navy/10 bg-newman-sand px-6 py-12 text-center">
-                <h3 class="text-xl font-semibold text-newman-navy">
-                    No tours are available yet
-                </h3>
+        <div class="mt-12 pb-8">
+            <div class="tour-experiences-grid-shell mx-auto w-[92%] max-w-7xl">
+                <div class="tour-experiences-grid grid items-stretch gap-7 md:grid-cols-2 xl:grid-cols-3">
+                    @forelse ($tours as $tour)
+                        <x-tour-card
+                            :tour="$tour"
+                            :filterable="true"
+                        />
+                    @empty
+                        <div class="md:col-span-2 xl:col-span-3">
+                            <div class="border border-newman-navy/10 bg-newman-sand px-6 py-12 text-center">
+                                <h3 class="text-xl font-semibold text-newman-navy">
+                                    No tours are available yet
+                                </h3>
 
-                <p class="mt-3 text-sm leading-7 text-gray-600">
-                    Contact Newman to arrange a private Bali route.
-                </p>
+                                <p class="mt-3 text-sm leading-7 text-gray-600">
+                                    Contact Newman to arrange a private Bali route.
+                                </p>
+                            </div>
+                        </div>
+                    @endforelse
+                </div>
             </div>
         </div>
-    @endforelse
-</div>
 
     </div>
 </section>

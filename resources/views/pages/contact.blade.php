@@ -182,7 +182,7 @@
                         <input
                             x-model="whatsapp"
                             type="text"
-                            placeholder="+62..."
+                            placeholder="Your WhatsApp number"
                             class="contact-input mt-2"
                         >
                     </div>
@@ -229,35 +229,47 @@
 <section
     id="location"
     aria-labelledby="contact-location-heading"
-    class="relative overflow-hidden bg-newman-navy py-16 text-white sm:py-20 lg:py-24"
+    class="relative overflow-hidden py-14 text-white sm:py-16 lg:py-20"
 >
-    <div class="absolute inset-0 opacity-[0.055]" aria-hidden="true">
+    {{-- Bali location background --}}
+    <div class="absolute inset-0" aria-hidden="true">
+        <img
+            src="{{ asset('images/contact-img.webp') }}"
+            alt=""
+            class="h-full w-full object-cover object-center"
+            loading="lazy"
+        >
+
+        {{-- Keep the image atmospheric while preserving text/map readability --}}
+       
+
+        <div
+            class="absolute inset-0 bg-gradient-to-r from-newman-navy/95 via-newman-navy/78 to-newman-navy/62"
+        ></div>
+    </div>
+
+    {{-- Keep the existing subtle Newman texture --}}
+    <div class="absolute inset-0 opacity-[0.035]" aria-hidden="true">
         <div class="h-full w-full bali-pattern"></div>
     </div>
 
-    <div class="relative mx-auto grid w-[calc(100%-2rem)] max-w-7xl gap-10 sm:w-[92%] sm:gap-12 xl:grid-cols-[0.68fr_1.32fr] xl:items-center xl:gap-16">
+    <div
+        class="relative mx-auto grid w-[calc(100%-2rem)] max-w-7xl gap-9
+               sm:w-[92%] sm:gap-10
+               xl:grid-cols-[0.68fr_1.32fr] xl:items-center xl:gap-14"
+    >
         <div data-aos="fade-up" class="max-w-xl">
-            <p class="text-xs font-bold uppercase tracking-[0.35em] text-newman-gold">
-                Find Newman in Bali
-            </p>
-
-            <h2
-                id="contact-location-heading"
-                class="mt-4 text-3xl font-semibold leading-tight tracking-[-0.04em] sm:text-5xl"
-            >
-                A local place behind every Bali journey.
-            </h2>
-
-            <p class="mt-5 text-base leading-8 text-white/68 sm:text-lg">
+            <p class="text-base leading-8 text-white/72 sm:text-lg">
                 This is Newman&rsquo;s public location in Bali. Use the map when you need directions, then share your hotel or pickup area so the day can be planned naturally around your route.
             </p>
 
-            <div class="mt-8 space-y-5 border-t border-white/12 pt-6">
+            <div class="mt-7 space-y-4 border-t border-white/15 pt-6">
                 <div class="grid gap-1 sm:grid-cols-[8rem_1fr] sm:gap-5">
                     <p class="text-[11px] font-bold uppercase tracking-[0.24em] text-newman-gold">
                         Based in
                     </p>
-                    <p class="leading-7 text-white/78">
+
+                    <p class="leading-7 text-white/82">
                         Bali, Indonesia
                     </p>
                 </div>
@@ -266,31 +278,50 @@
                     <p class="text-[11px] font-bold uppercase tracking-[0.24em] text-newman-gold">
                         Trip pickup
                     </p>
-                    <p class="leading-7 text-white/78">
+
+                    <p class="leading-7 text-white/82">
                         Hotel pickup details are confirmed personally for each route.
                     </p>
                 </div>
             </div>
 
             <a
-                href="https://www.google.com/maps/search/?api=1&amp;query=-8.530035366967237%2C115.34035468088022"
+                href="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d483.7783814522578!2d115.34035468088022!3d-8.530035366967237!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zOMKwMzEnNDYuNyJTIDExNcKwMjAnMjUuNyJF!5e1!3m2!1sid!2sid!4v1771117949086!5m2!1sid!2sid"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="group mt-8 inline-flex items-center gap-3 border-b border-newman-gold/70 pb-2 text-sm font-bold uppercase tracking-[0.16em] text-newman-gold transition hover:border-white hover:text-white"
+                class="group mt-7 inline-flex items-center gap-3 border-b border-newman-gold/70
+                       pb-2 text-sm font-bold uppercase tracking-[0.16em] text-newman-gold
+                       transition hover:border-white hover:text-white"
             >
                 Open in Google Maps
-                <span aria-hidden="true" class="transition group-hover:translate-x-1">&rarr;</span>
+
+                <span
+                    aria-hidden="true"
+                    class="transition group-hover:translate-x-1"
+                >
+                    &rarr;
+                </span>
             </a>
         </div>
 
-        <div data-aos="fade-up" data-aos-delay="100" class="min-w-0">
+        <div
+            data-aos="fade-up"
+            data-aos-delay="100"
+            class="min-w-0"
+        >
             <div class="relative">
                 <div
                     aria-hidden="true"
-                    class="absolute -left-3 -top-3 h-16 w-16 border-l border-t border-newman-gold/70 sm:-left-4 sm:-top-4 sm:h-24 sm:w-24"
+                    class="absolute -left-3 -top-3 h-14 w-14 border-l border-t
+                           border-newman-gold/70
+                           sm:-left-4 sm:-top-4 sm:h-20 sm:w-20"
                 ></div>
 
-                <div class="relative h-[340px] overflow-hidden border border-white/12 bg-white/5 shadow-2xl shadow-black/20 sm:h-[440px] xl:h-[520px]">
+                <div
+                    class="relative h-[320px] overflow-hidden border border-white/15
+                           bg-newman-navy/30 shadow-2xl shadow-black/25
+                           sm:h-[400px] xl:h-[470px]"
+                >
                     <iframe
                         src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d483.7783814522578!2d115.34035468088022!3d-8.530035366967237!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zOMKwMzEnNDYuNyJTIDExNcKwMjAnMjUuNyJF!5e1!3m2!1sid!2sid!4v1771117949086!5m2!1sid!2sid"
                         title="Newman Tour Bali public location on Google Maps"
@@ -302,14 +333,14 @@
                 </div>
             </div>
 
-            <p class="mt-4 max-w-2xl text-sm leading-7 text-white/52">
-                The map shows the public location you provided. Tour pickup and meeting details can still be arranged around your stay.
+            <p class="mt-3 max-w-2xl text-sm leading-6 text-white/58">
+                The map shows Newman&rsquo;s public location in Bali. Tour pickup and meeting details can still be arranged around your stay.
             </p>
         </div>
     </div>
 </section>
 
-<section class="relative overflow-hidden bg-newman-sand/45 py-16 sm:py-20 lg:py-24">
+<section class="relative overflow-hidden py-16 sm:py-20 lg:py-24">
     <div class="absolute inset-0 opacity-[0.05]">
         <div class="h-full w-full bali-pattern"></div>
     </div>
@@ -357,24 +388,7 @@
             </div>
         </div>
 
-        <div data-aos="fade-up" class="mt-10 bg-newman-navy p-6 text-white sm:p-8 xl:flex xl:items-center xl:justify-between xl:gap-8">
-            <div>
-                <p class="text-xs font-bold uppercase tracking-[0.3em] text-newman-gold">
-                    Ready to plan more clearly?
-                </p>
-
-                <h3 class="mt-3 text-2xl font-semibold tracking-[-0.04em]">
-                    Use the booking request page for full trip details.
-                </h3>
-            </div>
-
-            <a
-                href="{{ route('custom-trip.create') }}"
-                class="mt-6 inline-flex bg-newman-gold px-6 py-4 text-xs font-bold uppercase tracking-[0.16em] text-newman-navy transition duration-300 hover:-translate-y-1 hover:bg-white xl:mt-0"
-            >
-                Open Booking Request
-            </a>
-        </div>
+        
     </div>
 </section>
 @endsection

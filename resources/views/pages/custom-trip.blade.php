@@ -627,7 +627,7 @@
                                 minlength="7"
                                 maxlength="50"
                                 autocomplete="tel"
-                                placeholder="+62..."
+                                placeholder="Your WhatsApp number"
                                 class="booking-input mt-2"
                             >
                             @error('whatsapp')

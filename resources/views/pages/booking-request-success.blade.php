@@ -25,6 +25,32 @@
             ?? $booking->total_participants
                 . ' '
                 . ($booking->total_participants === 1 ? 'guest' : 'guests');
+
+        $statusLabel = ucfirst($booking->status);
+
+        $statusClasses = [  
+            'pending' => 'bg-amber-100 text-amber-800',
+            'contacted' => 'bg-blue-100 text-blue-800',
+            'confirmed' => 'bg-green-100 text-green-800',
+            'cancelled' => 'bg-red-100 text-red-800',
+            'completed' => 'bg-newman-sand text-newman-navy',
+        ];
+
+        $statusSummary = [
+            'pending' => 'Newman will personally check your date, route and pickup details before confirming the trip.',
+            'contacted' => 'Newman has started reviewing your request and will confirm the remaining trip details with you.',
+            'confirmed' => 'Your trip has been confirmed. Keep this booking reference with your trip details.',
+            'cancelled' => 'This booking request has been cancelled. Contact Newman if you need any clarification.',
+            'completed' => 'This trip has been completed. Thank you for choosing Newman Tour Bali.',
+        ][$booking->status] ?? 'Contact Newman if you need more information about this booking request.';
+
+        $statusFooter = [
+            'pending' => 'Your request is awaiting Newman’s confirmation.',
+            'contacted' => 'Newman is in contact with you about this request.',
+            'confirmed' => 'Your booking is confirmed.',
+            'cancelled' => 'This booking request is cancelled.',
+            'completed' => 'This booking is completed.',
+        ][$booking->status] ?? 'Keep your booking reference when contacting Newman.';
     @endphp
 
     <main class="min-h-screen overflow-hidden bg-white pb-16 pt-28 text-newman-navy sm:pb-20 sm:pt-32 lg:pb-24 lg:pt-36">
@@ -46,7 +72,7 @@
                     </h1>
 
                     <p class="mt-6 max-w-2xl text-base leading-8 text-gray-600 sm:text-lg">
-                        Newman will personally check your date, route and pickup details before confirming the trip.
+                        {{ $statusSummary }}
                     </p>
                 </div>
 
@@ -59,8 +85,8 @@
                         {{ $booking->booking_reference }}
                     </p>
 
-                    <p class="mt-3 inline-flex bg-amber-100 px-3 py-1.5 text-xs font-semibold text-amber-800">
-                        Pending confirmation
+                    <p class="mt-3 inline-flex px-3 py-1.5 text-xs font-semibold {{ $statusClasses[$booking->status] ?? 'bg-gray-100 text-gray-700' }}">
+                        {{ $statusLabel }}
                     </p>
                 </div>
             </header>
@@ -174,7 +200,7 @@
 
             <footer class="flex flex-col gap-4 border-t border-newman-navy/15 pt-8 sm:flex-row sm:items-center sm:justify-between">
                 <p class="max-w-lg text-sm leading-6 text-gray-500">
-                    Until Newman confirms it personally, your request remains pending.
+                    {{ $statusFooter }}
                 </p>
 
                 <nav aria-label="Booking confirmation actions" class="flex flex-col gap-3 sm:flex-row">

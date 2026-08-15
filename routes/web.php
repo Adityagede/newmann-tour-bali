@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CustomTripRequestController;
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\AdminCustomTripRequestController;
+use App\Http\Controllers\Admin\AdminRatingController;
 use App\Http\Controllers\Admin\AdminTourPackageController;
 use App\Http\Controllers\HomeController;
 use App\Http\Middleware\EnsureAdminIsLoggedIn;
@@ -232,6 +233,13 @@ Route::post(
             ->whereNumber('tourBookingRequest')
             ->name('tour-booking-requests.status.update');
 
+        Route::delete(
+            '/bookings/{tourBookingRequest}',
+            [AdminTourBookingRequestController::class, 'destroy']
+        )
+            ->whereNumber('tourBookingRequest')
+            ->name('tour-booking-requests.destroy');
+
         /*
         |------------------------------------------------------------------
         | Custom Trip Requests — separate, non-package enquiry flow
@@ -262,6 +270,19 @@ Route::post(
         )
             ->whereNumber('customTripRequest')
             ->name('custom-trip-requests.destroy');
+
+        Route::get(
+            '/ratings',
+            [AdminRatingController::class, 'index']
+        )->name('ratings.index');
+
+        Route::get(
+            '/ratings/{tourRating}',
+            [AdminRatingController::class, 'show']
+        )
+            ->whereNumber('tourRating')
+            ->name('ratings.show');
+
          Route::get('/tour-packages', [AdminTourPackageController::class, 'index'])->name('tour-packages.index');
         Route::get('/tour-packages/create', [AdminTourPackageController::class, 'create'])->name('tour-packages.create');
         Route::post('/tour-packages', [AdminTourPackageController::class, 'store'])->name('tour-packages.store');

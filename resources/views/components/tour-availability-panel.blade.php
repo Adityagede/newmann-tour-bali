@@ -597,7 +597,7 @@ class="scroll-mt-24 md:scroll-mt-28 lg:sticky lg:top-28"
 
                 @if ($savingAdultText)
                     <p class="mt-2 text-xs font-semibold text-newman-gold">
-                        Save {{ $savingAdultText }} per adult
+                        Save {{ $savingAdultText }} per person
                     </p>
                 @endif
 

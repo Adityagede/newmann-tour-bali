@@ -193,7 +193,7 @@
 
                 <div>
                     <label class="text-sm font-semibold text-newman-navy">WhatsApp</label>
-                    <input type="text" placeholder="+62..." class="mt-2 w-full rounded-2xl border border-gray-200 px-4 py-4 outline-none transition focus:border-newman-gold">
+                    <input type="text" placeholder="Your WhatsApp number" class="mt-2 w-full rounded-2xl border border-gray-200 px-4 py-4 outline-none transition focus:border-newman-gold">
                 </div>
 
                 <div>
