@@ -166,74 +166,7 @@
     </a>
 </div>
             <div class="hidden items-center gap-3 lg:flex">
-                <div class="relative" @click.outside="languageOpen = false">
-                    <button
-                        type="button"
-                        class="flex min-h-11 items-center gap-2 border border-white/20 bg-white/5 px-3 text-[11px] font-bold uppercase tracking-[0.14em] text-white transition duration-200 hover:border-newman-gold hover:text-newman-gold focus:outline-none focus:ring-2 focus:ring-newman-gold focus:ring-offset-2 focus:ring-offset-newman-navy"
-                        @click="languageOpen = !languageOpen"
-                        @keydown.arrow-down.prevent="languageOpen = true; $nextTick(() => $refs.languageMenu.querySelector('button:not([disabled])')?.focus())"
-                        :aria-expanded="languageOpen.toString()"
-                        aria-haspopup="menu"
-                        aria-label="{{ __('navigation.choose_language', ['language' => $currentLanguage['name']]) }}"
-                    >
-                        <x-language-flag :code="$currentLanguage['flag']" />
-                        <span>{{ $currentLanguage['code'] }}</span>
-                        <svg
-                            viewBox="0 0 12 8"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="1.5"
-                            class="h-2 w-3 transition-transform duration-200"
-                            :class="languageOpen ? 'rotate-180' : ''"
-                            aria-hidden="true"
-                        >
-                            <path d="m1 1.5 5 5 5-5" />
-                        </svg>
-                    </button>
-
-                    <div
-                        x-cloak
-                        x-show="languageOpen"
-                        x-transition.origin.top.right
-                        x-ref="languageMenu"
-                        role="menu"
-                        aria-label="{{ __('navigation.language_options') }}"
-                        class="absolute right-0 top-full mt-3 w-36 border border-newman-navy/10 bg-white p-1.5 text-left normal-case tracking-normal text-newman-navy shadow-xl shadow-newman-navy/15"
-                    >
-                        @foreach ($languageOptions as $locale => $language)
-                            <form
-                                method="POST"
-                                action="{{ route('language.update') }}"
-                                class="{{ $loop->first ? '' : 'mt-1' }}"
-                            >
-                                @csrf
-
-                                <button
-                                    type="submit"
-                                    name="locale"
-                                    value="{{ $locale }}"
-                                    role="menuitem"
-                                    @class([
-                                        'flex min-h-11 w-full items-center gap-2 px-3 py-2 text-xs font-bold tracking-[0.12em] transition focus:outline-none focus:ring-2 focus:ring-inset focus:ring-newman-gold',
-                                        'border-l-2 border-newman-gold bg-newman-sand' => $locale === $currentLocale,
-                                        'border-l-2 border-transparent hover:bg-newman-sand/60' => $locale !== $currentLocale,
-                                    ])
-                                    @if ($locale === $currentLocale)
-                                        aria-current="true"
-                                    @endif
-                                >
-                                    <x-language-flag :code="$language['flag']" />
-                                    <span>{{ $language['code'] }}</span>
-
-                                    @if ($locale === $currentLocale)
-                                        <span class="ml-auto text-newman-blue" aria-hidden="true">✓</span>
-                                        <span class="sr-only">{{ __('navigation.current_language') }}</span>
-                                    @endif
-                                </button>
-                            </form>
-                        @endforeach
-                    </div>
-                </div>
+                
 
                 <a
                     href="{{ route('custom-trip.create') }}"
@@ -341,44 +274,7 @@
     @endforeach
 </div>
 
-                <div class="mobile-language-section mt-5 border-y border-white/10 py-4">
-                    <p class="px-4 text-[10px] font-bold uppercase tracking-[0.2em] text-newman-gold">
-                        {{ __('navigation.language') }}
-                    </p>
-
-                    <div class="mt-3 grid grid-cols-2 gap-2 px-4">
-                        @foreach ($languageOptions as $locale => $language)
-                            <form
-                                method="POST"
-                                action="{{ route('language.update') }}"
-                                class="min-w-0"
-                            >
-                                @csrf
-
-                                <button
-                                    type="submit"
-                                    name="locale"
-                                    value="{{ $locale }}"
-                                    @class([
-                                        'flex min-h-11 w-full items-center justify-center gap-2 border px-3 py-2 text-xs font-bold tracking-[0.12em] transition focus:outline-none focus:ring-2 focus:ring-white',
-                                        'border-newman-gold bg-newman-gold text-newman-navy' => $locale === $currentLocale,
-                                        'border-white/20 text-white/70 hover:border-newman-gold hover:text-newman-gold' => $locale !== $currentLocale,
-                                    ])
-                                    @if ($locale === $currentLocale)
-                                        aria-current="true"
-                                    @endif
-                                >
-                                    <x-language-flag :code="$language['flag']" />
-                                    <span>{{ $language['code'] }}</span>
-
-                                    @if ($locale === $currentLocale)
-                                        <span class="sr-only">{{ __('navigation.current_language') }}</span>
-                                    @endif
-                                </button>
-                            </form>
-                        @endforeach
-                    </div>
-                </div>
+                
 
                 <div
                     x-show="open"

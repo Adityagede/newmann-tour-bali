@@ -12,6 +12,7 @@ use App\Models\TourPackage;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
@@ -317,5 +318,38 @@ final class AdminTourBookingRequestController extends Controller
         }
 
         return back()->with('success', $message);
+    }
+
+    public function destroy(
+        TourBookingRequest $tourBookingRequest
+    ): RedirectResponse {
+        $deletionBlock = DB::transaction(
+            function () use ($tourBookingRequest): ?string {
+                $booking = TourBookingRequest::query()
+                    ->whereKey($tourBookingRequest->getKey())
+                    ->lockForUpdate()
+                    ->firstOrFail();
+
+                if ($booking->ratingRecord()->exists()) {
+                    return 'This booking has a verified guest rating and cannot be deleted.';
+                }
+
+                if ($booking->status === TourBookingRequest::STATUS_COMPLETED) {
+                    return 'This completed booking is part of the guest history and cannot be deleted.';
+                }
+
+                $booking->delete();
+
+                return null;
+            }
+        );
+
+        if ($deletionBlock !== null) {
+            return back()->with('error', $deletionBlock);
+        }
+
+        return redirect()
+            ->route('admin.tour-booking-requests.index')
+            ->with('success', 'Booking deleted successfully.');
     }
 }

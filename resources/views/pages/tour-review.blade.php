@@ -267,7 +267,7 @@
                                 required
                                 class="booking-input mt-2 min-h-13 rounded-xl border-newman-navy/10 bg-newman-sand/40"
                                 autocomplete="tel"
-                                placeholder="+62..."
+                                placeholder="Your WhatsApp number"
                             >
                         </div>
 

@@ -540,7 +540,7 @@
                             "
                             autocomplete="tel"
                             class="booking-input mt-2 min-h-13 rounded-xl border-newman-navy/10 bg-white"
-                            placeholder="+62..."
+                            placeholder="Your WhatsApp number"
                         >
 
                         <p

@@ -211,6 +211,12 @@
     </div>
 @endif
 
+@if (session('error'))
+    <div class="mb-6 border border-red-200 bg-red-50 px-5 py-4 text-sm font-semibold text-red-700">
+        {{ session('error') }}
+    </div>
+@endif
+
 @if ($errors->any())
     <div class="mb-6 border border-red-200 bg-red-50 px-5 py-4 text-sm text-red-700">
         <ul class="space-y-1">
@@ -609,6 +615,43 @@
                 <p class="mt-3 text-sm leading-6 text-gray-500">
                     The secure rating link becomes available after the trip is marked Completed.
                 </p>
+            @endif
+        </section>
+
+        <section class="border border-red-200 bg-red-50 p-6">
+            <p class="text-xs font-bold uppercase tracking-[0.16em] text-red-700">
+                Danger zone
+            </p>
+
+            @if ($tourBookingRequest->ratingRecord)
+                <p class="mt-3 text-sm leading-6 text-red-700">
+                    This booking has a verified guest rating and cannot be deleted.
+                </p>
+            @elseif ($tourBookingRequest->status === 'completed')
+                <p class="mt-3 text-sm leading-6 text-red-700">
+                    This completed booking is part of the guest history and cannot be deleted.
+                </p>
+            @else
+                <p class="mt-3 text-sm leading-6 text-red-700">
+                    Permanently delete this single booking request. This action cannot be undone.
+                </p>
+
+                <form
+                    method="POST"
+                    action="{{ route('admin.tour-booking-requests.destroy', $tourBookingRequest) }}"
+                    class="mt-4"
+                    onsubmit="return confirm('Delete booking {{ $tourBookingRequest->booking_reference }}? This action cannot be undone.');"
+                >
+                    @csrf
+                    @method('DELETE')
+
+                    <button
+                        type="submit"
+                        class="min-h-12 w-full border border-red-600 bg-white px-5 py-3 text-xs font-bold uppercase tracking-[0.14em] text-red-700 transition hover:bg-red-700 hover:text-white"
+                    >
+                        Delete booking
+                    </button>
+                </form>
             @endif
         </section>
 
