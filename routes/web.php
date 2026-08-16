@@ -1,5 +1,5 @@
 <?php
-
+use App\Models\TourPackage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CustomTripRequestController;
@@ -809,3 +809,14 @@ Route::delete(
     [AdminGalleryMomentController::class, 'destroy']
 )->name('gallery.destroy');
            });
+
+
+
+
+Route::get('/sitemap.xml', function () {
+    $tours = TourPackage::where('status', 'active')->get();
+
+    return response()
+        ->view('sitemap', compact('tours'))
+        ->header('Content-Type', 'application/xml');
+});
