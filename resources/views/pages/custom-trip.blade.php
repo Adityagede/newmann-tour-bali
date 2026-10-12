@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('meta_title', 'Custom Bali Trip | Newman Tour Bali')
+@section('meta_description', 'Plan a custom Bali trip with Newman Tour Bali. Share your destinations, travel date, group size, and transport preferences for a flexible private itinerary.')
+@section('meta_image', asset('images/hero-booking.webp'))
+
 @section('content')
 @php
     $initialVehicle = old(
@@ -99,7 +103,7 @@
             </a>
 
             <p class="mt-8 text-xs font-bold uppercase tracking-[0.25em] text-newman-gold sm:tracking-[0.38em]">
-                Custom Trip Request V2
+                Custom Trip Request
             </p>
 
             <h1 class="mt-5 break-words text-4xl font-semibold leading-tight tracking-[-0.05em] sm:text-6xl lg:text-7xl">
@@ -881,7 +885,7 @@
                     Prefer a published tour?
                 </p>
                 <p class="mt-4 text-sm leading-7 text-gray-600">
-                    Tour Packages use the separate V2 flow with availability, options, starting times, participant pricing, and an estimated total.
+                    Explore Tour Packages with available dates, tour options, starting times, participant prices, and an estimated total.
                 </p>
                <a
     href="{{ route('tours') }}"

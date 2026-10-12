@@ -1235,6 +1235,30 @@ html:not(.aos-initialized) [data-aos] {
     }
 }
 
+#reviews .review-swiper .swiper-wrapper {
+    align-items: flex-start;
+}
+
+#reviews .review-swiper .swiper-slide {
+    height: auto;
+}
+
+#reviews [data-review-message] {
+    white-space: pre-line;
+    overflow-wrap: anywhere;
+}
+
+#reviews [data-review-message][data-collapsed="true"] {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    overflow: hidden;
+}
+
+#reviews [data-review-toggle][hidden] {
+    display: none;
+}
+
 .trip-review-card {
     transition:
         transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),

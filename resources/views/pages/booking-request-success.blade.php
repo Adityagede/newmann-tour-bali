@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('meta_title', 'Booking Request Received | Newman Tour Bali')
+@section('meta_description', 'Your Bali tour booking request has been received. Review the next steps and contact Newman Tour Bali to confirm availability and trip details.')
+@section('meta_robots', 'noindex, nofollow')
+
 @section('content')
     @php
         $tour = $booking->tour_snapshot ?? [];

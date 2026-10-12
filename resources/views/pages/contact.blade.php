@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('meta_title', 'Contact Us | Newman Tour Bali')
+@section('meta_description', 'Contact Newman Tour Bali to discuss private tours, pickup areas, availability, or a custom itinerary. Get personal help planning your Bali trip.')
+@section('meta_image', asset('images/hero-contact.webp'))
+
 @section('content')
 <section class="relative overflow-hidden bg-newman-navy pt-32 text-white sm:pt-36 lg:pt-40">
     <div class="absolute inset-0">

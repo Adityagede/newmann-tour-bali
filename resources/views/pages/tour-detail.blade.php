@@ -1,5 +1,21 @@
 @extends('layouts.app')
 
+@php
+    $tourMetaTitle = $tour['title'] ?? 'Bali Private Tour';
+    $tourMetaDescription = \Illuminate\Support\Str::squish(
+        html_entity_decode(strip_tags((string) ($tour['description'] ?? '')), ENT_QUOTES | ENT_HTML5, 'UTF-8')
+    );
+    $tourMetaDescription = \Illuminate\Support\Str::limit(
+        $tourMetaDescription ?: "Explore {$tourMetaTitle} with Newman Tour Bali. View the itinerary, private tour options, pickup details, and availability for your Bali trip.",
+        160
+    );
+@endphp
+
+@section('meta_title', $tourMetaTitle . ' | Newman Tour Bali')
+@section('meta_description', $tourMetaDescription)
+@section('meta_image', $tour['image_url'] ?? asset('images/tour-placeholder.jpg'))
+@section('meta_robots', ($isPreview ?? false) ? 'noindex, nofollow' : 'index, follow')
+
 @section('content')
 @php
     $placeholder = asset(

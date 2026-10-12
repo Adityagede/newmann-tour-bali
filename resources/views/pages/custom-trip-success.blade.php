@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('meta_title', 'Custom Trip Request Received | Newman Tour Bali')
+@section('meta_description', 'Your custom Bali trip request has been received. Newman Tour Bali will review your route, transport preferences, and details before confirming your plans.')
+@section('meta_robots', 'noindex, nofollow')
+
 @section('content')
     @php
         $vehiclePreference = $customTripRequest->vehiclePreferenceLabel();

@@ -145,11 +145,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    const reviewSwiperEl = document.querySelector('.review-swiper');
+    const reviewSwiperEl = document.querySelector('#reviews .review-swiper');
 
 if (reviewSwiperEl) {
-    new Swiper(reviewSwiperEl, {
+    const reviewSwiper = new Swiper(reviewSwiperEl, {
         modules: [Navigation, Pagination, Autoplay],
+        autoHeight: true,
         slidesPerView: 1.08,
         spaceBetween: 18,
         loop: true,
@@ -181,6 +182,80 @@ if (reviewSwiperEl) {
             },
         },
     });
+
+    const reviewCards = Array.from(reviewSwiperEl.querySelectorAll('.trip-review-card'));
+    const updateReviewHeight = () => reviewSwiper.updateAutoHeight(0);
+    const updateReviewAutoplay = () => {
+        const hasExpandedReview = reviewCards.some((card) =>
+            card.querySelector('[data-review-toggle]').getAttribute('aria-expanded') === 'true'
+        );
+
+        if (hasExpandedReview) {
+            reviewSwiper.autoplay.stop();
+        } else if (!reviewSwiper.autoplay.running) {
+            reviewSwiper.autoplay.start();
+        }
+    };
+
+    const refreshReview = (card) => {
+        const message = card.querySelector('[data-review-message]');
+        const button = card.querySelector('[data-review-toggle]');
+        const wasExpanded = button.getAttribute('aria-expanded') === 'true';
+
+        message.dataset.collapsed = 'true';
+        const isTruncated = message.scrollHeight > message.clientHeight + 1;
+        const isExpanded = isTruncated && wasExpanded;
+
+        message.dataset.collapsed = String(isTruncated && !isExpanded);
+        button.hidden = !isTruncated;
+        button.setAttribute('aria-expanded', String(isExpanded));
+        button.textContent = isExpanded ? 'Read less' : 'Read more';
+    };
+
+    reviewCards.forEach((card) => {
+        const message = card.querySelector('[data-review-message]');
+        const button = card.querySelector('[data-review-toggle]');
+
+        refreshReview(card);
+        button.addEventListener('click', () => {
+            const isExpanded = button.getAttribute('aria-expanded') !== 'true';
+
+            message.dataset.collapsed = String(!isExpanded);
+            button.setAttribute('aria-expanded', String(isExpanded));
+            button.textContent = isExpanded ? 'Read less' : 'Read more';
+            updateReviewHeight();
+            updateReviewAutoplay();
+        });
+    });
+
+    // Recheck actual line overflow when card widths change at slider breakpoints.
+    const reviewWidths = new WeakMap();
+    const reviewResizeObserver = new ResizeObserver((entries) => {
+        let widthChanged = false;
+
+        entries.forEach(({ target, contentRect }) => {
+            if (reviewWidths.get(target) === contentRect.width) {
+                return;
+            }
+
+            reviewWidths.set(target, contentRect.width);
+            refreshReview(target.closest('.trip-review-card'));
+            widthChanged = true;
+        });
+
+        if (widthChanged) {
+            updateReviewHeight();
+            updateReviewAutoplay();
+        }
+    });
+
+    reviewCards.forEach((card) => reviewResizeObserver.observe(card.querySelector('[data-review-message]')));
+    document.fonts.ready.then(() => {
+        reviewCards.forEach(refreshReview);
+        updateReviewHeight();
+        updateReviewAutoplay();
+    });
+    updateReviewHeight();
 }
 
 const tourDetailSwiperEl = document.querySelector('.tour-detail-swiper');

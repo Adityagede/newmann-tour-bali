@@ -1,5 +1,8 @@
 @extends('layouts.app')
 
+@section('meta_title', 'Home | Bali Private Tours | Newman Tour Bali')
+@section('meta_description', 'Explore Bali with Newman Tour Bali. Enjoy private tours, flexible itineraries, a local guide, and comfortable transport for your island adventure.')
+
 @section('content')
 
 <section class="relative overflow-hidden bg-newman-navy text-white">
@@ -1085,7 +1088,7 @@ I will definitely visit again to Bali',
                     <div class="swiper-wrapper">
                         @foreach ($guestReviews as $review)
                             <div class="swiper-slide h-auto">
-                                <article class="trip-review-card flex h-full flex-col rounded-2xl border border-gray-100 bg-white p-5 shadow-sm shadow-newman-navy/5 sm:p-6">
+                                <article class="trip-review-card flex flex-col rounded-2xl border border-gray-100 bg-white p-5 shadow-sm shadow-newman-navy/5 sm:p-6">
                                     <div class="flex items-start justify-between gap-4">
                                         <div class="flex items-center gap-3">
                                             <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-newman-blue text-lg font-bold text-white">
@@ -1125,18 +1128,23 @@ I will definitely visit again to Bali',
                                             {{ $review['title'] }}
                                         </h4>
 
-                                        <p class="mt-3 line-clamp-4 text-sm leading-7 text-gray-600">
-                                            {{ $review['message'] }}
-                                        </p>
+                                        <p id="guest-review-message-{{ $loop->index }}" data-review-message class="mt-3 text-sm leading-7 text-gray-600">{{ $review['message'] }}</p>
                                     </div>
 
                                     <div class="mt-auto pt-6">
                                         <div class="flex items-center justify-between border-t border-gray-100 pt-4">
-                                            <button type="button" class="text-sm font-semibold text-gray-500 transition hover:text-newman-blue">
+                                            <button
+                                                type="button"
+                                                data-review-toggle
+                                                aria-controls="guest-review-message-{{ $loop->index }}"
+                                                aria-expanded="false"
+                                                hidden
+                                                class="text-sm font-semibold text-gray-500 transition hover:text-newman-blue focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-newman-blue"
+                                            >
                                                 Read more
                                             </button>
 
-                                            <span class="text-xs font-semibold uppercase tracking-[0.18em] text-newman-gold">
+                                            <span class="ml-auto text-xs font-semibold uppercase tracking-[0.18em] text-newman-gold">
                                                 Verified trip
                                             </span>
                                         </div>

@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('meta_title', 'Rate Your Trip | Newman Tour Bali')
+@section('meta_description', 'Share your experience traveling with Newman Tour Bali. Submit feedback and a rating for your completed Bali trip.')
+@section('meta_robots', 'noindex, nofollow')
+
 @section('content')
     @php
         $tourTitle = $booking->tourPackage?->title
