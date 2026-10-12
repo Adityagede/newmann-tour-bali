@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('meta_title', 'Gallery | Bali Guest Moments | Newman Tour Bali')
+@section('meta_description', 'See guest moments from private Bali trips with Newman Tour Bali. Explore photos of local culture, scenic destinations, and memorable island adventures.')
+@section('meta_image', asset('images/hero-gallery.webp'))
+
 @section('content')
 
 <section class="relative overflow-hidden bg-newman-navy pt-32 text-white sm:pt-36 lg:pt-40">

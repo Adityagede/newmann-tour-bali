@@ -47,7 +47,7 @@ class AdminGalleryMomentController extends Controller
             ->select('category')
             ->distinct()
             ->orderBy('category')
-            ->pluck('category');
+            ->pluck('category');    
 
         return view('admin.gallery.index', [
             'galleryMoments' => $galleryMoments,

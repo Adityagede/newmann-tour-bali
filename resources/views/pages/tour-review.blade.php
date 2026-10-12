@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('meta_title', 'Review Your Trip | ' . ($review['tour']['title'] ?? 'Bali Tour') . ' | Newman Tour Bali')
+@section('meta_description', 'Review your selected tour option, travel date, participants, and trip details before sending your booking request to Newman Tour Bali.')
+@section('meta_robots', 'noindex, nofollow')
+
 @section('content')
     @php
         $tour = $review['tour'];

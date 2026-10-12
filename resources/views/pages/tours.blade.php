@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('meta_title', 'Bali Tour Packages | Newman Tour Bali')
+@section('meta_description', 'Browse private Bali tour packages with Newman Tour Bali. Compare routes, itineraries, tour options, and availability to find a trip that suits your plans.')
+@section('meta_image', asset('images/hero-bg1.webp'))
+
 @section('content')
 <section class="relative overflow-hidden bg-newman-navy pt-32 text-white sm:pt-36 lg:pt-40">
     <div class="absolute inset-0">
@@ -118,7 +122,11 @@
 </div>
 
         <div class="mt-12 pb-8">
-            <div class="tour-experiences-grid-shell mx-auto w-[92%] max-w-7xl">
+            <div
+                data-aos="fade-up"
+                data-aos-delay="120"
+                class="tour-experiences-grid-shell mx-auto w-[92%] max-w-7xl"
+            >
                 <div class="tour-experiences-grid grid items-stretch gap-7 md:grid-cols-2 xl:grid-cols-3">
                     @forelse ($tours as $tour)
                         <x-tour-card

@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('meta_title', 'About Us | Local Bali Guide | Newman Tour Bali')
+@section('meta_description', 'Meet Newman, your local Bali guide. Discover the story behind Newman Tour Bali and our approach to personal, flexible, and comfortable private trips.')
+@section('meta_image', asset('images/owner.jpg'))
+
 @section('content')
 @php
     $values = [
