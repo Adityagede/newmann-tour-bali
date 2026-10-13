@@ -28,6 +28,22 @@ Tidak ada batas total order untuk seluruh pelanggan. Batas IP tetap dapat tercap
 
 ## Aktivasi di hosting
 
+### GitHub Actions untuk produksi Newman
+
+Workflow **Test cPanel SSH Connection** membaca versi PHP, cache, status migration, tabel antrean, dan keberadaan cron tanpa mengubah data pelanggan atau menampilkan kredensial. Jalankan pemeriksaan ini sebelum deploy.
+
+Workflow **Deploy Newman Production** hanya menerima branch `main`. Workflow membuat backup kode, `.env`, crontab, serta dump database terkompresi di direktori privat `$HOME/backups/newman-production-TIMESTAMP` dengan permission direktori `700`. Website masuk maintenance selama backup database, penggantian kode, migration, dan validasi. Credential MySQL sementara memakai file privat, tidak dikirim melalui argumen password, dan dibersihkan setelah backup atau saat kegagalan.
+
+Hanya migration `2026_10_13_100000_add_booking_submission_protection.php` yang dijalankan. Tabel pendukung harus sudah tersedia, konfigurasi cache harus persisten dan mendukung lock, serta recipient/SMTP harus terpasang. Ketidaksesuaian antara kolom booking dan catatan migration menghentikan deploy untuk pemeriksaan manual. Workflow memeriksa jumlah order lama sebelum/sesudah migration dan memperbaiki nilai `APP_URL` produksi yang sebelumnya salah (`http:https://newmantourbali.com`) menjadi `https://newmantourbali.com`.
+
+Input `booking_cron_minutes` memilih interval `5` (default) atau `1`. Cron memakai binary PHP aktif yang sudah diperiksa dan command `booking-notifications:work --max-time=50`; cron yang sudah ada dipertahankan. Input ini menentukan interval saat cron pertama kali dibuat. Mengubah interval cron yang sudah terpasang dilakukan melalui cPanel. Log berada di `$HOME/booking-notifications-cron.log`, di luar folder publik dengan permission `600`.
+
+Jika deploy gagal, workflow memulihkan kode, `.env`, dan crontab yang diubah serta mencoba membuka kembali website setelah pemulihan berhasil. Kegagalan pemulihan memerlukan pemeriksaan manual. Perubahan kolom tambahan tidak dibatalkan otomatis, dan dump database tidak di-restore otomatis agar tidak menimpa order. Backup privat disimpan untuk pemulihan manual. Workflow membangun ulang cache konfigurasi/Blade dan me-restart worker sebelum membuka website.
+
+Workflow SSH setelah deploy juga melaporkan jumlah job booking yang antre/gagal dan jumlah eksekusi pemulihan dari log cron. Status cron terpasang belum membuktikan email terkirim; verifikasi eksekusi cron dan lakukan booking uji yang disepakati untuk memastikan penerimaan email.
+
+### Aktivasi manual jika menggunakan mekanisme deploy lain
+
 1. Buat backup database melalui fasilitas hosting sebelum deploy. Pasang perubahan dalam maintenance window agar kode baru tidak mengakses kolom yang belum tersedia.
 2. Jalankan migration tambahan ini setelah tabel aplikasi, `jobs`, `failed_jobs`, `cache`, dan `cache_locks` tersedia:
 

@@ -103,6 +103,8 @@ jobs:
               'tables' => $tables,
               'booking_columns' => $schema,
               'booking_migration_applied' => $tables['migrations'] && Illuminate\Support\Facades\DB::table('migrations')->where('migration', '2026_10_13_100000_add_booking_submission_protection')->exists(),
+              'queued_booking_notifications' => $tables['jobs'] ? Illuminate\Support\Facades\DB::table('jobs')->where('queue', 'booking-notifications')->count() : null,
+              'failed_booking_notifications' => $tables['failed_jobs'] ? Illuminate\Support\Facades\DB::table('failed_jobs')->where('queue', 'booking-notifications')->count() : null,
           ], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES).PHP_EOL;
           PHP
           if command -v mysqldump >/dev/null 2>&1; then
@@ -114,8 +116,13 @@ jobs:
             echo "CRONTAB_AVAILABLE=yes"
             cron_count="$(crontab -l 2>/dev/null | awk '/^[[:space:]]*#/ {next} /booking-notifications:work/ {count++} END {print count+0}' || true)"
             echo "BOOKING_CRON_ENTRIES=${cron_count:-0}"
+            crontab -l 2>/dev/null | awk '/^[[:space:]]*#/ {next} /booking-notifications:work/ {print "BOOKING_CRON_MINUTE_FIELD=" $1}' || true
           else
             echo "CRONTAB_AVAILABLE=no"
+          fi
+          if [ -f "$HOME/booking-notifications-cron.log" ]; then
+            cron_runs="$(grep -c '^Pending booking notifications checked\.' "$HOME/booking-notifications-cron.log" || true)"
+            echo "BOOKING_CRON_COMPLETED_RECOVERY_RUNS=${cron_runs:-0}"
           fi
           echo "BOOKING_DEPLOYMENT_PREFLIGHT_OK"
           REMOTE_SCRIPT

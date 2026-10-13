@@ -2,6 +2,14 @@ name: Deploy Newman Production
 
 on:
   workflow_dispatch:
+    inputs:
+      booking_cron_minutes:
+        description: 'Process booking email queue every N minutes (orders are saved immediately)'
+        type: choice
+        default: '5'
+        options:
+          - '5'
+          - '1'
 
 permissions:
   contents: read
@@ -17,6 +25,11 @@ jobs:
     steps:
       - name: Checkout main
         uses: actions/checkout@v5
+
+      - name: Require production branch
+        env:
+          DEPLOY_REF: ${{ github.ref }}
+        run: test "$DEPLOY_REF" = refs/heads/main
 
       - name: Setup Node
         uses: actions/setup-node@v5
@@ -93,9 +106,10 @@ jobs:
           fi
 
           echo "Packaging database migration SOURCE FILES only..."
-          echo "No database migration will be executed automatically."
+          echo "Only the reviewed booking protection migration will run after database backup."
           mkdir -p deploy-package/database
           cp -a database/migrations deploy-package/database/migrations
+          cp .github/scripts/production-booking.php deploy-package/production-booking.php
 
           echo "Packaging Vite build..."
           cp -a public/build deploy-package/build
@@ -161,15 +175,21 @@ jobs:
 
       - name: Deploy Newman production safely
         shell: bash
+        env:
+          BOOKING_CRON_MINUTES: ${{ inputs.booking_cron_minutes }}
         run: |
           set -euo pipefail
+          case "$BOOKING_CRON_MINUTES" in
+            1|5) ;;
+            *) echo "Invalid notification cron interval"; exit 1 ;;
+          esac
 
           ssh \
             -o BatchMode=yes \
             -i ~/.ssh/newman_deploy_key \
             -p "${{ secrets.CPANEL_SSH_PORT }}" \
             "${{ secrets.CPANEL_SSH_USER }}@${{ secrets.CPANEL_SSH_HOST }}" \
-            'bash -s' <<'REMOTE_SCRIPT'
+            "bash -s -- '$BOOKING_CRON_MINUTES'" <<'REMOTE_SCRIPT'
 
           set -Eeuo pipefail
 
@@ -183,6 +203,11 @@ jobs:
           BACKUP_DIR="$HOME_DIR/backups/newman-production-$TIMESTAMP"
 
           DEPLOY_STARTED=0
+          MAINTENANCE_STARTED=0
+          CRON_CHANGED=0
+          BOOKING_CRON_MINUTES="$1"
+          PHP_BIN="$(php -r 'echo PHP_BINARY;')"
+          DUMP_BIN="$(command -v mysqldump)"
 
           restore_directory() {
             local backup_path="$1"
@@ -200,19 +225,25 @@ jobs:
 
             trap - ERR
             set +e
+            ROLLBACK_FAILED=0
 
             if [ "$DEPLOY_STARTED" -eq 1 ]; then
               echo "=========================================="
               echo "DEPLOYMENT_FAILED_ROLLING_BACK"
               echo "=========================================="
 
-              restore_directory "$BACKUP_DIR/app" "$APP_DIR/app"
-              restore_directory "$BACKUP_DIR/resources" "$APP_DIR/resources"
-              restore_directory "$BACKUP_DIR/config" "$APP_DIR/config"
-              restore_directory "$BACKUP_DIR/routes" "$APP_DIR/routes"
+              restore_directory "$BACKUP_DIR/app" "$APP_DIR/app" || ROLLBACK_FAILED=1
+              restore_directory "$BACKUP_DIR/resources" "$APP_DIR/resources" || ROLLBACK_FAILED=1
+              restore_directory "$BACKUP_DIR/config" "$APP_DIR/config" || ROLLBACK_FAILED=1
+              restore_directory "$BACKUP_DIR/routes" "$APP_DIR/routes" || ROLLBACK_FAILED=1
+
+              cp -a "$BACKUP_DIR/production.env" "$APP_DIR/.env" || ROLLBACK_FAILED=1
+              if [ "$CRON_CHANGED" -eq 1 ]; then
+                crontab "$BACKUP_DIR/crontab.before" || ROLLBACK_FAILED=1
+              fi
 
               if [ -d "$BACKUP_DIR/lang" ]; then
-                restore_directory "$BACKUP_DIR/lang" "$APP_DIR/lang"
+                restore_directory "$BACKUP_DIR/lang" "$APP_DIR/lang" || ROLLBACK_FAILED=1
               fi
 
               if [ -d "$BACKUP_DIR/database/migrations" ]; then
@@ -220,41 +251,51 @@ jobs:
                 mkdir -p "$APP_DIR/database"
                 cp -a \
                   "$BACKUP_DIR/database/migrations" \
-                  "$APP_DIR/database/migrations"
+                  "$APP_DIR/database/migrations" || ROLLBACK_FAILED=1
               fi
 
               if [ -f "$BACKUP_DIR/bootstrap/app.php" ]; then
                 cp -a \
                   "$BACKUP_DIR/bootstrap/app.php" \
-                  "$APP_DIR/bootstrap/app.php"
+                  "$APP_DIR/bootstrap/app.php" || ROLLBACK_FAILED=1
               fi
 
               if [ -f "$BACKUP_DIR/bootstrap/providers.php" ]; then
                 cp -a \
                   "$BACKUP_DIR/bootstrap/providers.php" \
-                  "$APP_DIR/bootstrap/providers.php"
+                  "$APP_DIR/bootstrap/providers.php" || ROLLBACK_FAILED=1
               fi
 
               if [ -d "$BACKUP_DIR/laravel-public-build" ]; then
                 rm -rf "$APP_DIR/public/build"
                 cp -a \
                   "$BACKUP_DIR/laravel-public-build" \
-                  "$APP_DIR/public/build"
+                  "$APP_DIR/public/build" || ROLLBACK_FAILED=1
               fi
 
               if [ -d "$BACKUP_DIR/public-html-build" ]; then
                 rm -rf "$WEB_DIR/build"
                 cp -a \
                   "$BACKUP_DIR/public-html-build" \
-                  "$WEB_DIR/build"
+                  "$WEB_DIR/build" || ROLLBACK_FAILED=1
               fi
 
-              php "$APP_DIR/artisan" optimize:clear >/dev/null 2>&1 || true
+              php "$APP_DIR/artisan" optimize:clear >/dev/null 2>&1 || ROLLBACK_FAILED=1
 
-              echo "ROLLBACK_OK"
+              echo "Database backup is retained; additive schema changes are not reversed automatically."
               echo "Restored from: $BACKUP_DIR"
             fi
 
+            if [ "$MAINTENANCE_STARTED" -eq 1 ] && [ "$ROLLBACK_FAILED" -eq 0 ]; then
+              "$PHP_BIN" "$APP_DIR/artisan" up || ROLLBACK_FAILED=1
+            fi
+            if [ "$ROLLBACK_FAILED" -eq 0 ]; then
+              echo "ROLLBACK_OK"
+            else
+              echo "ROLLBACK_REQUIRES_MANUAL_CHECK; maintenance mode retained when possible."
+            fi
+
+            rm -f "$BACKUP_DIR/mysql-client.cnf"
             rm -rf "$RELEASE_DIR"
             rm -f "$PACKAGE"
 
@@ -301,6 +342,8 @@ jobs:
 
           mkdir -p "$RELEASE_DIR"
           mkdir -p "$BACKUP_DIR"
+          chmod 700 "$RELEASE_DIR"
+          chmod 700 "$BACKUP_DIR"
 
           echo "Extracting deployment archive..."
 
@@ -319,8 +362,11 @@ jobs:
           test -f "$RELEASE_DIR/deploy-package/bootstrap/app.php"
           test -f "$RELEASE_DIR/deploy-package/routes/web.php"
           test -f "$RELEASE_DIR/deploy-package/build/manifest.json"
+          test -f "$RELEASE_DIR/deploy-package/production-booking.php"
 
           echo "PACKAGE_EXTRACTION_OK"
+          "$PHP_BIN" "$RELEASE_DIR/deploy-package/production-booking.php" "$APP_DIR" preflight
+          command -v crontab >/dev/null
 
           echo "Creating safety backup..."
 
@@ -328,6 +374,13 @@ jobs:
           cp -a "$APP_DIR/resources" "$BACKUP_DIR/resources"
           cp -a "$APP_DIR/config" "$BACKUP_DIR/config"
           cp -a "$APP_DIR/routes" "$BACKUP_DIR/routes"
+          cp -a "$APP_DIR/.env" "$BACKUP_DIR/production.env"
+          chmod 600 "$BACKUP_DIR/production.env"
+
+          if ! crontab -l > "$BACKUP_DIR/crontab.before" 2> "$BACKUP_DIR/crontab-read-errors.log"; then
+            grep -qi 'no crontab' "$BACKUP_DIR/crontab-read-errors.log"
+            : > "$BACKUP_DIR/crontab.before"
+          fi
 
           if [ -d "$APP_DIR/lang" ]; then
             cp -a "$APP_DIR/lang" "$BACKUP_DIR/lang"
@@ -366,7 +419,22 @@ jobs:
           echo "BACKUP_OK"
           echo "Backup directory: $BACKUP_DIR"
 
+          "$PHP_BIN" "$APP_DIR/artisan" down --retry=60
+          MAINTENANCE_STARTED=1
+          "$PHP_BIN" "$RELEASE_DIR/deploy-package/production-booking.php" "$APP_DIR" prepare-backup "$BACKUP_DIR"
+          DATABASE_NAME="$(cat "$BACKUP_DIR/database-name.txt")"
+          "$DUMP_BIN" --defaults-extra-file="$BACKUP_DIR/mysql-client.cnf" \
+            --single-transaction --quick --skip-lock-tables --no-tablespaces --hex-blob \
+            "$DATABASE_NAME" > "$BACKUP_DIR/database.sql" 2> "$BACKUP_DIR/database-backup-errors.log"
+          rm -f "$BACKUP_DIR/mysql-client.cnf"
+          test -s "$BACKUP_DIR/database.sql"
+          chmod 600 "$BACKUP_DIR/database.sql"
+          gzip "$BACKUP_DIR/database.sql"
+          gzip -t "$BACKUP_DIR/database.sql.gz"
+          echo "DATABASE_BACKUP_OK"
+
           DEPLOY_STARTED=1
+          "$PHP_BIN" "$RELEASE_DIR/deploy-package/production-booking.php" "$APP_DIR" normalize-url
 
           echo "Deploying Laravel application code..."
           replace_directory \
@@ -407,7 +475,7 @@ jobs:
           fi
 
           echo "Deploying migration source files only..."
-          echo "No migration command is executed by this workflow."
+          echo "Only the booking protection migration will be applied in the maintenance window."
 
           mkdir -p "$APP_DIR/database/migrations"
           cp -a \
@@ -481,6 +549,33 @@ jobs:
           echo "Clearing Laravel runtime caches..."
 
           php "$APP_DIR/artisan" optimize:clear
+          cd "$APP_DIR"
+          "$PHP_BIN" artisan migrate \
+            --path=database/migrations/2026_10_13_100000_add_booking_submission_protection.php \
+            --force
+          "$PHP_BIN" "$RELEASE_DIR/deploy-package/production-booking.php" "$APP_DIR" validate "$BACKUP_DIR"
+          "$PHP_BIN" artisan config:cache
+          "$PHP_BIN" artisan view:cache
+          "$PHP_BIN" artisan queue:restart
+
+          touch "$HOME_DIR/booking-notifications-cron.log"
+          chmod 600 "$HOME_DIR/booking-notifications-cron.log"
+          if ! grep -Eq '^[[:space:]]*[^#[:space:]].*booking-notifications:work' "$BACKUP_DIR/crontab.before"; then
+            cp "$BACKUP_DIR/crontab.before" "$BACKUP_DIR/crontab.new"
+            if [ "$BOOKING_CRON_MINUTES" = 1 ]; then
+              CRON_MINUTE='*'
+            else
+              CRON_MINUTE='*/5'
+            fi
+            printf '\n# Newman booking notification queue\n' >> "$BACKUP_DIR/crontab.new"
+            printf '%s * * * * cd %q && %q artisan booking-notifications:work --max-time=50 >> %q 2>&1\n' \
+              "$CRON_MINUTE" "$APP_DIR" "$PHP_BIN" "$HOME_DIR/booking-notifications-cron.log" \
+              >> "$BACKUP_DIR/crontab.new"
+            CRON_CHANGED=1
+            crontab "$BACKUP_DIR/crontab.new"
+          fi
+          crontab -l | grep -Eq '^[[:space:]]*[^#[:space:]].*booking-notifications:work'
+          echo "BOOKING_NOTIFICATION_CRON_OK"
 
           echo "Validating protected production files..."
 
@@ -529,8 +624,9 @@ jobs:
             echo "ADMIN_RATINGS_ROUTES_OK"
           fi
 
-          echo "Database migration execution intentionally skipped."
-          echo "Migration status must be reviewed manually in cPanel/SSH when schema changes are part of a release."
+          echo "Reviewed booking migration applied; all other migrations are left untouched."
+          "$PHP_BIN" artisan up
+          MAINTENANCE_STARTED=0
 
           echo "Cleaning temporary deployment files..."
 
