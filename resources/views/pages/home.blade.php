@@ -270,7 +270,7 @@
                         >
                     </div>
 
-                    <div class="guide-photo-note absolute -bottom-6 left-5 right-5 bg-newman-navy p-5 text-white shadow-2xl sm:left-auto sm:right-8 sm:w-[320px]">
+                    <div class="guide-photo-note absolute -bottom-6 left-5 right-5 z-10 bg-newman-navy p-5 text-white shadow-2xl sm:left-auto sm:right-8 sm:w-[320px]">
                         <p class="text-xs font-semibold uppercase tracking-[0.28em] text-newman-gold">
                             {{ __('Local Guide') }}
                         </p>
@@ -280,8 +280,8 @@
                         </p>
                     </div>
 
-                    <div class="absolute -right-4 top-8 hidden h-24 w-24 border border-newman-gold/40 lg:block"></div>
-                    <div class="absolute -left-4 bottom-16 hidden h-32 w-32 bg-newman-sand lg:block"></div>
+                    <div aria-hidden="true" class="pointer-events-none absolute -right-4 top-8 hidden h-24 w-24 border border-newman-gold/40 lg:block"></div>
+                    <div aria-hidden="true" class="pointer-events-none absolute -left-4 bottom-16 hidden h-32 w-32 bg-newman-sand lg:block"></div>
                 </div>
             </div>
 
@@ -425,7 +425,7 @@
 @php
     $vehicles = [
         [
-            'name' => 'Toyota Avanza',
+            'name' => 'Toyota Avanza / Innova ',
             'label' => 'Small Private Car',
             'badge' => 'Best for small group',
             'capacity' => '1–4 passengers',
@@ -1129,7 +1129,7 @@ I will definitely visit again to Bali',
                                     </div>
 
                                     <div class="mt-auto pt-6">
-                                        <div class="flex items-center justify-between border-t border-gray-100 pt-4">
+                                        <div class="trip-review-footer border-t border-gray-100 pt-4">
                                             <button
                                                 type="button"
                                                 data-review-toggle
@@ -1141,7 +1141,7 @@ I will definitely visit again to Bali',
                                                 {{ __('Read more') }}
                                             </button>
 
-                                            <span class="ml-auto text-xs font-semibold uppercase tracking-[0.18em] text-newman-gold">
+                                            <span class="trip-review-verification text-xs font-semibold uppercase tracking-[0.18em] text-newman-gold">
                                                 {{ __('Verified trip') }}
                                             </span>
                                         </div>

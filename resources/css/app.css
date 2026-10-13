@@ -1142,6 +1142,40 @@ html:not(.aos-initialized) [data-aos] {
     overflow: hidden;
 }
 
+#reviews [data-review-message][data-animating="true"] {
+    overflow: hidden;
+}
+
+#reviews .trip-review-footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 1rem;
+}
+
+#reviews [data-review-toggle] {
+    flex: 0 0 auto;
+    max-width: 100%;
+    min-height: 2.75rem;
+    text-align: left;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+#reviews [data-review-toggle]:lang(id) {
+    /* Reserve room for either Indonesian label so toggling does not rewrap the footer. */
+    min-width: min(100%, 10.5rem);
+}
+
+#reviews .trip-review-verification {
+    flex: 1 1 9rem;
+    min-width: 0;
+    margin-left: auto;
+    text-align: right;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+}
+
 #reviews [data-review-toggle][hidden] {
     display: none;
 }
@@ -1211,6 +1245,14 @@ html:not(.aos-initialized) [data-aos] {
     .trip-review-card:hover {
         transform: none;
         box-shadow: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #reviews .trip-review-card,
+    #reviews .review-nav-btn,
+    #reviews .swiper-wrapper {
+        transition: none !important;
     }
 }
 

@@ -193,6 +193,8 @@ if (reviewSwiperEl) {
     });
 
     const reviewCards = Array.from(reviewSwiperEl.querySelectorAll('.trip-review-card'));
+    const reviewMessageStates = new WeakMap();
+    const reducedReviewMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     const updateReviewHeight = () => reviewSwiper.updateAutoHeight(0);
     const updateReviewAutoplay = () => {
         const hasExpandedReview = reviewCards.some((card) =>
@@ -210,11 +212,20 @@ if (reviewSwiperEl) {
         const message = card.querySelector('[data-review-message]');
         const button = card.querySelector('[data-review-toggle]');
         const wasExpanded = button.getAttribute('aria-expanded') === 'true';
+        const state = reviewMessageStates.get(message) ?? {};
+
+        state.animation?.cancel();
+        state.animation = null;
+        delete message.dataset.animating;
+        message.dataset.collapsed = 'false';
+        state.expandedHeight = message.scrollHeight;
 
         message.dataset.collapsed = 'true';
-        const isTruncated = message.scrollHeight > message.clientHeight + 1;
+        state.collapsedHeight = message.getBoundingClientRect().height;
+        const isTruncated = state.expandedHeight > state.collapsedHeight + 1;
         const isExpanded = isTruncated && wasExpanded;
 
+        reviewMessageStates.set(message, state);
         message.dataset.collapsed = String(isTruncated && !isExpanded);
         button.hidden = !isTruncated;
         button.setAttribute('aria-expanded', String(isExpanded));
@@ -228,12 +239,44 @@ if (reviewSwiperEl) {
         refreshReview(card);
         button.addEventListener('click', () => {
             const isExpanded = button.getAttribute('aria-expanded') !== 'true';
+            const state = reviewMessageStates.get(message);
+            const startHeight = message.getBoundingClientRect().height;
+            const endHeight = isExpanded ? state.expandedHeight : state.collapsedHeight;
 
-            message.dataset.collapsed = String(!isExpanded);
+            // Capture the current height before cancellation so rapid clicks reverse smoothly.
+            state.animation?.cancel();
+            state.animation = null;
             button.setAttribute('aria-expanded', String(isExpanded));
             button.textContent = Alpine.store('language').text(isExpanded ? 'Read less' : 'Read more');
-            updateReviewHeight();
             updateReviewAutoplay();
+
+            if (reducedReviewMotion.matches || Math.abs(startHeight - endHeight) < 1) {
+                delete message.dataset.animating;
+                message.dataset.collapsed = String(!isExpanded);
+                updateReviewHeight();
+                return;
+            }
+
+            message.dataset.collapsed = 'false';
+            message.dataset.animating = 'true';
+            const animation = message.animate([
+                { height: `${startHeight}px` },
+                { height: `${endHeight}px` },
+            ], {
+                duration: 320,
+                easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
+                fill: 'both',
+            });
+            state.animation = animation;
+            animation.onfinish = () => {
+                if (state.animation !== animation) return;
+                message.dataset.collapsed = String(!isExpanded);
+                delete message.dataset.animating;
+                state.animation = null;
+                animation.cancel();
+                updateReviewHeight();
+            };
+            updateReviewHeight();
         });
     });
 
@@ -243,6 +286,8 @@ if (reviewSwiperEl) {
         let widthChanged = false;
 
         entries.forEach(({ target, contentRect }) => {
+            // The wrapper follows each animated height change, keeping the footer visible.
+            updateReviewHeight();
             if (reviewWidths.get(target) === contentRect.width) {
                 return;
             }
