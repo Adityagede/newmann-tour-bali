@@ -12,6 +12,7 @@ use App\Services\TourPricingService;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
 use Throwable;
 
@@ -412,6 +413,7 @@ final class TourReviewController extends Controller
             [
                 'review' => $review,
                 'isPreview' => $isPreview,
+                'submissionToken' => old('submission_token', (string) Str::uuid()),
             ]
         );
     }

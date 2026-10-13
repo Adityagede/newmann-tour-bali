@@ -37,6 +37,7 @@ final class SubmitCustomTripRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'submission_token' => ['nullable', 'uuid'],
             'trip_date' => [
                 'nullable',
                 'date',
@@ -104,14 +105,16 @@ final class SubmitCustomTripRequest extends FormRequest
         ];
     }
 
-    private function cleanString(string $key): string
+    private function cleanString(string $key): mixed
     {
-        return trim((string) $this->input($key, ''));
+        $value = $this->input($key, '');
+
+        return is_string($value) ? trim($value) : $value;
     }
 
-    private function cleanNullableString(string $key): ?string
+    private function cleanNullableString(string $key): mixed
     {
-        $value = trim((string) $this->input($key, ''));
+        $value = $this->cleanString($key);
 
         return $value === '' ? null : $value;
     }

@@ -225,9 +225,13 @@
                         <form
     method="POST"
     action="{{ $bookingRequestEndpoint }}"
+    x-data="{ submitting: false }"
+    @pageshow.window="submitting = false"
+    @submit="if (submitting) { $event.preventDefault(); } else { submitting = true; }"
     class="mt-6 space-y-5"
 >
     @csrf
+    <input type="hidden" name="submission_token" value="{{ $submissionToken }}">
 
                         <div>
                             <label
@@ -358,6 +362,8 @@
 @else
     <button
         type="submit"
+        :disabled="submitting"
+        :aria-busy="submitting.toString()"
         class="flex min-h-14 w-full items-center justify-center rounded-xl bg-newman-gold px-6 py-4 text-xs font-bold uppercase tracking-[0.14em] text-newman-navy transition duration-300 hover:-translate-y-0.5 hover:bg-newman-navy hover:text-white"
     >
         {{ __('Send booking request') }}

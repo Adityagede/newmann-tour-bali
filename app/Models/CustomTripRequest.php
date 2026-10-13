@@ -18,6 +18,9 @@ final class CustomTripRequest extends Model
     protected $table = 'bookings';
 
     protected $fillable = [
+        'submission_key',
+        'submission_hash',
+        'admin_notification_pending',
         'booking_code',
         'tour_package_id',
         'name',
@@ -44,6 +47,9 @@ final class CustomTripRequest extends Model
     protected function casts(): array
     {
         return [
+            'admin_notification_pending' => 'boolean',
+            'admin_notification_queued_at' => 'datetime',
+            'admin_notified_at' => 'datetime',
             'trip_date' => 'date:Y-m-d',
             'people_count' => 'integer',
         ];

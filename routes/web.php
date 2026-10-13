@@ -70,7 +70,7 @@ Route::get('/tours/{slug}', [TourController::class, 'show'])->name('tours.detail
 Route::post(
     '/tours/{slug}/availability',
     [TourController::class, 'availability']
-)->name('tours.availability');
+)->middleware('throttle:public-availability')->name('tours.availability');
 
 Route::post(
     '/tours/{slug}/review',
@@ -79,7 +79,7 @@ Route::post(
         'store',
     ]
 )
-    ->name('tours.review.store');
+    ->middleware('throttle:public-availability')->name('tours.review.store');
 
 Route::get(
     '/tours/{slug}/review',
@@ -103,7 +103,7 @@ Route::post(
         'store',
     ]
 )
-    ->name(
+    ->middleware('throttle:public-booking')->name(
         'tours.booking-request.store'
     );
 
@@ -155,7 +155,7 @@ Route::get(
 Route::post(
     '/custom-trip',
     [CustomTripRequestController::class, 'store']
-)->name('custom-trip.store');
+)->middleware('throttle:public-booking')->name('custom-trip.store');
 
 Route::get(
     '/custom-trip/success/{bookingCode}',

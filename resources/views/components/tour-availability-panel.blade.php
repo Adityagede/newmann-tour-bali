@@ -136,6 +136,7 @@
 <aside 
     id="tour-booking-panel-{{ $tour['id'] }}"
     data-tour-booking-panel
+    :class="{ 'has-availability-result': !!result }"
     x-data="{
      endpoint: @js(route('tours.availability', $tour['slug'])),
        
@@ -151,7 +152,7 @@
 
     participantsOpen: false,
     loading: false,
-    error: '',
+    error: @js(session('error', '')),
     result: null,
 
     minGuests: {{ $minimumGuests }},

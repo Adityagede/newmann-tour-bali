@@ -25,6 +25,9 @@ final class TourBookingRequest extends Model
     ];
 
     protected $fillable = [
+        'submission_key',
+        'submission_hash',
+        'admin_notification_pending',
         'booking_reference',
         'tour_package_id',
         'tour_option_id',
@@ -65,6 +68,9 @@ final class TourBookingRequest extends Model
     protected function casts(): array
     {
         return [
+            'admin_notification_pending' => 'boolean',
+            'admin_notification_queued_at' => 'datetime',
+            'admin_notified_at' => 'datetime',
             'travel_date' => 'date:Y-m-d',
 
             'adult_count' => 'integer',

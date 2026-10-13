@@ -31,6 +31,16 @@ return [
 
     'connections' => [
 
+        // Booking records and their notification jobs share one transaction/database.
+        'booking-notifications' => [
+            'driver' => 'database',
+            'connection' => null,
+            'table' => 'jobs',
+            'queue' => 'booking-notifications',
+            'retry_after' => 90,
+            'after_commit' => false,
+        ],
+
         'sync' => [
             'driver' => 'sync',
         ],

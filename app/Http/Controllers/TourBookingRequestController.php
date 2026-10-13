@@ -8,16 +8,18 @@ use App\Http\Requests\SubmitTourBookingRequest;
 use App\Models\TourBookingRequest;
 use App\Models\TourOption;
 use App\Models\TourPackage;
-use App\Notifications\NewTourBookingRequestNotification;
+use App\Services\BookingNotificationDispatcher;
 use App\Services\TourAvailabilityService;
 use App\Services\TourPricingService;
+use App\Support\BookingSubmission;
 use Carbon\Carbon;
+use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
+use Illuminate\Validation\ValidationException;
 use RuntimeException;
 use Throwable;
 
@@ -25,7 +27,9 @@ final class TourBookingRequestController extends Controller
 {
     public function __construct(
         private readonly TourAvailabilityService $availabilityService,
-        private readonly TourPricingService $pricingService
+        private readonly TourPricingService $pricingService,
+        private readonly BookingSubmission $submissions,
+        private readonly BookingNotificationDispatcher $notifications,
     ) {
     }
 
@@ -33,6 +37,13 @@ final class TourBookingRequestController extends Controller
         SubmitTourBookingRequest $request,
         string $slug
     ): RedirectResponse {
+        $submissionKey = $this->submissions->key($request, 'tour:'.$slug);
+        $submissionHash = $this->submissions->fingerprint($request->validated());
+        $existing = TourBookingRequest::where('submission_key', $submissionKey)->first();
+        if ($existing) {
+            return $this->replaySubmission($request, $existing, $submissionHash);
+        }
+
         $review = $request
             ->session()
             ->get(
@@ -257,7 +268,9 @@ final class TourBookingRequestController extends Controller
                     $startingTime,
                     $language,
                     $availability,
-                    $pricing
+                    $pricing,
+                    $submissionKey,
+                    $submissionHash,
                 ): TourBookingRequest {
                     $included =
                         $tourOption
@@ -335,6 +348,9 @@ final class TourBookingRequestController extends Controller
 
                     return TourBookingRequest::query()
                         ->create([
+                            'submission_key' => $submissionKey,
+                            'submission_hash' => $submissionHash,
+                            'admin_notification_pending' => $this->notifications->enabled(),
                             'booking_reference' =>
                                 $this
                                     ->generateReference(),
@@ -524,6 +540,16 @@ final class TourBookingRequestController extends Controller
                         ]);
                 }
             );
+        } catch (UniqueConstraintViolationException $exception) {
+            $existing = TourBookingRequest::where('submission_key', $submissionKey)->first();
+            if ($existing) {
+                return $this->replaySubmission($request, $existing, $submissionHash);
+            }
+            report($exception);
+
+            return back()->withInput()->withErrors([
+                'booking' => 'The Booking Request could not be submitted. Please check the selected trip details and try again.',
+            ]);
         } catch (Throwable $exception) {
             report($exception);
 
@@ -536,11 +562,10 @@ final class TourBookingRequestController extends Controller
         }
 
         /*
-         * SMTP notification is sent only after the V2 booking
-         * transaction has completed successfully. A mail failure
-         * is reported without cancelling the guest's booking.
+         * The saved booking is independent of email delivery.
+         * Notification jobs can wait for the worker or hosting cron.
          */
-        $this->sendAdminNotification($booking);
+        $this->notifications->dispatch($booking, 'tour');
 
         $request->session()->forget(
             'tour_review_selection'
@@ -778,40 +803,27 @@ final class TourBookingRequestController extends Controller
             ->all();
     }
 
-    private function sendAdminNotification(
-        TourBookingRequest $booking
-    ): void {
-        $adminEmail = config(
-            'newman.booking_notification_email'
-        );
-
-        if (!is_string($adminEmail)) {
-            return;
+    private function replaySubmission(SubmitTourBookingRequest $request, TourBookingRequest $booking, string $hash): RedirectResponse
+    {
+        $this->submissions->assertSamePayload($booking->submission_hash, $hash);
+        $review = $request->session()->get('tour_review_selection');
+        if (is_array($review)) {
+            $selection = $review['selection'] ?? [];
+            $stored = $booking->selection_snapshot ?? [];
+            $fields = ['travel_date', 'starting_time', 'language', 'participants'];
+            if (($review['is_preview'] ?? false)
+                || (int) ($review['tour']['id'] ?? 0) !== (int) $booking->tour_package_id
+                || (int) ($review['option']['id'] ?? 0) !== (int) $booking->tour_option_id
+                || $this->submissions->fingerprint(array_intersect_key($selection, array_flip($fields)))
+                    !== $this->submissions->fingerprint(array_intersect_key($stored, array_flip($fields)))) {
+                throw ValidationException::withMessages(['booking' => __('security.changed_submission')]);
+            }
+            $request->session()->forget('tour_review_selection');
         }
+        $request->session()->put('booking_success_reference', $booking->booking_reference);
+        $this->notifications->dispatch($booking, 'tour');
 
-        $adminEmail = trim($adminEmail);
-
-        if ($adminEmail === '') {
-            return;
-        }
-
-        try {
-            $booking->loadMissing([
-                'tourPackage:id,title,slug',
-                'tourOption:id,title,slug',
-            ]);
-
-            Notification::route(
-                'mail',
-                $adminEmail
-            )->notify(
-                new NewTourBookingRequestNotification(
-                    $booking
-                )
-            );
-        } catch (Throwable $exception) {
-            report($exception);
-        }
+        return redirect()->route('booking-requests.success', ['reference' => $booking->booking_reference]);
     }
 
     private function generateReference(): string

@@ -75,6 +75,7 @@ final class SubmitTourBookingRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'submission_token' => ['nullable', 'uuid'],
             'full_name' => [
                 'required',
                 'string',

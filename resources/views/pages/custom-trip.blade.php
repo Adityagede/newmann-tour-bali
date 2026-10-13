@@ -37,6 +37,8 @@
         $initialStep = 2;
     } elseif ($errors->hasAny($stepThreeFields)) {
         $initialStep = 3;
+    } elseif ($errors->has('booking')) {
+        $initialStep = 4;
     }
 
     $vehicleCards = [
@@ -143,6 +145,7 @@
 <section
     x-data="{
         step: @js($initialStep),
+        submitting: false,
         tripDate: @js(old('trip_date', '')),
         peopleCount: @js(old('people_count', '')),
         pickupArea: @js(old('pickup_area', '')),
@@ -291,6 +294,8 @@
         },
 
         submitRequest() {
+            if (this.submitting) return;
+            this.submitting = true;
             this.$refs.customTripForm.submit();
         },
 
@@ -303,6 +308,7 @@
             });
         }
     }"
+    @pageshow.window="submitting = false"
    class="relative overflow-x-clip bg-white py-14 sm:py-20 lg:py-24"
 >
     <div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-newman-gold/30 to-transparent"></div>
@@ -388,6 +394,7 @@
                 method="POST"
             >
                 @csrf
+                <input type="hidden" name="submission_token" value="{{ $submissionToken }}">
 
                 <input type="hidden" name="selected_vehicle" :value="vehicle">
 
@@ -797,6 +804,8 @@
                             x-cloak
                             type="button"
                             @click="submitRequest()"
+                            :disabled="submitting"
+                            :aria-busy="submitting.toString()"
                             class="flex w-full min-w-0 items-center justify-center whitespace-normal break-words bg-newman-gold px-4 py-4 text-center text-xs font-bold uppercase leading-5 tracking-[0.08em] text-newman-navy transition duration-300 hover:-translate-y-1 hover:bg-newman-navy hover:text-white hover:shadow-xl sm:w-auto sm:px-7 sm:text-sm sm:tracking-[0.14em]"
                         >
                             {{ __('Submit Custom Trip Request') }}

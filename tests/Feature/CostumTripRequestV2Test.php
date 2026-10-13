@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Tests\Feature;
 
-use App\Notifications\NewCustomTripRequestNotification;
+use App\Jobs\SendBookingNotification;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Queue;
 use Tests\TestCase;
 
 final class CustomTripRequestV2Test extends TestCase
@@ -27,6 +28,7 @@ final class CustomTripRequestV2Test extends TestCase
     public function test_custom_trip_request_is_saved_without_package_booking_data(): void
     {
         Notification::fake();
+        Queue::fake();
 
         config()->set(
             'newman.booking_notification_email',
@@ -55,9 +57,8 @@ final class CustomTripRequestV2Test extends TestCase
             'status' => 'pending',
         ]);
 
-        Notification::assertSentOnDemand(
-            NewCustomTripRequestNotification::class
-        );
+        Queue::assertPushed(SendBookingNotification::class, fn ($job) => $job->flow === 'custom');
+        Notification::assertNothingSent();
     }
 
     public function test_people_count_and_trip_plan_are_required(): void
