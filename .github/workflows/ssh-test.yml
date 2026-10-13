@@ -3,6 +3,9 @@ name: Test cPanel SSH Connection
 on:
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   test-ssh:
     runs-on: ubuntu-latest
@@ -51,3 +54,68 @@ jobs:
             -p "${{ secrets.CPANEL_SSH_PORT }}" \
             "${{ secrets.CPANEL_SSH_USER }}@${{ secrets.CPANEL_SSH_HOST }}" \
             'echo "SSH_CONNECTION_OK" && whoami && hostname && pwd'
+
+      - name: Inspect booking deployment prerequisites without changing production
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          ssh \
+            -o BatchMode=yes \
+            -i ~/.ssh/newman_deploy_key \
+            -p "${{ secrets.CPANEL_SSH_PORT }}" \
+            "${{ secrets.CPANEL_SSH_USER }}@${{ secrets.CPANEL_SSH_HOST }}" \
+            'bash -s' <<'REMOTE_SCRIPT'
+          set -euo pipefail
+          cd "$HOME/laravel-core"
+          test -f artisan
+          test -f vendor/autoload.php
+          echo "BOOKING_DEPLOYMENT_PREFLIGHT"
+          php <<'PHP'
+          <?php
+          require getcwd().'/vendor/autoload.php';
+          $app = require getcwd().'/bootstrap/app.php';
+          $app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
+          $columns = ['submission_key', 'submission_hash', 'admin_notification_pending', 'admin_notification_queued_at', 'admin_notified_at'];
+          $tables = [];
+          foreach (['bookings', 'tour_booking_requests', 'jobs', 'failed_jobs', 'cache', 'cache_locks', 'migrations'] as $table) {
+              $tables[$table] = Illuminate\Support\Facades\Schema::hasTable($table);
+          }
+          $schema = [];
+          foreach (['bookings', 'tour_booking_requests'] as $table) {
+              $schema[$table] = [];
+              foreach ($columns as $column) {
+                  $schema[$table][$column] = $tables[$table] && Illuminate\Support\Facades\Schema::hasColumn($table, $column);
+              }
+          }
+          $recipient = config('newman.booking_notification_email');
+          echo json_encode([
+              'php_version' => PHP_VERSION,
+              'php_binary' => PHP_BINARY,
+              'pcntl_available' => function_exists('pcntl_alarm'),
+              'app_url' => config('app.url'),
+              'database_driver' => config('database.connections.'.config('database.default').'.driver'),
+              'cache_store' => config('cache.default'),
+              'cache_driver' => config('cache.stores.'.config('cache.default').'.driver'),
+              'mail_transport' => config('mail.mailers.'.config('mail.default').'.transport'),
+              'booking_recipient_configured' => is_string($recipient) && trim($recipient) !== '',
+              'maintenance_mode' => $app->isDownForMaintenance(),
+              'tables' => $tables,
+              'booking_columns' => $schema,
+              'booking_migration_applied' => $tables['migrations'] && Illuminate\Support\Facades\DB::table('migrations')->where('migration', '2026_10_13_100000_add_booking_submission_protection')->exists(),
+          ], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES).PHP_EOL;
+          PHP
+          if command -v mysqldump >/dev/null 2>&1; then
+            echo "MYSQLDUMP_AVAILABLE=yes"
+          else
+            echo "MYSQLDUMP_AVAILABLE=no"
+          fi
+          if command -v crontab >/dev/null 2>&1; then
+            echo "CRONTAB_AVAILABLE=yes"
+            cron_count="$(crontab -l 2>/dev/null | awk '/^[[:space:]]*#/ {next} /booking-notifications:work/ {count++} END {print count+0}' || true)"
+            echo "BOOKING_CRON_ENTRIES=${cron_count:-0}"
+          else
+            echo "CRONTAB_AVAILABLE=no"
+          fi
+          echo "BOOKING_DEPLOYMENT_PREFLIGHT_OK"
+          REMOTE_SCRIPT
