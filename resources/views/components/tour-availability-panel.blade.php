@@ -253,7 +253,7 @@
             ?? raw.vehicle_name
             ?? raw.name
             ?? raw.title
-            ?? 'Recommended transport',
+            ?? @js(__('Recommended transport')),
 
         type:
             raw.vehicle_type
@@ -308,7 +308,7 @@ get transportCapacityLabel() {
         || transport.capacity === null
         || transport.capacity === undefined
     ) {
-        return 'Confirmed after request';
+        return @js(__('Confirmed after request'));
     }
 
     const capacity =
@@ -413,7 +413,7 @@ get transportQuantityLabel() {
 
         if (!this.date) {
             this.error =
-                'Please select a travel date.';
+                @js(__('Please select a travel date.'));
 
             return;
         }
@@ -442,7 +442,7 @@ get transportQuantityLabel() {
             && !this.language
         ) {
             this.error =
-                'Please select a language.';
+                @js(__('Please select a language.'));
 
             return;
         }
@@ -513,7 +513,7 @@ get transportQuantityLabel() {
                 throw new Error(
                     validationMessage
                     || data.message
-                    || 'Availability could not be checked.'
+                    || @js(__('Availability could not be checked.'))
                 );
             }
 
@@ -541,7 +541,7 @@ get transportQuantityLabel() {
         } catch (error) {
             this.error =
                 error?.message
-                || 'Availability could not be checked.';
+                || @js(__('Availability could not be checked.'));
         } finally {
             this.loading = false;
         }
@@ -557,20 +557,19 @@ class="scroll-mt-24 md:scroll-mt-28 lg:sticky lg:top-28"
     <div class="overflow-hidden rounded-[22px] border border-newman-navy/10 bg-white shadow-[0_24px_70px_rgba(8,36,58,0.12)]">
         @if ($preview)
     <div class="border-b border-amber-200 bg-amber-50 px-5 py-3 text-xs font-semibold leading-5 text-amber-800 sm:px-6">
-        Admin preview. This Tour Product is still hidden
-        from public tour listings.
+        {{ __('Admin preview. This Tour Product is still hidden from public tour listings.') }}
     </div>
 @endif
         <div class="border-b border-newman-navy/10 px-6 py-6 sm:px-7">
     <div class="flex min-w-0 items-start justify-between gap-4">
         <div class="min-w-0">
             <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-newman-gold">
-                Plan this tour
+                {{ __('Plan this tour') }}
             </p>
 
             @if ($promotionActive)
                 <p class="mt-4 text-[10px] font-bold uppercase tracking-[0.15em] text-newman-blue">
-                    {{ $promotionName }}
+                    {{ \App\Http\Middleware\SetLocale::text($promotionName) }}
                 </p>
 
                 @if ($baseAdultPriceText)
@@ -585,25 +584,24 @@ class="scroll-mt-24 md:scroll-mt-28 lg:sticky lg:top-28"
                     </p>
 
                     <span class="text-xs text-gray-500">
-                        per Person
+                        {{ __('per Person') }}
                     </span>
                 </div>
 
                 @if ($displayChildPriceText)
                     <p class="mt-3 text-sm text-gray-500">
-                        Children from {{ $displayChildPriceText }}
+                        {{ __('Children from') }} {{ $displayChildPriceText }}
                     </p>
                 @endif
 
                 @if ($savingAdultText)
                     <p class="mt-2 text-xs font-semibold text-newman-gold">
-                        Save {{ $savingAdultText }} per person
+                        {{ __('Save') }} {{ $savingAdultText }} {{ __('per person') }}
                     </p>
                 @endif
 
                 <p class="mt-2 text-[11px] leading-5 text-gray-400">
-                    Final price is recalculated after selecting the
-                    travel date and participants.
+                    {{ __('Final price is recalculated after selecting the travel date and participants.') }}
                 </p>
             @else
                 <div class="mt-4 flex min-w-0 flex-wrap items-baseline gap-x-2 gap-y-1">
@@ -613,14 +611,14 @@ class="scroll-mt-24 md:scroll-mt-28 lg:sticky lg:top-28"
 
                     @if (($tour['price_suffix'] ?? '') !== '')
                         <span class="text-xs text-gray-500">
-                            {{ $tour['price_suffix'] }}
+                            {{ \App\Http\Middleware\SetLocale::text($tour['price_suffix']) }}
                         </span>
                     @endif
                 </div>
 
                 @if ($displayChildPriceText)
                     <p class="mt-3 text-sm text-gray-500">
-                        Children from {{ $displayChildPriceText }}
+                        {{ __('Children from') }} {{ $displayChildPriceText }}
                     </p>
                 @endif
             @endif
@@ -634,11 +632,11 @@ class="scroll-mt-24 md:scroll-mt-28 lg:sticky lg:top-28"
     </div>
 </div>
 
-        <div class="space-y-4 p-5 sm:p-6">
+        <div class="tour-availability-fields space-y-4 p-5 sm:p-6">
             {{-- Participants --}}
             <div class="relative">
                 <label class="text-sm font-semibold text-newman-navy">
-                    Participants
+                    {{ __('Participants') }}
                 </label>
 
                 <button
@@ -646,7 +644,7 @@ class="scroll-mt-24 md:scroll-mt-28 lg:sticky lg:top-28"
                     @click="participantsOpen = !participantsOpen"
                     class="mt-2 flex min-h-14 w-full items-center justify-between rounded-xl border border-newman-navy/10 bg-newman-sand/70 px-4 text-left text-sm font-semibold text-newman-navy transition hover:border-newman-gold/70"
                 >
-                    <span x-text="participantLabel"></span>
+                    <span x-text="$store.language.text(participantLabel)"></span>
                     <span class="text-lg" :class="participantsOpen ? 'rotate-180' : ''">⌄</span>
                 </button>
 
@@ -659,8 +657,8 @@ class="scroll-mt-24 md:scroll-mt-28 lg:sticky lg:top-28"
                 >
                     <div class="flex items-center justify-between gap-4">
                         <div>
-                            <p class="font-semibold text-newman-navy">Adults</p>
-                            <p class="mt-1 text-xs text-gray-500">Age 12+</p>
+                            <p class="font-semibold text-newman-navy">{{ __('Adults') }}</p>
+                            <p class="mt-1 text-xs text-gray-500">{{ __('Age 12+') }}</p>
                         </div>
 
                         <div class="flex items-center gap-3">
@@ -690,8 +688,8 @@ class="scroll-mt-24 md:scroll-mt-28 lg:sticky lg:top-28"
 
                     <div class="flex items-center justify-between gap-4">
                         <div>
-                            <p class="font-semibold text-newman-navy">Children</p>
-                            <p class="mt-1 text-xs text-gray-500">Age 3–11</p>
+                            <p class="font-semibold text-newman-navy">{{ __('Children') }}</p>
+                            <p class="mt-1 text-xs text-gray-500">{{ __('Age 3–11') }}</p>
                         </div>
 
                         <div class="flex items-center gap-3">
@@ -722,11 +720,11 @@ class="scroll-mt-24 md:scroll-mt-28 lg:sticky lg:top-28"
 <div class="flex items-center justify-between gap-4">
     <div>
         <p class="font-semibold text-newman-navy">
-            Infants
+            {{ __('Infants') }}
         </p>
 
         <p class="mt-1 text-xs text-gray-500">
-            Age 0–2
+            {{ __('Age 0–2') }}
         </p>
     </div>
 
@@ -758,7 +756,7 @@ class="scroll-mt-24 md:scroll-mt-28 lg:sticky lg:top-28"
 
                     @if ($maxGuests)
                         <p class="mt-4 rounded-lg bg-newman-sand px-3 py-2 text-xs leading-5 text-gray-600">
-                            Maximum {{ $maxGuests }} guests for this tour.
+                            {{ __('Maximum') }} {{ $maxGuests }} {{ __('guests for this tour.') }}
                         </p>
                     @endif
 
@@ -767,7 +765,7 @@ class="scroll-mt-24 md:scroll-mt-28 lg:sticky lg:top-28"
                         @click="participantsOpen = false"
                         class="mt-4 w-full rounded-xl bg-newman-navy px-4 py-3 text-sm font-semibold text-white transition hover:bg-newman-blue"
                     >
-                        Apply participants
+                        {{ __('Apply participants') }}
                     </button>
                 </div>
             </div>
@@ -775,7 +773,7 @@ class="scroll-mt-24 md:scroll-mt-28 lg:sticky lg:top-28"
             {{-- Date --}}
             <div>
                 <label for="tour-date-{{ $tour['id'] }}" class="text-sm font-semibold text-newman-navy">
-                    Travel date
+                    {{ __('Travel date') }}
                 </label>
 
                 <input
@@ -794,7 +792,7 @@ class="scroll-mt-24 md:scroll-mt-28 lg:sticky lg:top-28"
         for="tour-language-{{ $tour['id'] }}"
         class="text-sm font-semibold text-newman-navy"
     >
-        Language
+        {{ __('Language') }}
     </label>
 
     @if ($languages !== [])
@@ -806,13 +804,13 @@ class="scroll-mt-24 md:scroll-mt-28 lg:sticky lg:top-28"
         >
             @foreach ($languages as $languageOption)
                 <option value="{{ $languageOption }}">
-                    {{ $languageOption }}
+                    {{ \App\Http\Middleware\SetLocale::text($languageOption) }}
                 </option>
             @endforeach
         </select>
     @else
         <div class="mt-2 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm leading-6 text-amber-800">
-            No language is configured for the active Tour Options.
+            {{ __('No language is configured for the active Tour Options.') }}
         </div>
     @endif
 </div>
@@ -831,8 +829,8 @@ class="scroll-mt-24 md:scroll-mt-28 lg:sticky lg:top-28"
             "
                 class="flex min-h-14 w-full items-center justify-center rounded-xl bg-newman-navy px-5 py-4 text-sm font-bold uppercase tracking-[0.12em] text-white transition hover:-translate-y-0.5 hover:bg-newman-blue disabled:cursor-wait disabled:opacity-60"
             >
-                <span x-show="!loading">Check availability</span>
-                <span x-show="loading">Checking...</span>
+                <span x-show="!loading">{{ __('Check availability') }}</span>
+                <span x-show="loading">{{ __('Checking...') }}</span>
             </button>
 
             <p
@@ -850,28 +848,28 @@ class="scroll-mt-24 md:scroll-mt-28 lg:sticky lg:top-28"
                 class="rounded-2xl border border-newman-gold/35 bg-newman-sand/60 p-4"
             >
                 <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-newman-gold">
-                    Request summary
+                    {{ __('Request summary') }}
                 </p>
 
                 <p class="mt-3 font-semibold text-newman-navy" x-text="result?.tour?.title"></p>
 
                 <div class="mt-3 space-y-1 text-sm leading-6 text-gray-600">
                     <p>
-                        <span class="font-medium text-newman-navy">Date:</span>
+                        <span class="font-medium text-newman-navy">{{ __('Date:') }}</span>
                         <span x-text="result?.selection?.date_label"></span>
                     </p>
                     <p>
-                        <span class="font-medium text-newman-navy">Participants:</span>
-                        <span x-text="result?.selection?.participant_label"></span>
+                        <span class="font-medium text-newman-navy">{{ __('Participants:') }}</span>
+                        <span x-text="$store.language.text(result?.selection?.participant_label)"></span>
                     </p>
 
                     <p>
                         <span class="font-medium text-newman-navy">
-                            Language:
+                            {{ __('Language:') }}
                         </span>
 
                         <span
-                            x-text="result?.selection?.language || '—'"
+                            x-text="$store.language.text(result?.selection?.language || '—')"
                         ></span>
                     </p>
                 </div>
@@ -886,20 +884,20 @@ class="scroll-mt-24 md:scroll-mt-28 lg:sticky lg:top-28"
     <section class="mt-5 overflow-hidden rounded-2xl border border-newman-gold/35 bg-white">
         <div class="border-b border-newman-navy/10 bg-newman-navy px-4 py-4 text-white">
             <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-newman-gold">
-                Transport recommendation
+                {{ __('Transport recommendation') }}
             </p>
 
             <div class="mt-3 flex items-start justify-between gap-4">
                 <div>
                     <h3
                         class="text-lg font-semibold"
-                        x-text="transportRecommendation.label"
+                        x-text="$store.language.text(transportRecommendation.label)"
                     ></h3>
 
                     <p
                         x-show="transportRecommendation.type"
                         class="mt-1 text-xs uppercase tracking-[0.12em] text-white/55"
-                        x-text="transportRecommendation.type"
+                        x-text="$store.language.text(transportRecommendation.type)"
                     ></p>
                 </div>
 
@@ -926,34 +924,34 @@ class="scroll-mt-24 md:scroll-mt-28 lg:sticky lg:top-28"
             <div class="grid gap-3 sm:grid-cols-2">
                 <div class="rounded-xl bg-newman-sand/70 p-3">
                     <p class="text-[10px] font-bold uppercase tracking-[0.14em] text-gray-400">
-                        Capacity
+                        {{ __('Capacity') }}
                     </p>
 
                     <p
                         class="mt-2 text-sm font-semibold text-newman-navy"
-                        x-text="transportCapacityLabel"
+                        x-text="$store.language.text(transportCapacityLabel)"
                     ></p>
                 </div>
 
                 <div class="rounded-xl bg-newman-sand/70 p-3">
                     <p class="text-[10px] font-bold uppercase tracking-[0.14em] text-gray-400">
-                        Vehicles
+                        {{ __('Vehicles') }}
                     </p>
 
                     <p
                         class="mt-2 text-sm font-semibold text-newman-navy"
-                        x-text="transportQuantityLabel"
+                        x-text="$store.language.text(transportQuantityLabel)"
                     ></p>
                 </div>
             </div>
 
             <div class="mt-3 rounded-xl border border-newman-gold/25 bg-newman-gold/5 p-3">
                 <p class="text-[10px] font-bold uppercase tracking-[0.14em] text-newman-gold">
-                    Based on your group
+                    {{ __('Based on your group') }}
                 </p>
 
                 <p class="mt-2 text-sm leading-6 text-gray-600">
-                    Recommended for
+                    {{ __('Recommended for') }}
 
                     <strong
                         class="text-newman-navy"
@@ -975,22 +973,18 @@ class="scroll-mt-24 md:scroll-mt-28 lg:sticky lg:top-28"
             <p
                 x-show="transportRecommendation.reason"
                 class="mt-3 text-sm leading-6 text-gray-600"
-                x-text="transportRecommendation.reason"
+                x-text="$store.language.text(transportRecommendation.reason)"
             ></p>
 
             <p class="mt-3 text-xs leading-5 text-gray-500">
-                Adults, children, and infants all count toward
-                transport capacity. Final vehicle allocation is
-                confirmed with Newman before the trip.
+                {{ __('Adults, children, and infants all count toward transport capacity. Final vehicle allocation is confirmed with Newman before the trip.') }}
             </p>
 
             <p
     x-show="!result?.available"
     class="mt-3 rounded-xl border border-amber-200 bg-amber-50 px-3 py-3 text-xs leading-5 text-amber-800"
 >
-    This transport recommendation is based on the
-    selected group size. The selected date currently
-    has no available Tour Option.
+    {{ __('This transport recommendation is based on the selected group size. The selected date currently has no available Tour Option.') }}
 </p>
         </div>
     </section>
@@ -1005,12 +999,11 @@ class="scroll-mt-24 md:scroll-mt-28 lg:sticky lg:top-28"
 >
     <div class="mt-5 rounded-2xl border border-amber-200 bg-amber-50 p-4">
         <p class="text-xs font-bold uppercase tracking-[0.16em] text-amber-700">
-            Transport confirmation
+            {{ __('Transport confirmation') }}
         </p>
 
         <p class="mt-2 text-sm leading-6 text-amber-900">
-            Transport will be confirmed manually for this
-            participant selection.
+            {{ __('Transport will be confirmed manually for this participant selection.') }}
         </p>
     </div>
 </template>
@@ -1020,7 +1013,7 @@ class="scroll-mt-24 md:scroll-mt-28 lg:sticky lg:top-28"
                 <template x-if="result?.pricing?.formatted_total">
                     <div class="mt-4 border-t border-newman-navy/10 pt-4">
                         <p class="text-xs uppercase tracking-[0.14em] text-gray-500">
-                            Estimated total
+                            {{ __('Estimated total') }}
                         </p>
                         <p class="mt-1 text-2xl font-bold tracking-[-0.03em] text-newman-navy" x-text="result.pricing.formatted_total"></p>
                     </div>
@@ -1028,7 +1021,7 @@ class="scroll-mt-24 md:scroll-mt-28 lg:sticky lg:top-28"
 
                 <template x-if="!result?.pricing?.formatted_total">
                     <p class="mt-4 border-t border-newman-navy/10 pt-4 text-sm leading-6 text-gray-600">
-                        Newman will confirm the final price for this request.
+                        {{ __('Newman will confirm the final price for this request.') }}
                     </p>
                 </template>
 
@@ -1041,12 +1034,12 @@ class="scroll-mt-24 md:scroll-mt-28 lg:sticky lg:top-28"
             <div class="space-y-3 border-t border-newman-navy/10 pt-5">
                 <div class="flex gap-3 text-sm leading-6 text-gray-600">
                     <span class="mt-0.5 text-newman-gold">✓</span>
-                    <p>Private transport and route details are confirmed directly with Newman.</p>
+                    <p>{{ __('Private transport and route details are confirmed directly with Newman.') }}</p>
                 </div>
 
                 <div class="flex gap-3 text-sm leading-6 text-gray-600">
                     <span class="mt-0.5 text-newman-gold">✓</span>
-                    <p>No online payment is required at this stage.</p>
+                    <p>{{ __('No online payment is required at this stage.') }}</p>
                 </div>
             </div>
         </div>

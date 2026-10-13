@@ -1,10 +1,11 @@
 @extends('layouts.app')
 
 @php
-    $tourMetaTitle = $tour['title'] ?? 'Bali Private Tour';
+    $tourMetaTitle = \App\Http\Middleware\SetLocale::text($tour['title'] ?? 'Bali Private Tour');
     $tourMetaDescription = \Illuminate\Support\Str::squish(
         html_entity_decode(strip_tags((string) ($tour['description'] ?? '')), ENT_QUOTES | ENT_HTML5, 'UTF-8')
     );
+    $tourMetaDescription = \App\Http\Middleware\SetLocale::text($tourMetaDescription);
     $tourMetaDescription = \Illuminate\Support\Str::limit(
         $tourMetaDescription ?: "Explore {$tourMetaTitle} with Newman Tour Bali. View the itinerary, private tour options, pickup details, and availability for your Bali trip.",
         160
@@ -124,19 +125,19 @@
 
 <main class="bg-white">
     {{-- Tour Heading --}}
-    <section class="border-b border-newman-navy/10 bg-white pt-32 sm:pt-36">
+    <section class="tour-heading border-b border-newman-navy/10 bg-white pt-32 sm:pt-36">
         <div class="mx-auto w-[92%] max-w-7xl pb-8 sm:pb-10">
             <a
                 href="{{ route('tours') }}"
                 class="inline-flex items-center gap-2 text-sm font-semibold text-newman-navy transition hover:text-newman-blue"
             >
                 <span>←</span>
-                Back to tours
+                {{ __('Back to tours') }}
             </a>
 
             <div class="mt-6 flex flex-wrap items-center gap-3">
                 <span class="rounded-full bg-newman-sand px-4 py-2 text-[11px] font-bold uppercase tracking-[0.16em] text-newman-navy">
-                    {{ $tour['badge'] }}
+                    {{ \App\Http\Middleware\SetLocale::text($tour['badge']) }}
                 </span>
         
 
@@ -147,12 +148,12 @@
                 <span class="h-1 w-1 rounded-full bg-gray-300"></span>
 
                 <span class="text-sm text-gray-500">
-                    {{ $tour['trip_type'] }}
+                    {{ \App\Http\Middleware\SetLocale::text($tour['trip_type']) }}
                 </span>
             </div>
 
             <h1 class="mt-5 max-w-5xl text-4xl font-semibold leading-[1.08] tracking-[-0.05em] text-newman-navy sm:text-5xl lg:text-6xl">
-                {{ $tour['title'] }}
+                {{ \App\Http\Middleware\SetLocale::text($tour['title']) }}
             </h1>
 
             <div class="mt-5 flex flex-wrap items-center gap-2 text-sm">
@@ -163,17 +164,17 @@
                     </span>
 
                     <span class="text-gray-500">
-                        {{ $tour['rating_text'] ?? '' }}
+                        {{ \App\Http\Middleware\SetLocale::text($tour['rating_text'] ?? '') }}
                     </span>
                 @else
-                    <span class="text-gray-500">New tour</span>
+                    <span class="text-gray-500">{{ __('New tour') }}</span>
                 @endif
 
                 @if (! empty($tour['hosted_guest_text']))
                     <span class="h-1 w-1 rounded-full bg-gray-300" aria-hidden="true"></span>
 
                     <span class="text-gray-500">
-                        {{ $tour['hosted_guest_text'] }}
+                        {{ \App\Http\Middleware\SetLocale::text($tour['hosted_guest_text']) }}
                     </span>
                 @endif
             </div>
@@ -183,7 +184,7 @@
     {{-- Gallery and Availability --}}
 <section class="py-8 sm:py-10 lg:py-12">
     <div
-        class="mx-auto grid w-[92%] max-w-7xl gap-8
+        class="tour-gallery-layout mx-auto grid w-[92%] max-w-7xl gap-8
             lg:grid-cols-[minmax(0,1fr)_390px]
             lg:items-start"
     >
@@ -197,49 +198,49 @@
 
             @if ($tour['intro'])
                 <p class="mt-6 max-w-4xl text-base leading-8 text-gray-600 sm:text-lg">
-                    {{ $tour['intro'] }}
+                    {{ \App\Http\Middleware\SetLocale::text($tour['intro']) }}
                 </p>
             @endif
 
             {{-- Tour Quick Information --}}
-            <div class="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            <div class="tour-quick-info mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
                 <div class="rounded-2xl bg-newman-sand/70 p-4">
                     <p class="text-[11px] font-bold uppercase tracking-[0.16em] text-newman-gold">
-                        Duration
+                        {{ __('Duration') }}
                     </p>
 
                     <p class="mt-2 font-semibold text-newman-navy">
-                        {{ $tour['duration'] }}
+                        {{ \App\Http\Middleware\SetLocale::text($tour['duration']) }}
                     </p>
                 </div>
 
                 <div class="rounded-2xl bg-newman-sand/70 p-4">
                     <p class="text-[11px] font-bold uppercase tracking-[0.16em] text-newman-gold">
-                        Pickup
+                        {{ __('Pickup') }}
                     </p>
 
                     <p class="mt-2 font-semibold text-newman-navy">
-                        {{ $tour['pickup_text'] }}
+                        {{ \App\Http\Middleware\SetLocale::text($tour['pickup_text']) }}
                     </p>
                 </div>
 
                 <div class="rounded-2xl bg-newman-sand/70 p-4">
                     <p class="text-[11px] font-bold uppercase tracking-[0.16em] text-newman-gold">
-                        Vehicle
+                        {{ __('Vehicle') }}
                     </p>
 
                     <p class="mt-2 font-semibold text-newman-navy">
-                        {{ $tour['vehicle'] }}
+                        {{ \App\Http\Middleware\SetLocale::text($tour['vehicle']) }}
                     </p>
                 </div>
 
                 <div class="rounded-2xl bg-newman-sand/70 p-4">
                     <p class="text-[11px] font-bold uppercase tracking-[0.16em] text-newman-gold">
-                        Confirmation
+                        {{ __('Confirmation') }}
                     </p>
 
                     <p class="mt-2 font-semibold text-newman-navy">
-                        {{ $tour['confirmation_text'] }}
+                        {{ \App\Http\Middleware\SetLocale::text($tour['confirmation_text']) }}
                     </p>
                 </div>
             </div>
@@ -264,16 +265,16 @@
         <div class="mx-auto w-[92%] max-w-5xl">
             <div>
                 <p class="text-xs font-bold uppercase tracking-[0.35em] text-newman-blue">
-                    About this tour
+                    {{ __('About this tour') }}
                 </p>
 
                 <h2 class="mt-4 break-words text-3xl font-semibold leading-tight tracking-[-0.04em] text-newman-navy sm:text-5xl">
-    {{ $tour['about_heading'] }}
+    {{ \App\Http\Middleware\SetLocale::text($tour['about_heading']) }}
 </h2>
 
                 @if ($tour['story'])
                     <p class="mt-6 max-w-4xl text-base leading-8 text-gray-600">
-                        {{ $tour['story'] }}
+                        {{ \App\Http\Middleware\SetLocale::text($tour['story']) }}
                     </p>
                 @endif
             </div>
@@ -281,14 +282,14 @@
             @if (! empty($tour['highlights']))
                 <div class="mt-10">
                     <p class="text-xs font-bold uppercase tracking-[0.3em] text-newman-gold">
-                        Highlights
+                        {{ __('Highlights') }}
                     </p>
 
                     <div class="mt-5 grid gap-3 sm:grid-cols-2">
                         @foreach ($tour['highlights'] as $highlight)
                             <div class="flex gap-3 rounded-2xl border border-newman-navy/8 bg-white p-4">
                                 <span class="text-newman-gold">✓</span>
-                                <p class="text-sm leading-6 text-newman-navy">{{ $highlight }}</p>
+                                <p class="text-sm leading-6 text-newman-navy">{{ \App\Http\Middleware\SetLocale::text($highlight) }}</p>
                             </div>
                         @endforeach
                     </div>
@@ -319,11 +320,11 @@
             return [
                 'order' => $index + 1,
                 'id' => $item['id'] ?? null,
-                'title' => $item['title'] ?? 'Tour stop',
-                'location' => $item['location'] ?? '',
+                'title' => \App\Http\Middleware\SetLocale::text($item['title'] ?? 'Tour stop'),
+                'location' => \App\Http\Middleware\SetLocale::text($item['location'] ?? ''),
                 'address' => $item['address'] ?? '',
-                'time' => $item['time'] ?? '',
-                'duration' => $item['duration'] ?? '',
+                'time' => \App\Http\Middleware\SetLocale::text($item['time'] ?? ''),
+                'duration' => \App\Http\Middleware\SetLocale::text($item['duration'] ?? ''),
                 'latitude' => (float) $item['latitude'],
                 'longitude' => (float) $item['longitude'],
             ];
@@ -343,28 +344,27 @@
         <div class="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
             <div class="max-w-3xl">
                 <p class="text-xs font-bold uppercase tracking-[0.3em] text-newman-gold">
-                    Itinerary
+                    {{ __('Itinerary') }}
                 </p>
 
                 <h2 class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-newman-navy sm:text-4xl">
-                    Follow the route, stop by stop.
+                    {{ __('Follow the route, stop by stop.') }}
                 </h2>
 
                 <p class="mt-4 max-w-2xl text-sm leading-7 text-gray-600">
-                    The exact order may change depending on pickup location,
-                    traffic, weather, ceremonies, and local conditions.
+                    {{ __('The exact order may change depending on pickup location, traffic, weather, ceremonies, and local conditions.') }}
                 </p>
             </div>
 
             @if ($roadmapItems->isNotEmpty())
                 <div class="shrink-0 border border-newman-navy/10 bg-white px-5 py-3">
                     <p class="text-[10px] font-bold uppercase tracking-[0.16em] text-gray-400">
-                        Planned route
+                        {{ __('Planned route') }}
                     </p>
 
                     <p class="mt-1 font-semibold text-newman-navy">
                         {{ $roadmapItems->count() }}
-                        {{ $roadmapItems->count() === 1 ? 'stop' : 'stops' }}
+                        {{ \App\Http\Middleware\SetLocale::text($roadmapItems->count() === 1 ? 'stop' : 'stops') }}
                     </p>
                 </div>
             @endif
@@ -373,18 +373,17 @@
         @if ($roadmapItems->isEmpty())
             <div class="mt-8 border border-dashed border-newman-navy/20 bg-white p-8 text-center">
                 <p class="font-semibold text-newman-navy">
-                    The itinerary is being prepared.
+                    {{ __('The itinerary is being prepared.') }}
                 </p>
 
                 <p class="mt-2 text-sm leading-7 text-gray-500">
-                    Newman will confirm the route after reviewing the selected
-                    date, option, and pickup location.
+                    {{ __('Newman will confirm the route after reviewing the selected date, option, and pickup location.') }}
                 </p>
             </div>
         @else
             <div
                 data-roadmap-map="{{ $roadmapMapId }}"
-                class="mt-8 grid min-w-0 gap-6 lg:grid-cols-[390px_minmax(0,1fr)] xl:grid-cols-[430px_minmax(0,1fr)]"
+                class="tour-roadmap-layout mt-8 grid min-w-0 gap-6 lg:grid-cols-[390px_minmax(0,1fr)] xl:grid-cols-[430px_minmax(0,1fr)]"
             >
                 {{-- Compact itinerary list --}}
                 <div
@@ -557,42 +556,42 @@
                             <span class="min-w-0 flex-1">
                                 <span class="flex min-w-0 flex-wrap items-center gap-x-3 gap-y-1">
                                     <span class="text-[10px] font-bold uppercase tracking-[0.14em] text-newman-gold">
-                                        Stop {{ $stopNumber }}
+                                        {{ __('Stop') }} {{ $stopNumber }}
                                     </span>
 
                                     @if (! empty($item['time']))
                                         <span class="text-xs font-semibold text-newman-blue">
-                                            {{ $item['time'] }}
+                                            {{ \App\Http\Middleware\SetLocale::text($item['time']) }}
                                         </span>
                                     @endif
 
                                     @if (! empty($item['duration']))
                                         <span class="text-xs text-gray-400">
-                                            {{ $item['duration'] }}
+                                            {{ \App\Http\Middleware\SetLocale::text($item['duration']) }}
                                         </span>
                                     @endif
                                 </span>
 
                                 <span class="mt-1 block break-words text-base font-semibold leading-6 text-newman-navy">
-                                    {{ $item['title'] ?: 'Tour stop' }}
+                                    {{ \App\Http\Middleware\SetLocale::text($item['title'] ?: 'Tour stop') }}
                                 </span>
 
                                 @if (! empty($item['location']))
                                     <span class="mt-1 block break-words text-xs font-medium text-gray-500">
-                                        {{ $item['location'] }}
+                                        {{ \App\Http\Middleware\SetLocale::text($item['location']) }}
                                     </span>
                                 @endif
 
                                 @if (! empty($item['text']))
-                                    <span class="newman-roadmap-summary mt-2 block text-sm leading-6 text-gray-500">
-                                        {{ $item['text'] }}
+                                    <span id="tour-stop-description-{{ $tour['id'] }}-{{ $loop->index }}" class="newman-roadmap-summary mt-2 block text-sm leading-6 text-gray-500">
+                                        {{ \App\Http\Middleware\SetLocale::text($item['text']) }}
                                     </span>
                                 @endif
                             </span>
 
                             <span
                                 aria-hidden="true"
-                                class="mt-2 shrink-0 text-sm text-newman-gold transition group-hover:translate-x-1"
+                                class="roadmap-indicator mt-2 shrink-0 text-sm text-newman-gold transition group-hover:translate-x-1"
                             >
                                 →
                             </span>
@@ -607,18 +606,18 @@
                             <div
                                 id="{{ $roadmapMapId }}"
                                 class="newman-roadmap-map h-[320px] w-full sm:h-[420px] lg:h-[520px]"
-                                aria-label="Tour itinerary map"
+                                aria-label="{{ __('Tour itinerary map') }}"
                             ></div>
 
                             <div class="newman-roadmap-map-label pointer-events-none absolute left-15 top-3 bg-newman-navy/92 px-4 py-3 text-white shadow-lg backdrop-blur">
                                 <p class="text-[9px] font-bold uppercase tracking-[0.18em] text-newman-gold">
-                                    Newman route
+                                    {{ __('Newman route') }}
                                 </p>
 
                                 <p class="mt-1 text-sm font-semibold">
                                     {{ $mapStops->count() }}
-                                    mapped
-                                    {{ $mapStops->count() === 1 ? 'stop' : 'stops' }}
+                                    {{ __('mapped') }}
+                                    {{ __($mapStops->count() === 1 ? 'stop' : 'stops') }}
                                 </p>
                             </div>
                         @else
@@ -643,12 +642,11 @@
                                     </div>
 
                                     <p class="mt-4 font-semibold text-newman-navy">
-                                        Map points are not configured yet.
+                                        {{ __('Map points are not configured yet.') }}
                                     </p>
 
                                     <p class="mt-2 text-sm leading-6 text-gray-500">
-                                        Add latitude, longitude, and enable
-                                        “Show on map” for each Roadmap Stop.
+                                        {{ __('Add latitude, longitude, and enable “Show on map” for each Roadmap Stop.') }}
                                     </p>
                                 </div>
                             </div>
@@ -658,11 +656,11 @@
                     <div class="mt-3 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-gray-500">
                         <span class="inline-flex items-center gap-2">
                             <span class="h-3 w-3 rounded-full bg-newman-gold"></span>
-                            Planned route
+                            {{ __('Planned route') }}
                         </span>
 
                         <span>
-                            Click a stop to focus the map
+                            {{ __('Click a stop to focus the map') }}
                         </span>
                     </div>
                 </div>
@@ -674,18 +672,18 @@
             <div class="mt-16 grid gap-6 md:grid-cols-2">
                 <div class="rounded-[22px] bg-newman-navy p-6 text-white sm:p-7">
                     <p class="text-xs font-bold uppercase tracking-[0.3em] text-newman-gold">
-                        Included
+                        {{ __('Included') }}
                     </p>
 
                     <div class="mt-6 space-y-4">
                         @forelse ($tour['included'] as $item)
                             <div class="flex gap-3">
                                 <span class="text-newman-gold">✓</span>
-                                <p class="text-sm leading-6 text-white/80">{{ $item }}</p>
+                                <p class="text-sm leading-6 text-white/80">{{ \App\Http\Middleware\SetLocale::text($item) }}</p>
                             </div>
                         @empty
                             <p class="text-sm leading-7 text-white/60">
-                                Included details will be confirmed by Newman.
+                                {{ __('Included details will be confirmed by Newman.') }}
                             </p>
                         @endforelse
                     </div>
@@ -693,7 +691,7 @@
 
                 <div class="rounded-[22px] border border-newman-navy/8 bg-white p-6 sm:p-7">
     <p class="text-xs font-bold uppercase tracking-[0.3em] text-newman-blue">
-        Not included
+        {{ __('Not included') }}
     </p>
 
     <div class="mt-6 space-y-4">
@@ -702,12 +700,12 @@
                 <span class="text-newman-gold">✓</span>
 
                 <p class="text-sm leading-6 text-newman-navy">
-                    {{ $item }}
+                    {{ \App\Http\Middleware\SetLocale::text($item) }}
                 </p>
             </div>
         @empty
             <p class="text-sm leading-7 text-gray-500">
-                No excluded items have been added to the default Tour Option.
+                {{ __('No excluded items have been added to the default Tour Option.') }}
             </p>
         @endforelse
     </div>
@@ -840,7 +838,7 @@
                                 </p>
 
                                 <strong>
-                                    ${String(stop.title || 'Tour stop')}
+                                    ${String(stop.title || @js(__('Tour stop')))}
                                 </strong>
 
                                 ${

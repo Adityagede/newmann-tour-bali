@@ -61,36 +61,36 @@
         request()->routeIs('tours.detail', 'tours.show')
             && $tourTitle !== '' =>
                 implode("\n", [
-                    'Hello Newman, I need help with this Tour Package:',
+                    __('Hello Newman, I need help with this Tour Package:'),
                     $tourTitle,
                     '',
-                    'Could you help me understand the route, availability, or booking process?',
+                    __('Could you help me understand the route, availability, or booking process?'),
                 ]),
 
         request()->routeIs('tours') =>
             implode("\n", [
-                'Hello Newman, I am browsing your Tour Packages.',
+                __('Hello Newman, I am browsing your Tour Packages.'),
                 '',
-                'Could you help me choose a suitable private Bali tour?',
+                __('Could you help me choose a suitable private Bali tour?'),
             ]),
 
         request()->routeIs('gallery') =>
             implode("\n", [
-                'Hello Newman, I saw your guest gallery.',
+                __('Hello Newman, I saw your guest gallery.'),
                 '',
                 'I would like help planning a private Bali journey.',
             ]),
 
         request()->routeIs('about') =>
             implode("\n", [
-                'Hello Newman, I would like to learn more about your private Bali tours.',
+                __('Hello Newman, I would like to learn more about your private Bali tours.'),
             ]),
 
         default =>
             implode("\n", [
-                'Hello Newman, I am visiting your website.',
+                __('Hello Newman, I am visiting your website.'),
                 '',
-                'Could you help me choose between a Tour Package and a Custom Trip?',
+                __('Could you help me choose between a Tour Package and a Custom Trip?'),
             ]),
     };
 
@@ -237,6 +237,7 @@
             <div
                 x-cloak
                 x-show="canShow"
+                data-floating-whatsapp
                 class="fixed right-3 z-[85] sm:right-5 lg:right-7"
                 style="
                     bottom:
@@ -293,7 +294,7 @@
                         shadow-[0_22px_70px_rgba(8,37,59,0.32)]
                     "
                     role="dialog"
-                    aria-label="Chat with Newman through WhatsApp"
+                    aria-label="{{ __('Chat with Newman through WhatsApp') }}"
                 >
                     {{-- Panel header --}}
                     <div
@@ -370,7 +371,7 @@
                                     leading-tight
                                 "
                             >
-                                Need help planning your trip?
+                                {{ __('Need help planning your trip?') }}
                             </h2>
                         </div>
 
@@ -392,7 +393,7 @@
                                 hover:border-newman-gold
                                 hover:text-newman-gold
                             "
-                            aria-label="Close WhatsApp panel"
+                            aria-label="{{ __('Close WhatsApp panel') }}"
                         >
                             <svg
                                 aria-hidden="true"
@@ -421,9 +422,7 @@
                                 text-white/68
                             "
                         >
-                            Ask about Tour Packages, a flexible Custom
-                            Trip, pickup areas, group size, or the booking
-                            process.
+                            {{ __('Ask about Tour Packages, a flexible Custom Trip, pickup areas, group size, or the booking process.') }}
                         </p>
 
                         <a
@@ -455,7 +454,7 @@
                             "
                         >
                             <span>
-                                Continue to WhatsApp
+                                {{ __('Continue to WhatsApp') }}
                             </span>
 
                             <svg
@@ -483,8 +482,7 @@
                                 text-white/38
                             "
                         >
-                            Your message will open in WhatsApp. Final
-                            availability and confirmation remain manual.
+                            {{ __('Your message will open in WhatsApp. Final availability and confirmation remain manual.') }}
                         </p>
                     </div>
                 </div>
@@ -518,7 +516,7 @@
                             active:translate-y-0
                             sm:px-5
                         "
-                        aria-label="Chat with Newman on WhatsApp"
+                        aria-label="{{ __('Chat with Newman on WhatsApp') }}"
                     >
                         <span
                             class="
@@ -584,7 +582,7 @@
                                 sm:block
                             "
                         >
-                            Chat with Newman
+                            {{ __('Chat with Newman') }}
                         </span>
                     </button>
                 </div>

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('meta_title', 'Review Your Trip | ' . ($review['tour']['title'] ?? 'Bali Tour') . ' | Newman Tour Bali')
+@section('meta_title', __('Review Your Trip | ') . \App\Http\Middleware\SetLocale::text($review['tour']['title'] ?? 'Bali Tour') . ' | Newman Tour Bali')
 @section('meta_description', 'Review your selected tour option, travel date, participants, and trip details before sending your booking request to Newman Tour Bali.')
 @section('meta_robots', 'noindex, nofollow')
 
@@ -67,40 +67,37 @@
 
     @if ($isPreview)
         <div class="border-b border-amber-200 bg-amber-50 px-5 py-3 text-center text-xs font-semibold text-amber-800">
-            Admin preview. This review has not created
-            a Booking Request.
+            {{ __('Admin preview. This review has not created a Booking Request.') }}
         </div>
     @endif
 
-    <main class="bg-newman-sand/30 py-12 sm:py-16">
+    <main class="tour-review-page bg-newman-sand/30 py-12 sm:py-16">
         <div class="mx-auto w-[92%] max-w-7xl">
             <a
                 href="{{ $backUrl }}"
                 class="text-xs font-bold uppercase tracking-[0.15em] text-newman-navy hover:text-newman-gold"
             >
-                ← Back to tour options
+                {{ __('← Back to tour options') }}
             </a>
 
             <header class="mt-8 border-b border-newman-navy/10 pb-8">
                 <p class="text-xs font-bold uppercase tracking-[0.3em] text-newman-gold">
-                    Review your trip
+                    {{ __('Review your trip') }}
                 </p>
 
                 <h1 class="mt-3 max-w-4xl text-4xl font-semibold tracking-[-0.045em] text-newman-navy sm:text-6xl">
-                    Check every detail before sending
-                    your request.
+                    {{ __('Check every detail before sending your request.') }}
                 </h1>
 
                 <p class="mt-4 max-w-3xl text-sm leading-7 text-gray-600">
-                    Availability and price have been checked
-                    again by Newman before opening this page.
+                    {{ __('Availability and price have been checked again by Newman before opening this page.') }}
                 </p>
             </header>
 
             @if ($errors->any())
     <div class="mt-8 rounded-2xl border border-red-200 bg-red-50 p-5">
         <p class="text-xs font-bold uppercase tracking-[0.16em] text-red-700">
-            Please check the Booking Request.
+            {{ __('Please check the Booking Request.') }}
         </p>
 
         <ul class="mt-3 space-y-2 text-sm text-red-700">
@@ -113,27 +110,27 @@
     </div>
 @endif
 
-            <div class="mt-8 grid gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
+            <div class="tour-review-layout mt-8 grid gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
                 <div class="space-y-6">
                     <section class="overflow-hidden rounded-[26px] border border-newman-navy/10 bg-white">
                         <div class="bg-newman-navy p-6 text-white sm:p-8">
                             <p class="text-[10px] font-bold uppercase tracking-[0.18em] text-newman-gold">
-                                Selected experience
+                                {{ __('Selected experience') }}
                             </p>
 
                             <h2 class="mt-3 text-3xl font-semibold">
-                                {{ $option['title'] }}
+                                {{ \App\Http\Middleware\SetLocale::text($option['title']) }}
                             </h2>
 
                             <p class="mt-2 text-sm text-white/60">
-                                {{ $tour['title'] }}
+                                {{ \App\Http\Middleware\SetLocale::text($tour['title']) }}
                             </p>
                         </div>
 
-                        <div class="grid gap-3 p-5 sm:grid-cols-2 sm:p-7">
+                        <div class="trip-review-summary grid gap-3 p-5 sm:grid-cols-2 sm:p-7">
                             <div class="rounded-2xl bg-newman-sand/70 p-4">
                                 <p class="text-[10px] font-bold uppercase tracking-[0.13em] text-gray-400">
-                                    Travel date
+                                    {{ __('Travel date') }}
                                 </p>
 
                                 <p class="mt-2 font-semibold text-newman-navy">
@@ -143,7 +140,7 @@
 
                             <div class="rounded-2xl bg-newman-sand/70 p-4">
                                 <p class="text-[10px] font-bold uppercase tracking-[0.13em] text-gray-400">
-                                    Starting time
+                                    {{ __('Starting time') }}
                                 </p>
 
                                 <p class="mt-2 font-semibold text-newman-navy">
@@ -153,7 +150,7 @@
 
                             <div class="rounded-2xl bg-newman-sand/70 p-4">
                                 <p class="text-[10px] font-bold uppercase tracking-[0.13em] text-gray-400">
-                                    Participants
+                                    {{ __('Participants') }}
                                 </p>
 
                                 <p class="mt-2 font-semibold text-newman-navy">
@@ -163,7 +160,7 @@
 
                             <div class="rounded-2xl bg-newman-sand/70 p-4">
                                 <p class="text-[10px] font-bold uppercase tracking-[0.13em] text-gray-400">
-                                    Language
+                                    {{ __('Language') }}
                                 </p>
 
                                 <p class="mt-2 font-semibold text-newman-navy">
@@ -175,23 +172,21 @@
 
                     <section class="rounded-[24px] border border-newman-gold/30 bg-white p-6 sm:p-8">
                         <p class="text-xs font-bold uppercase tracking-[0.18em] text-newman-gold">
-                            Transport recommendation
+                            {{ __('Transport recommendation') }}
                         </p>
 
                         <h2 class="mt-3 text-2xl font-semibold text-newman-navy">
-                            {{ $transportLabel }}
+                            {{ \App\Http\Middleware\SetLocale::text($transportLabel) }}
                         </h2>
 
                         <p class="mt-3 text-sm leading-7 text-gray-600">
-                            Adults, children, and infants all
-                            count toward transport capacity.
-                            Final allocation is confirmed by Newman.
+                            {{ __('Adults, children, and infants all count toward transport capacity. Final allocation is confirmed by Newman.') }}
                         </p>
                     </section>
 
                     <section class="rounded-[24px] bg-newman-navy p-6 text-white sm:p-8">
                         <p class="text-[10px] font-bold uppercase tracking-[0.18em] text-newman-gold">
-                            Estimated total
+                            {{ __('Estimated total') }}
                         </p>
 
                         @if (($pricing['discount_amount'] ?? 0) > 0)
@@ -206,26 +201,24 @@
 
                         @if (($pricing['discount_amount'] ?? 0) > 0)
                             <p class="mt-2 text-xs font-semibold text-newman-gold">
-                                You save
+                                {{ __('You save') }}
                                 {{ $money($pricing['discount_amount']) }}
                             </p>
                         @endif
 
                         <p class="mt-5 text-xs leading-6 text-white/55">
-                            The price was recalculated by the backend.
-                            Final confirmation occurs before the request
-                            is accepted.
+                            {{ __('The price was recalculated by the backend. Final confirmation occurs before the request is accepted.') }}
                         </p>
                     </section>
                 </div>
 
                 <aside class="rounded-[26px] border border-newman-navy/10 bg-white p-6 shadow-[0_18px_55px_rgba(8,36,58,0.08)] sm:p-8">
                     <p class="text-xs font-bold uppercase tracking-[0.18em] text-newman-gold">
-                        Guest details
+                        {{ __('Guest details') }}
                     </p>
 
                     <h2 class="mt-3 text-2xl font-semibold text-newman-navy">
-                        Who should Newman contact?
+                        {{ __('Who should Newman contact?') }}
                     </h2>
 
 
@@ -241,7 +234,7 @@
                                 for="guest-full-name"
                                 class="text-sm font-semibold text-newman-navy"
                             >
-                                Full name
+                                {{ __('Full name') }}
                             </label>
 
                             <input
@@ -260,7 +253,7 @@
                                 for="guest-whatsapp"
                                 class="text-sm font-semibold text-newman-navy"
                             >
-                                WhatsApp number
+                                {{ __('WhatsApp number') }}
                             </label>
 
                             <input
@@ -271,7 +264,7 @@
                                 required
                                 class="booking-input mt-2 min-h-13 rounded-xl border-newman-navy/10 bg-newman-sand/40"
                                 autocomplete="tel"
-                                placeholder="Your WhatsApp number"
+                                placeholder="{{ __('Your WhatsApp number') }}"
                             >
                         </div>
 
@@ -280,7 +273,7 @@
                                 for="guest-email"
                                 class="text-sm font-semibold text-newman-navy"
                             >
-                                Email
+                                {{ __('Email') }}
                                 <span class="font-normal text-gray-400">
                                     (optional)
                                 </span>
@@ -301,7 +294,7 @@
                                 for="guest-pickup"
                                 class="text-sm font-semibold text-newman-navy"
                             >
-                                Pickup location
+                                {{ __('Pickup location') }}
                             </label>
 
                             <textarea
@@ -319,7 +312,7 @@
                                 for="guest-notes"
                                 class="text-sm font-semibold text-newman-navy"
                             >
-                                Special requests
+                                {{ __('Special requests') }}
                                 <span class="font-normal text-gray-400">
                                     (optional)
                                 </span>
@@ -346,10 +339,7 @@
     >
 
     <span class="text-sm leading-6 text-gray-600">
-        I have reviewed the selected tour,
-        travel date, participants, language,
-        starting time, pickup information,
-        and estimated price.
+        {{ __('I have reviewed the selected tour, travel date, participants, language, starting time, pickup information, and estimated price.') }}
     </span>
 </label>
 
@@ -359,25 +349,22 @@
         disabled
         class="flex min-h-14 w-full items-center justify-center rounded-xl bg-newman-navy px-6 py-4 text-xs font-bold uppercase tracking-[0.14em] text-white opacity-45"
     >
-        Preview only
+        {{ __('Preview only') }}
     </button>
 
     <p class="text-xs leading-5 text-amber-700">
-        Admin Preview does not create a real
-        Booking Request.
+        {{ __('Admin Preview does not create a real Booking Request.') }}
     </p>
 @else
     <button
         type="submit"
         class="flex min-h-14 w-full items-center justify-center rounded-xl bg-newman-gold px-6 py-4 text-xs font-bold uppercase tracking-[0.14em] text-newman-navy transition duration-300 hover:-translate-y-0.5 hover:bg-newman-navy hover:text-white"
     >
-        Send booking request
+        {{ __('Send booking request') }}
     </button>
 
     <p class="text-xs leading-5 text-gray-500">
-        Sending this form creates a Booking Request
-        with status Pending. No online payment is
-        required at this stage.
+        {{ __('Sending this form creates a Booking Request with status Pending. No online payment is required at this stage.') }}
     </p>
 @endif
                     </form>

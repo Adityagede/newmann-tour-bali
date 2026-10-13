@@ -1,5 +1,3 @@
-import '../css/app.css'
-
 import Alpine from 'alpinejs';
 
 import AOS from 'aos';
@@ -11,6 +9,16 @@ import 'swiper/css/pagination';
 import 'swiper/css/effect-fade';
 
 window.Alpine = Alpine;
+// Dynamic UI labels use the same Laravel dictionary as Blade.
+Alpine.store('language', {
+    text(value) {
+        if (typeof value !== 'string' || document.documentElement.lang !== 'id') return value;
+        const labels = window.newmanUiLabels || {};
+        if (labels[value] !== undefined) return labels[value];
+        return value.replace(/\b(\d+)\s+(verified ratings?|guests hosted|adults?|children|child|infants?|guests?|passengers?|vehicles?|stops?|hours?|mins?)\b/g,
+            (_, count, word) => `${count} ${labels[word] ?? word}`);
+    },
+});
 Alpine.start();
 
 try {
@@ -78,7 +86,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 el: '.hero-pagination',
                 clickable: true,
                 renderBullet: function (index, className) {
-                    return `<button class="${className}" aria-label="Go to slide ${index + 1}"></button>`;
+                    return `<button class="${className}" aria-label="${Alpine.store('language').text('Go to slide')} ${index + 1}"></button>`;
                 },
             },
             navigation: {
@@ -172,11 +180,12 @@ if (reviewSwiperEl) {
                 slidesPerView: 1.4,
                 spaceBetween: 20,
             },
-            768: {
+            744: {
                 slidesPerView: 2,
                 spaceBetween: 22,
             },
-            1180: {
+            // The tablet slider shares its row with the review summary.
+            1280: {
                 slidesPerView: 3,
                 spaceBetween: 24,
             },
@@ -209,7 +218,7 @@ if (reviewSwiperEl) {
         message.dataset.collapsed = String(isTruncated && !isExpanded);
         button.hidden = !isTruncated;
         button.setAttribute('aria-expanded', String(isExpanded));
-        button.textContent = isExpanded ? 'Read less' : 'Read more';
+        button.textContent = Alpine.store('language').text(isExpanded ? 'Read less' : 'Read more');
     };
 
     reviewCards.forEach((card) => {
@@ -222,7 +231,7 @@ if (reviewSwiperEl) {
 
             message.dataset.collapsed = String(!isExpanded);
             button.setAttribute('aria-expanded', String(isExpanded));
-            button.textContent = isExpanded ? 'Read less' : 'Read more';
+            button.textContent = Alpine.store('language').text(isExpanded ? 'Read less' : 'Read more');
             updateReviewHeight();
             updateReviewAutoplay();
         });
@@ -295,4 +304,35 @@ if (tourDetailSwiperEl) {
         },
     });
 }
+});
+
+// Progressive disclosure affects mobile itinerary presentation only.
+document.addEventListener('DOMContentLoaded', () => {
+    const mobile = window.matchMedia('(max-width: 767px)');
+    const rows = [...document.querySelectorAll('.public-site .newman-roadmap-row')]
+        .filter((row) => row.querySelector('.newman-roadmap-summary'));
+
+    const syncAccessibility = () => {
+        rows.forEach((row) => {
+            if (mobile.matches) {
+                row.setAttribute('aria-expanded', String(row.classList.contains('is-mobile-expanded')));
+                row.setAttribute('aria-controls', row.querySelector('.newman-roadmap-summary').id);
+            } else {
+                row.removeAttribute('aria-expanded');
+                row.removeAttribute('aria-controls');
+            }
+        });
+    };
+
+    rows.forEach((row) => {
+        row.classList.add('has-mobile-description');
+        row.addEventListener('click', () => {
+            if (!mobile.matches) return;
+            row.classList.toggle('is-mobile-expanded');
+            syncAccessibility();
+        });
+    });
+
+    mobile.addEventListener('change', syncAccessibility);
+    syncAccessibility();
 });

@@ -289,7 +289,7 @@
                         );
                 "
                 role="region"
-                aria-label="Tour booking shortcut"
+                aria-label="{{ __('Tour booking shortcut') }}"
             >
                 <div
                     class="
@@ -315,7 +315,7 @@
                     <div class="min-w-0 flex-1 pl-1">
     <div class="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1">
         <p class="text-[9px] font-bold uppercase tracking-[0.16em] text-gray-400 sm:text-[10px]">
-            {{ $priceLabel }}
+            {{ \App\Http\Middleware\SetLocale::text($priceLabel) }}
         </p>
 
         @if ($promotionActive && $promotionLabel !== '')
@@ -338,18 +338,18 @@
 
         @if ($priceSuffix !== '')
             <p class="text-[9px] leading-4 text-gray-500 sm:text-xs">
-                {{ $priceSuffix }}
+                {{ \App\Http\Middleware\SetLocale::text($priceSuffix) }}
             </p>
         @endif
     </div>
 
     @if ($promotionActive && $savingText)
         <p class="mt-1 hidden text-[9px] font-semibold leading-4 text-newman-gold min-[380px]:block">
-            Save {{ $savingText }}
+            {{ __('Save') }} {{ $savingText }}
         </p>
     @else
         <p class="mt-1 hidden text-[10px] leading-4 text-gray-400 min-[390px]:block">
-            No online payment required
+            {{ __('No online payment required') }}
         </p>
     @endif
 </div>
@@ -387,7 +387,7 @@
                         "
                     >
                         <span>
-                            Check availability
+                            {{ __('Check availability') }}
                         </span>
 
                         <svg

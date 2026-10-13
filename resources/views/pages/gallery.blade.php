@@ -6,11 +6,11 @@
 
 @section('content')
 
-<section class="relative overflow-hidden bg-newman-navy pt-32 text-white sm:pt-36 lg:pt-40">
+<section class="page-hero relative overflow-hidden bg-newman-navy pt-32 text-white sm:pt-36 lg:pt-40">
     <div class="absolute inset-0">
         <img
             src="{{ asset('images/hero-gallery.webp') }}"
-            alt="Guest moments with Newman Tour Bali"
+            alt="{{ __('Guest moments with Newman Tour Bali') }}"
             width="7090"
             height="4732"
             loading="eager"
@@ -25,42 +25,42 @@
         <div class="h-full w-full bali-pattern"></div>
     </div>
 
-    <div class="relative mx-auto w-[92%] max-w-7xl pb-20 sm:pb-24 lg:pb-28">
+    <div class="page-hero-content relative mx-auto w-[92%] max-w-7xl pb-20 sm:pb-24 lg:pb-28">
         <div data-aos="fade-up" class="max-w-4xl">
             <a
                 href="{{ route('home') }}"
                 class="inline-flex border border-white/20 bg-white/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.18em] text-white/80 backdrop-blur-md transition hover:border-newman-gold hover:bg-newman-gold hover:text-newman-navy"
             >
-                ← Back to home
+                {{ __('← Back to home') }}
             </a>
 
             <p class="mt-8 text-xs font-bold uppercase tracking-[0.38em] text-newman-gold">
-                Newman Guest Gallery
+                {{ __('Newman Guest Gallery') }}
             </p>
 
             <h1 class="mt-5 text-4xl font-semibold leading-tight tracking-[-0.05em] sm:text-6xl lg:text-7xl">
-                Real travel moments with guests in Bali.
+                {{ __('Real travel moments with guests in Bali.') }}
             </h1>
 
             <p class="mt-6 max-w-2xl text-base leading-8 text-white/70 sm:text-lg">
-                A collection of simple, warm, and personal memories from private Bali trips with Newman Tour Bali.
+                {{ __('A collection of simple, warm, and personal memories from private Bali trips with Newman Tour Bali.') }}
             </p>
         </div>
 
-        <div data-aos="fade-up" data-aos-delay="140" class="mt-10 grid gap-3 sm:grid-cols-3 lg:max-w-3xl">
+        <div data-aos="fade-up" data-aos-delay="140" class="hero-benefits mt-10 grid gap-3 sm:grid-cols-3 lg:max-w-3xl">
             <div class="border border-white/12 bg-white/10 p-4 backdrop-blur-md">
-                <p class="text-2xl font-semibold text-newman-gold">Private</p>
-                <p class="mt-1 text-sm text-white/60">Guest trip moments</p>
+                <p class="text-2xl font-semibold text-newman-gold">{{ __('Private') }}</p>
+                <p class="mt-1 text-sm text-white/60">{{ __('Guest trip moments') }}</p>
             </div>
 
             <div class="border border-white/12 bg-white/10 p-4 backdrop-blur-md">
-                <p class="text-2xl font-semibold text-newman-gold">Bali</p>
-                <p class="mt-1 text-sm text-white/60">Routes and memories</p>
+                <p class="text-2xl font-semibold text-newman-gold">{{ __('Bali') }}</p>
+                <p class="mt-1 text-sm text-white/60">{{ __('Routes and memories') }}</p>
             </div>
 
             <div class="border border-white/12 bg-white/10 p-4 backdrop-blur-md">
-                <p class="text-2xl font-semibold text-newman-gold">Local</p>
-                <p class="mt-1 text-sm text-white/60">Guided with care</p>
+                <p class="text-2xl font-semibold text-newman-gold">{{ __('Local') }}</p>
+                <p class="mt-1 text-sm text-white/60">{{ __('Guided with care') }}</p>
             </div>
         </div>
     </div>
@@ -78,17 +78,17 @@
         <div class="mb-10 grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
             <div data-aos="fade-up">
                 <p class="text-xs font-bold uppercase tracking-[0.35em] text-newman-blue">
-                    Photo Stories
+                    {{ __('Photo Stories') }}
                 </p>
 
                 <h2 class="mt-4 max-w-3xl text-3xl font-semibold leading-tight tracking-[-0.04em] text-newman-navy sm:text-5xl">
-                    Not just places, but people and moments.
+                    {{ __('Not just places, but people and moments.') }}
                 </h2>
             </div>
 
             <div data-aos="fade-up" data-aos-delay="120" class="max-w-xl lg:ml-auto">
                 <p class="text-base leading-8 text-gray-600">
-                    These photos are meant to show the real side of Newman Tour Bali: guests, routes, transport, photo stops, and comfortable travel days around Bali.
+                    {{ __('These photos are meant to show the real side of Newman Tour Bali: guests, routes, transport, photo stops, and comfortable travel days around Bali.') }}
                 </p>
             </div>
         </div>
@@ -109,7 +109,7 @@
             "
             class="shrink-0 border px-5 py-3 text-[11px] font-bold uppercase tracking-[0.14em] transition duration-300"
         >
-            All Moments
+            {{ __('All Moments') }}
         </button>
 
         @foreach ($categories as $category)
@@ -163,7 +163,7 @@
             >
                 <img
                     src="{{ asset($moment['image']) }}"
-                    alt="{{ $moment['alt'] ?? $moment['title'] }}"
+                    alt="{{ \App\Http\Middleware\SetLocale::text($moment['alt'] ?? $moment['title']) }}"
                     loading="lazy"
                     decoding="async"
                     class="h-full w-full object-cover transition duration-700 ease-out group-hover:scale-[1.035]"
@@ -195,14 +195,14 @@
                         <p
                             class="break-words text-[10px] font-bold uppercase tracking-[0.18em] text-newman-gold"
                         >
-                            {{ $moment['tag'] }}
+                            {{ \App\Http\Middleware\SetLocale::text($moment['tag']) }}
                         </p>
                     @endif
 
                     <h3
                         class="mt-2 break-words text-xl font-semibold leading-tight tracking-[-0.025em] sm:text-2xl"
                     >
-                        {{ $moment['title'] }}
+                        {{ \App\Http\Middleware\SetLocale::text($moment['title']) }}
                     </h3>
 
                     @if (! empty($moment['caption']))
@@ -245,12 +245,11 @@
             >
                 <div>
                     <p class="font-semibold text-newman-navy">
-                        Guest moments will be added soon.
+                        {{ __('Guest moments will be added soon.') }}
                     </p>
 
                     <p class="mt-2 text-sm leading-7 text-gray-500">
-                        Active Gallery moments from the dashboard will
-                        appear here.
+                        {{ __('Active Gallery moments from the dashboard will appear here.') }}
                     </p>
                 </div>
             </div>

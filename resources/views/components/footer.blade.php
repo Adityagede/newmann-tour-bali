@@ -8,9 +8,9 @@
     $whatsappNumber = '6287887243495';
 
     $whatsappMessage = implode("\n", [
-        'Hello Newman, I am visiting your website.',
+        __('Hello Newman, I am visiting your website.'),
         '',
-        'I would like help planning a private Bali trip.',
+        __('I would like help planning a private Bali trip.'),
     ]);
 
     $whatsappUrl = 'https://wa.me/'
@@ -59,21 +59,19 @@
 
     <div class="relative mx-auto w-[calc(100%-2rem)] max-w-7xl sm:w-[92%]">
         {{-- Main footer invitation --}}
-        <div class="border-b border-white/10 py-14 sm:py-16 lg:py-20">
+        <div class="footer-invitation border-b border-white/10 py-14 sm:py-16 lg:py-20">
             <div class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
                 <div class="max-w-3xl">
                     <p class="text-[11px] font-bold uppercase tracking-[0.3em] text-newman-gold">
-                        Plan your Bali journey
+                        {{ __('Plan your Bali journey') }}
                     </p>
 
                     <h2 class="mt-4 max-w-3xl text-3xl font-semibold leading-tight tracking-[-0.04em] text-white sm:text-5xl lg:text-[56px]">
-                        Planning a Bali day that feels like yours?
+                        {{ __('Planning a Bali day that feels like yours?') }}
                     </h2>
 
                     <p class="mt-5 max-w-2xl text-sm leading-7 text-white/62 sm:text-base sm:leading-8">
-                        Choose a prepared Tour Package or share the places,
-                        date, and group size you have in mind. Newman will help
-                        arrange a comfortable route and suitable transport.
+                        {{ __('Choose a prepared Tour Package or share the places, date, and group size you have in mind. Newman will help arrange a comfortable route and suitable transport.') }}
                     </p>
                 </div>
 
@@ -82,28 +80,28 @@
                         href="{{ route('tours') }}"
                         class="inline-flex min-h-13 items-center justify-center bg-newman-gold px-7 py-4 text-center text-xs font-bold uppercase tracking-[0.16em] text-newman-navy transition duration-300 hover:-translate-y-0.5 hover:bg-white"
                     >
-                        Explore Tour Packages
+                        {{ __('Explore Tour Packages') }}
                     </a>
 
                     <a
                         href="{{ route('home') }}#booking"
                         class="inline-flex min-h-13 items-center justify-center border border-white/20 px-7 py-4 text-center text-xs font-bold uppercase tracking-[0.16em] text-white transition duration-300 hover:-translate-y-0.5 hover:border-newman-gold hover:text-newman-gold"
                     >
-                        Plan a Custom Trip
+                        {{ __('Plan a Custom Trip') }}
                     </a>
                 </div>
             </div>
         </div>
 
         {{-- Footer navigation --}}
-        <div class="py-12 sm:py-14 lg:py-16">
-            <div class="grid gap-x-9 gap-y-12 md:grid-cols-2 lg:grid-cols-12">
+        <div class="footer-navigation py-12 sm:py-14 lg:py-16">
+            <div class="footer-grid grid gap-x-9 gap-y-12 md:grid-cols-2 lg:grid-cols-12">
                 {{-- Brand --}}
-                <div class="lg:col-span-3">
+                <div class="footer-brand lg:col-span-3">
                     <a
                         href="{{ route('home') }}"
                         class="inline-flex items-center gap-4"
-                        aria-label="Newman Tour Bali home"
+                        aria-label="{{ __('Newman Tour Bali home') }}"
                     >
                         <span class="flex h-12 w-12 shrink-0 items-center justify-center border border-newman-gold/35 bg-white/5">
                             <img
@@ -130,8 +128,7 @@
                     </a>
 
                     <p class="mt-6 max-w-sm text-sm leading-7 text-white/58">
-                        Private Bali tours and transport, planned with local
-                        knowledge and confirmed personally by Newman.
+                        {{ __('Private Bali tours and transport, planned with local knowledge and confirmed personally by Newman.') }}
                     </p>
 
                     {{-- Social media --}}
@@ -142,7 +139,7 @@
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 class="flex h-11 w-11 items-center justify-center border border-white/12 text-white/70 transition hover:border-newman-gold hover:bg-newman-gold hover:text-newman-navy"
-                                aria-label="Newman on Instagram"
+                                aria-label="{{ __('Newman on Instagram') }}"
                             >
                                 <svg
                                     viewBox="0 0 24 24"
@@ -183,7 +180,7 @@
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 class="flex h-11 w-11 items-center justify-center border border-white/12 text-white/70 transition hover:border-newman-gold hover:bg-newman-gold hover:text-newman-navy"
-                                aria-label="Newman on Facebook"
+                                aria-label="{{ __('Newman on Facebook') }}"
                             >
                                 <svg
                                     viewBox="0 0 24 24"
@@ -201,7 +198,7 @@
                             target="_blank"
                             rel="noopener noreferrer"
                             class="flex h-11 w-11 items-center justify-center border border-white/12 text-white/70 transition hover:border-newman-gold hover:bg-newman-gold hover:text-newman-navy"
-                            aria-label="Chat with Newman on WhatsApp"
+                            aria-label="{{ __('Chat with Newman on WhatsApp') }}"
                         >
                             <svg
                                 viewBox="0 0 24 24"
@@ -228,96 +225,96 @@
                 </div>
 
                 {{-- Quick links --}}
-                <div class="lg:col-span-2">
+                <div class="footer-links lg:col-span-2">
                     <p class="text-[11px] font-bold uppercase tracking-[0.25em] text-newman-gold">
-                        Quick Links
+                        {{ __('Quick Links') }}
                     </p>
 
                     <nav
                         class="mt-6 space-y-4 text-sm"
-                        aria-label="Footer quick links"
+                        aria-label="{{ __('Footer quick links') }}"
                     >
                         <a
                             href="{{ route('home') }}"
                             class="block text-white/62 transition hover:translate-x-1 hover:text-white"
                         >
-                            Home
+                            {{ __('Home') }}
                         </a>
 
                         <a
                             href="{{ route('about') }}"
                             class="block text-white/62 transition hover:translate-x-1 hover:text-white"
                         >
-                            About Newman
+                            {{ __('About Newman') }}
                         </a>
 
                         <a
                             href="{{ route('tours') }}"
                             class="block text-white/62 transition hover:translate-x-1 hover:text-white"
                         >
-                            Tour Packages
+                            {{ __('Tour Packages') }}
                         </a>
 
                         <a
                             href="{{ route('gallery') }}"
                             class="block text-white/62 transition hover:translate-x-1 hover:text-white"
                         >
-                            Guest Gallery
+                            {{ __('Guest Gallery') }}
                         </a>
 
                         <a
                             href="{{ route('contact') }}"
                             class="block text-white/62 transition hover:translate-x-1 hover:text-white"
                         >
-                            Contact
+                            {{ __('Contact') }}
                         </a>
                     </nav>
                 </div>
 
                 {{-- Trip planning --}}
-                <div class="lg:col-span-2">
+                <div class="footer-links lg:col-span-2">
                     <p class="text-[11px] font-bold uppercase tracking-[0.25em] text-newman-gold">
-                        Plan a Trip
+                        {{ __('Plan a Trip') }}
                     </p>
 
                     <nav
                         class="mt-6 space-y-4 text-sm"
-                        aria-label="Footer trip planning links"
+                        aria-label="{{ __('Footer trip planning links') }}"
                     >
                         <a
                             href="{{ route('tours') }}"
                             class="block text-white/62 transition hover:translate-x-1 hover:text-white"
                         >
-                            Browse Bali Tours
+                            {{ __('Browse Bali Tours') }}
                         </a>
 
                         <a
                             href="{{ route('home') }}#booking"
                             class="block text-white/62 transition hover:translate-x-1 hover:text-white"
                         >
-                            Custom Trip Request
+                            {{ __('Custom Trip Request') }}
                         </a>
 
                         <a
                             href="{{ route('home') }}#vehicles"
                             class="block text-white/62 transition hover:translate-x-1 hover:text-white"
                         >
-                            Private Transport
+                            {{ __('Private Transport') }}
                         </a>
 
                         <a
                             href="{{ route('gallery') }}"
                             class="block text-white/62 transition hover:translate-x-1 hover:text-white"
                         >
-                            See Guest Moments
+                            {{ __('See Guest Moments') }}
                         </a>
                     </nav>
                 </div>
 
                 {{-- Contact --}}
-                <div class="lg:col-span-2">
+                <div class="footer-contact lg:col-span-2">
                     <p class="text-[11px] font-bold uppercase tracking-[0.25em] text-newman-gold">
-                        Contact Us
+                        {{ __('Contact Us') }}
                     </p>
 
                     <div class="mt-6 space-y-5">
@@ -346,7 +343,7 @@
 
                             <span class="min-w-0">
                                 <span class="block text-[10px] font-bold uppercase tracking-[0.14em] text-white/35">
-                                    WhatsApp
+                                    {{ __('WhatsApp') }}
                                 </span>
 
                                 <span class="mt-1 block break-words text-sm text-white/68 transition group-hover:text-white">
@@ -387,7 +384,7 @@
 
                                 <span class="min-w-0">
                                     <span class="block text-[10px] font-bold uppercase tracking-[0.14em] text-white/35">
-                                        Email
+                                        {{ __('Email') }}
                                     </span>
 
                                     <span class="mt-1 block break-all text-sm text-white/68 transition group-hover:text-white">
@@ -423,11 +420,11 @@
 
                             <span class="min-w-0">
                                 <span class="block text-[10px] font-bold uppercase tracking-[0.14em] text-white/35">
-                                    Based in
+                                    {{ __('Based in') }}
                                 </span>
 
                                 <span class="mt-1 block text-sm text-white/68">
-                                    {{ $locationText }}
+                                    {{ \App\Http\Middleware\SetLocale::text($locationText) }}
                                 </span>
                             </span>
                         </div>
@@ -435,36 +432,34 @@
                 </div>
 
                 {{-- Travel note --}}
-                <div class="lg:col-span-3">
+                <div class="footer-note lg:col-span-3">
                     <p class="text-[11px] font-bold uppercase tracking-[0.25em] text-newman-gold">
-                        Travel Note
+                        {{ __('Travel Note') }}
                     </p>
 
-                    <div class="mt-6 overflow-hidden border border-white/10 bg-white/[0.055]">
-                        <div class="aspect-[16/9] overflow-hidden bg-white/5">
+                    <div class="footer-note-card mt-6 overflow-hidden border border-white/10 bg-white/[0.055]">
+                        <div class="footer-note-photo aspect-[16/9] overflow-hidden bg-white/5">
                             <img
                                 src="{{ asset('images/owner.jpg') }}"
-                                alt="Newman sharing a local Bali travel moment"
+                                alt="{{ __('Newman sharing a local Bali travel moment') }}"
                                 loading="lazy"
                                 decoding="async"
                                 class="h-full w-full object-cover transition duration-700 hover:scale-[1.03]"
                             >
                         </div>
 
-                        <div class="p-5">
+                        <div class="footer-note-copy p-5">
                             <p class="text-sm leading-7 text-white/68">
-                                “Tell us which places matter to you. We will
-                                help shape a route that feels calm,
-                                comfortable, and realistic for the day.”
+                                {{ __('“Tell us which places matter to you. We will help shape a route that feels calm, comfortable, and realistic for the day.”') }}
                             </p>
 
                             <div class="mt-5 border-t border-white/10 pt-4">
                                 <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-newman-gold">
-                                    Local planning, personal confirmation
+                                    {{ __('Local planning, personal confirmation') }}
                                 </p>
 
                                 <p class="mt-2 text-xs leading-6 text-white/42">
-                                    Private tours · Transport · Flexible routes
+                                    {{ __('Private tours · Transport · Flexible routes') }}
                                 </p>
                             </div>
                         </div>
@@ -477,8 +472,7 @@
         <div class="border-t border-white/10 py-6">
             <div class="flex flex-col gap-4 text-xs text-white/38 sm:flex-row sm:items-center sm:justify-between">
                 <p>
-                    © {{ now()->year }} Newman Tour Bali.
-                    Private Bali tours and transport.
+                    © {{ now()->year }} {{ __('Newman Tour Bali. Private Bali tours and transport.') }}
                 </p>
 
                 <div class="flex flex-wrap gap-x-5 gap-y-2">
@@ -486,18 +480,18 @@
                         href="{{ route('contact') }}"
                         class="transition hover:text-white"
                     >
-                        Contact
+                        {{ __('Contact') }}
                     </a>
 
                     <a
                         href="{{ route('home') }}#booking"
                         class="transition hover:text-white"
                     >
-                        Booking Request
+                        {{ __('Booking Request') }}
                     </a>
 
                     <span>
-                        No online payment
+                        {{ __('No online payment') }}
                     </span>
                 </div>
             </div>

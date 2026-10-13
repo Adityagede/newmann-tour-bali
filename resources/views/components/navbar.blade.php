@@ -45,14 +45,12 @@
 
     $languageOptions = [
         'en' => [
-            'code' => 'EN',
             'flag' => 'uk',
-            'name' => __('navigation.english'),
+            'name' => 'English',
         ],
         'id' => [
-            'code' => 'ID',
             'flag' => 'id',
-            'name' => __('navigation.indonesian'),
+            'name' => 'Bahasa Indonesia',
         ],
     ];
 
@@ -121,57 +119,53 @@
                 </div>
             </a>
 
-            <div
-    class="hidden items-center gap-9 text-[12px] font-semibold uppercase tracking-[0.18em] text-white/80 lg:flex"
-    aria-label="{{ __('navigation.primary_navigation') }}"
->
-    <a
-        href="{{ route('home') }}"
-        class="nav-link {{ request()->routeIs('home') ? 'is-active' : '' }}"
-        @if (request()->routeIs('home')) aria-current="page" @endif
-    >
-        {{ __('navigation.home') }}
-    </a>
-
-    <a
-        href="{{ route('about') }}"
-        class="nav-link {{ request()->routeIs('about') ? 'is-active' : '' }}"
-        @if (request()->routeIs('about')) aria-current="page" @endif
-    >
-        {{ __('navigation.about') }}
-    </a>
-
-    <a
-        href="{{ route('tours') }}"
-        class="nav-link {{ request()->routeIs('tours', 'tours.*', 'booking-requests.success') ? 'is-active' : '' }}"
-        @if (request()->routeIs('tours', 'tours.*', 'booking-requests.success')) aria-current="page" @endif
-    >
-        {{ __('navigation.tours') }}
-    </a>
-
-    <a
-        href="{{ route('gallery') }}"
-        class="nav-link {{ request()->routeIs('gallery') ? 'is-active' : '' }}"
-        @if (request()->routeIs('gallery')) aria-current="page" @endif
-    >
-        {{ __('navigation.gallery') }}
-    </a>
-
-    <a
-        href="{{ route('contact') }}"
-        class="nav-link {{ request()->routeIs('contact') ? 'is-active' : '' }}"
-        @if (request()->routeIs('contact')) aria-current="page" @endif
-    >
-        {{ __('navigation.contact') }}
-    </a>
-</div>
-            <div class="hidden items-center gap-3 lg:flex">
-                
+            <div class="desktop-navigation hidden items-center gap-9 text-[12px] font-semibold uppercase tracking-[0.18em] text-white/80 lg:flex"
+                aria-label="{{ __('navigation.primary_navigation') }}"
+            >
+                @foreach ($navigationItems as $item)
+                    <a href="{{ route($item['route']) }}"
+                        class="nav-link {{ $item['active'] ? 'is-active' : '' }}"
+                        @if ($item['active']) aria-current="page" @endif
+                    >
+                        {{ $item['label'] }}
+                    </a>
+                @endforeach
+            </div>
+            <div class="navbar-actions hidden items-center gap-3 lg:flex">
+                <div class="relative" @click.outside="languageOpen = false">
+                    <button type="button"
+                        class="inline-flex min-h-11 items-center gap-2 border border-white/20 px-3 text-white hover:bg-white/10"
+                        @click="languageOpen = !languageOpen"
+                        :aria-expanded="languageOpen.toString()"
+                        aria-controls="desktopLanguages"
+                        aria-label="{{ __('navigation.choose_language', ['language' => $currentLanguage['name']]) }}"
+                    >
+                        <x-language-flag :code="$currentLanguage['flag']" />
+                        <svg aria-hidden="true" viewBox="0 0 20 20" fill="none" class="h-3 w-3"><path d="m5 7 5 5 5-5" stroke="currentColor" stroke-width="1.5" /></svg>
+                    </button>
+                    <div id="desktopLanguages" x-cloak x-show="languageOpen"
+                        class="absolute right-0 top-full mt-2 w-48 border border-white/20 bg-newman-navy p-2 shadow-xl"
+                        aria-label="{{ __('navigation.language_options') }}"
+                    >
+                        @foreach ($languageOptions as $locale => $language)
+                            <form method="POST" action="{{ route('language.update') }}">
+                                @csrf
+                                <input type="hidden" name="locale" value="{{ $locale }}">
+                                <button type="submit" @class(['flex min-h-11 w-full items-center gap-3 px-3 py-2 text-left text-sm hover:bg-white/10', 'text-newman-gold' => $locale === $currentLocale])
+                                    @if ($locale === $currentLocale) aria-current="true" @endif
+                                >
+                                    <x-language-flag :code="$language['flag']" />
+                                    {{ $language['name'] }}
+                                </button>
+                            </form>
+                        @endforeach
+                    </div>
+                </div>
 
                 <a
                     href="{{ route('custom-trip.create') }}"
                     @class([
-                        'px-8 py-5 text-[11px] font-bold uppercase tracking-[0.22em] transition duration-300',
+                        'navbar-book-cta px-8 py-5 text-[11px] font-bold uppercase tracking-[0.22em] transition duration-300',
                         'bg-newman-gold text-newman-navy hover:bg-white' => ! $customTripActive,
                         'bg-white text-newman-navy ring-2 ring-newman-gold ring-offset-2 ring-offset-newman-navy' => $customTripActive,
                     ])
@@ -274,7 +268,23 @@
     @endforeach
 </div>
 
-                
+                <div class="mt-5 border-t border-white/10 pt-4" aria-label="{{ __('navigation.language_options') }}">
+                    <p class="mb-3 text-xs font-semibold uppercase tracking-[0.16em] text-white/60">{{ __('navigation.language') }}</p>
+                    <div class="flex flex-wrap gap-2">
+                        @foreach ($languageOptions as $locale => $language)
+                            <form method="POST" action="{{ route('language.update') }}">
+                                @csrf
+                                <input type="hidden" name="locale" value="{{ $locale }}">
+                                <button type="submit" @class(['inline-flex min-h-11 items-center gap-2 border px-3 py-2 text-sm hover:bg-white/10', 'border-newman-gold text-newman-gold' => $locale === $currentLocale, 'border-white/20 text-white' => $locale !== $currentLocale])
+                                    @if ($locale === $currentLocale) aria-current="true" @endif
+                                >
+                                    <x-language-flag :code="$language['flag']" />
+                                    {{ $language['name'] }}
+                                </button>
+                            </form>
+                        @endforeach
+                    </div>
+                </div>
 
                 <div
                     x-show="open"

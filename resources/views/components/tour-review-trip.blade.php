@@ -51,7 +51,7 @@
         get startingTime() {
             return this.selection
                 ?.starting_time
-                || 'Not selected';
+                || @js(__('Not selected'));
         },
 
         get requestSelection() {
@@ -100,7 +100,7 @@
                 this.transport;
 
             if (!transport) {
-                return 'Confirmed after request';
+                return @js(__('Confirmed after request'));
             }
 
             if (typeof transport === 'string') {
@@ -112,7 +112,7 @@
                 ?? transport.vehicle_name
                 ?? transport.name
                 ?? transport.title
-                ?? 'Recommended transport';
+                ?? @js(__('Recommended transport'));
         },
 
         get transportQuantity() {
@@ -143,7 +143,7 @@
         get estimatedTotal() {
             return this.pricing
                 ?.formatted_estimated_total
-                ?? 'Price confirmation required';
+                ?? @js(__('Price confirmation required'));
         },
 
         get baseTotal() {
@@ -175,17 +175,17 @@
 
             if (!name) {
                 this.errors.full_name =
-                    'Please enter the guest name.';
+                    @js(__('Please enter the guest name.'));
             }
 
             if (!whatsapp) {
                 this.errors.whatsapp =
-                    'Please enter a WhatsApp number.';
+                    @js(__('Please enter a WhatsApp number.'));
             }
 
             if (!pickup) {
                 this.errors.pickup_address =
-                    'Please enter the pickup location.';
+                    @js(__('Please enter the pickup location.'));
             }
 
             if (
@@ -194,12 +194,12 @@
                     .test(email)
             ) {
                 this.errors.email =
-                    'Please enter a valid email address.';
+                    @js(__('Please enter a valid email address.'));
             }
 
             if (!this.customer.agree) {
                 this.errors.agree =
-                    'Please confirm that the trip details are correct.';
+                    @js(__('Please confirm that the trip details are correct.'));
             }
 
             return Object.keys(
@@ -324,27 +324,25 @@
         {{-- Header --}}
         <div class="border-b border-newman-navy/10 pb-8">
             <p class="text-xs font-bold uppercase tracking-[0.32em] text-newman-gold">
-                Review your trip
+                {{ __('Review your trip') }}
             </p>
 
             <h2 class="mt-3 max-w-4xl text-3xl font-semibold tracking-[-0.04em] text-newman-navy sm:text-5xl">
-                Check every detail before sending your request.
+                {{ __('Check every detail before sending your request.') }}
             </h2>
 
             <p class="mt-4 max-w-3xl text-sm leading-7 text-gray-600">
-                Newman will review availability and confirm the
-                final arrangement before the booking request is
-                accepted.
+                {{ __('Newman will review availability and confirm the final arrangement before the booking request is accepted.') }}
             </p>
         </div>
 
-        <div class="mt-8 grid gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
+        <div class="tour-review-layout mt-8 grid gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
             {{-- Trip summary --}}
             <div class="space-y-6">
                 <section class="overflow-hidden rounded-[26px] border border-newman-navy/10 bg-white shadow-[0_18px_55px_rgba(8,36,58,0.08)]">
                     <div class="bg-newman-navy p-6 text-white sm:p-8">
                         <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-newman-gold">
-                            Selected experience
+                            {{ __('Selected experience') }}
                         </p>
 
                         <h3
@@ -353,14 +351,14 @@
                         ></h3>
 
                         <p class="mt-2 text-sm text-white/65">
-                            {{ $tour['title'] }}
+                            {{ \App\Http\Middleware\SetLocale::text($tour['title']) }}
                         </p>
                     </div>
 
                     <div class="grid gap-3 p-5 sm:grid-cols-2 sm:p-7">
                         <div class="rounded-2xl bg-newman-sand/70 p-4">
                             <p class="text-[10px] font-bold uppercase tracking-[0.14em] text-gray-400">
-                                Travel date
+                                {{ __('Travel date') }}
                             </p>
 
                             <p
@@ -371,7 +369,7 @@
 
                         <div class="rounded-2xl bg-newman-sand/70 p-4">
                             <p class="text-[10px] font-bold uppercase tracking-[0.14em] text-gray-400">
-                                Starting time
+                                {{ __('Starting time') }}
                             </p>
 
                             <p
@@ -382,18 +380,18 @@
 
                         <div class="rounded-2xl bg-newman-sand/70 p-4">
                             <p class="text-[10px] font-bold uppercase tracking-[0.14em] text-gray-400">
-                                Participants
+                                {{ __('Participants') }}
                             </p>
 
                             <p
                                 class="mt-2 font-semibold text-newman-navy"
-                                x-text="participantLabel"
+                                x-text="$store.language.text(participantLabel)"
                             ></p>
                         </div>
 
                         <div class="rounded-2xl bg-newman-sand/70 p-4">
                             <p class="text-[10px] font-bold uppercase tracking-[0.14em] text-gray-400">
-                                Language
+                                {{ __('Language') }}
                             </p>
 
                             <p
@@ -407,7 +405,7 @@
                 {{-- Transport --}}
                 <section class="rounded-[24px] border border-newman-gold/35 bg-newman-sand/35 p-5 sm:p-7">
                     <p class="text-xs font-bold uppercase tracking-[0.18em] text-newman-gold">
-                        Transport recommendation
+                        {{ __('Transport recommendation') }}
                     </p>
 
                     <div class="mt-4 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
@@ -418,8 +416,7 @@
                             ></h3>
 
                             <p class="mt-2 text-sm leading-6 text-gray-600">
-                                Adults, children, and infants are
-                                counted toward transport capacity.
+                                {{ __('Adults, children, and infants are counted toward transport capacity.') }}
                             </p>
                         </div>
 
@@ -449,7 +446,7 @@
                     <div class="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
                         <div>
                             <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-newman-gold">
-                                Estimated total
+                                {{ __('Estimated total') }}
                             </p>
 
                             <p
@@ -467,7 +464,7 @@
                                 x-show="discountAmount"
                                 class="mt-2 text-xs font-semibold text-newman-gold"
                             >
-                                Discount:
+                                {{ __('Discount:') }}
                                 <span
                                     x-text="discountAmount"
                                 ></span>
@@ -475,9 +472,7 @@
                         </div>
 
                         <p class="max-w-sm text-xs leading-6 text-white/55">
-                            This estimate is generated by the Newman
-                            Pricing Service. Final confirmation is
-                            completed before acceptance.
+                            {{ __('This estimate is generated by the Newman Pricing Service. Final confirmation is completed before acceptance.') }}
                         </p>
                     </div>
                 </section>
@@ -486,11 +481,11 @@
             {{-- Customer details --}}
             <aside class="rounded-[26px] border border-newman-navy/10 bg-newman-sand/35 p-5 shadow-[0_18px_55px_rgba(8,36,58,0.08)] sm:p-7">
                 <p class="text-xs font-bold uppercase tracking-[0.18em] text-newman-gold">
-                    Guest details
+                    {{ __('Guest details') }}
                 </p>
 
                 <h3 class="mt-3 text-2xl font-semibold text-newman-navy">
-                    Who should Newman contact?
+                    {{ __('Who should Newman contact?') }}
                 </h3>
 
                 <div class="mt-6 space-y-5">
@@ -499,7 +494,7 @@
                             for="review-full-name"
                             class="text-sm font-semibold text-newman-navy"
                         >
-                            Full name
+                            {{ __('Full name') }}
                         </label>
 
                         <input
@@ -512,7 +507,7 @@
                             "
                             autocomplete="name"
                             class="booking-input mt-2 min-h-13 rounded-xl border-newman-navy/10 bg-white"
-                            placeholder="Guest name"
+                            placeholder="{{ __('Guest name') }}"
                         >
 
                         <p
@@ -527,7 +522,7 @@
                             for="review-whatsapp"
                             class="text-sm font-semibold text-newman-navy"
                         >
-                            WhatsApp number
+                            {{ __('WhatsApp number') }}
                         </label>
 
                         <input
@@ -540,7 +535,7 @@
                             "
                             autocomplete="tel"
                             class="booking-input mt-2 min-h-13 rounded-xl border-newman-navy/10 bg-white"
-                            placeholder="Your WhatsApp number"
+                            placeholder="{{ __('Your WhatsApp number') }}"
                         >
 
                         <p
@@ -555,7 +550,7 @@
                             for="review-email"
                             class="text-sm font-semibold text-newman-navy"
                         >
-                            Email
+                            {{ __('Email') }}
                             <span class="font-normal text-gray-400">
                                 (optional)
                             </span>
@@ -586,7 +581,7 @@
                             for="review-pickup"
                             class="text-sm font-semibold text-newman-navy"
                         >
-                            Pickup location
+                            {{ __('Pickup location') }}
                         </label>
 
                         <textarea
@@ -598,7 +593,7 @@
                             "
                             rows="3"
                             class="booking-input mt-2 rounded-xl border-newman-navy/10 bg-white"
-                            placeholder="Hotel, villa, or confirmed meeting location"
+                            placeholder="{{ __('Hotel, villa, or confirmed meeting location') }}"
                         ></textarea>
 
                         <p
@@ -613,7 +608,7 @@
                             for="review-notes"
                             class="text-sm font-semibold text-newman-navy"
                         >
-                            Special requests
+                            {{ __('Special requests') }}
                             <span class="font-normal text-gray-400">
                                 (optional)
                             </span>
@@ -625,7 +620,7 @@
                             @input="ready = false"
                             rows="4"
                             class="booking-input mt-2 rounded-xl border-newman-navy/10 bg-white"
-                            placeholder="Accessibility, luggage, dietary notes, or other requests"
+                            placeholder="{{ __('Accessibility, luggage, dietary notes, or other requests') }}"
                         ></textarea>
                     </div>
 
@@ -641,9 +636,7 @@
                         >
 
                         <span class="text-sm leading-6 text-gray-600">
-                            I have reviewed the selected tour,
-                            date, participants, language, starting
-                            time, and estimated price.
+                            {{ __('I have reviewed the selected tour, date, participants, language, starting time, and estimated price.') }}
                         </span>
                     </label>
 
@@ -658,13 +651,11 @@
                         @click="prepareBookingRequest()"
                         class="flex min-h-14 w-full items-center justify-center rounded-xl bg-newman-gold px-6 py-4 text-xs font-bold uppercase tracking-[0.14em] text-newman-navy transition duration-300 hover:-translate-y-0.5 hover:bg-newman-navy hover:text-white"
                     >
-                        Continue to final request
+                        {{ __('Continue to final request') }}
                     </button>
 
                     <p class="text-xs leading-5 text-gray-500">
-                        No online payment is required. Submit this booking
-                        request and Newman will verify the selected schedule,
-                        then contact you with final confirmation.
+                        {{ __('No online payment is required. Submit this booking request and Newman will verify the selected schedule, then contact you with final confirmation.') }}
                     </p>
 
                     <div
@@ -675,12 +666,11 @@
                         class="rounded-xl border border-emerald-200 bg-emerald-50 p-4"
                     >
                         <p class="text-xs font-bold uppercase tracking-[0.14em] text-emerald-700">
-                            Review complete
+                            {{ __('Review complete') }}
                         </p>
 
                         <p class="mt-2 text-sm leading-6 text-emerald-800">
-                            The trip and guest information are ready
-                            to be submitted as a Booking Request.
+                            {{ __('The trip and guest information are ready to be submitted as a Booking Request.') }}
                         </p>
                     </div>
                 </div>

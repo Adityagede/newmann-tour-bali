@@ -316,7 +316,7 @@ html:not(.aos-initialized) [data-aos] {
 }
 
 .hero-slide-content {
-    min-height: 100% !important;
+    min-height: 100%;
     padding-top: 6rem;
     padding-right: clamp(1.5rem, 5vw, 4.5rem);
     padding-bottom: 4rem;
@@ -737,119 +737,6 @@ html:not(.aos-initialized) [data-aos] {
     }
 }
 
-@media (max-width: 767px) {
-    #tours .tour-experiences-list {
-        padding-top: 1.75rem;
-        padding-bottom: 2rem;
-    }
-
-    #tours .tour-experiences-grid {
-        gap: 1.25rem;
-    }
-
-    #tours .tour-experience-media {
-        height: clamp(13.75rem, 63vw, 16.875rem);
-        aspect-ratio: auto;
-    }
-
-    #tours .tour-experience-image {
-        object-position: center;
-    }
-
-    #tours .tour-experience-format {
-        top: 0.85rem;
-        left: 0.85rem;
-        padding: 0.4rem 0.7rem;
-        font-size: 0.625rem;
-    }
-
-    #tours .tour-experience-discount {
-        top: 0.85rem;
-        right: 0.85rem;
-        padding: 0.4rem 0.65rem;
-        font-size: 0.58rem;
-    }
-
-    #tours .tour-experience-location {
-        bottom: 0.85rem;
-        left: 0.85rem;
-        gap: 0.4rem;
-        font-size: 0.8rem;
-    }
-
-    #tours .tour-experience-location svg {
-        width: 0.9rem;
-        height: 0.9rem;
-    }
-
-    #tours .tour-experience-body {
-        padding: 1.1rem 1.15rem 1.15rem;
-    }
-
-    #tours .tour-experience-type {
-        font-size: 0.625rem;
-        line-height: 1.45;
-        letter-spacing: 0.13em;
-    }
-
-    #tours .tour-experience-title {
-        margin-top: 0.5rem;
-        font-size: 1.3rem;
-        line-height: 1.3;
-    }
-
-    #tours .tour-experience-rating {
-        margin-top: 0.55rem;
-        gap: 0.4rem;
-        font-size: 0.8rem;
-    }
-
-    #tours .tour-experience-meta {
-        margin-top: 0.9rem;
-        padding-top: 0.9rem;
-    }
-
-    #tours .tour-experience-meta > * + * {
-        margin-top: 0.65rem;
-    }
-
-    #tours .tour-experience-meta-row {
-        gap: 0.6rem;
-        font-size: 0.8rem;
-        line-height: 1.45;
-    }
-
-    #tours .tour-experience-meta-icon {
-        width: 1.05rem;
-        height: 1.05rem;
-    }
-
-    #tours .tour-experience-meta-secondary {
-        margin-top: 0.15rem;
-    }
-
-    #tours .tour-experience-price {
-        margin-top: 1rem;
-        padding-top: 1rem;
-    }
-
-    #tours .tour-experience-price > p:first-child,
-    #tours .tour-experience-price > div:first-child p {
-        font-size: 0.625rem;
-    }
-
-    #tours .tour-experience-price p.text-\[24px\] {
-        font-size: 1.4rem;
-    }
-
-    #tours .tour-experience-cta {
-        min-height: 2.875rem;
-        margin-top: 0.95rem;
-        padding: 0.7rem 1rem;
-        font-size: 0.82rem;
-    }
-}
-
 
 .vehicle-card {
     position: relative;
@@ -931,12 +818,12 @@ html:not(.aos-initialized) [data-aos] {
    ========================================================= */
 
 #why-newman.why-newman-section {
-    padding-block: 3.75rem 4rem;
+    padding-block: var(--public-section-space, 3.75rem 4rem);
 }
 
 #why-newman .why-newman-title {
-    font-size: clamp(2rem, 8.5vw, 2.35rem);
-    line-height: 1.13;
+    font-size: var(--public-section-title-size, clamp(2rem, 8.5vw, 2.35rem));
+    line-height: var(--public-section-title-leading, 1.13);
     letter-spacing: -0.042em;
 }
 
@@ -1044,7 +931,7 @@ html:not(.aos-initialized) [data-aos] {
 
 @media (max-width: 359px) {
     #why-newman.why-newman-section {
-        padding-block: 3.25rem 3.5rem;
+        padding-block: var(--public-section-space, 3.25rem 3.5rem);
     }
 
     #why-newman .why-newman-container {
@@ -1052,7 +939,7 @@ html:not(.aos-initialized) [data-aos] {
     }
 
     #why-newman .why-newman-title {
-        font-size: 1.875rem;
+        font-size: var(--public-section-title-size, 1.875rem);
     }
 
     #why-newman .why-newman-intro {
@@ -1110,11 +997,11 @@ html:not(.aos-initialized) [data-aos] {
 
 @media (min-width: 640px) {
     #why-newman.why-newman-section {
-        padding-block: 5rem;
+        padding-block: var(--public-section-space, 5rem);
     }
 
     #why-newman .why-newman-title {
-        font-size: 2.65rem;
+        font-size: var(--public-section-title-size, 2.65rem);
     }
 
     #why-newman .why-newman-intro {
@@ -1178,11 +1065,11 @@ html:not(.aos-initialized) [data-aos] {
 
 @media (min-width: 1024px) {
     #why-newman.why-newman-section {
-        padding-block: 6.5rem;
+        padding-block: var(--public-section-space, 6.5rem);
     }
 
     #why-newman .why-newman-title {
-        font-size: 3rem;
+        font-size: var(--public-section-title-size, 3rem);
     }
 
     #why-newman .why-reasons-grid {
@@ -1954,148 +1841,6 @@ html:not(.aos-initialized) [data-aos] {
     box-shadow: none;
 }
 
-
-
-
-/* =========================================================
-   HOME HERO — COMPACT MOBILE COMPOSITION
-   ========================================================= */
-
-@media (max-width: 767px) {
-    .hero-swiper,
-    .hero-swiper .swiper-wrapper,
-    .hero-swiper .swiper-slide {
-        height: clamp(600px, calc(100svh - 72px), 720px);
-        min-height: 600px;
-    }
-
-    .hero-overlay {
-        background:
-            linear-gradient(180deg, rgba(7, 30, 51, 0.52) 0%, rgba(7, 30, 51, 0.22) 32%, rgba(7, 30, 51, 0.68) 100%),
-            linear-gradient(90deg, rgba(7, 30, 51, 0.36) 0%, rgba(7, 30, 51, 0.18) 50%, rgba(7, 30, 51, 0.36) 100%);
-    }
-
-    .hero-slide-content {
-        min-height: 100% !important;
-        width: calc(100% - 2rem);
-        padding: 5.5rem 0 3.25rem;
-    }
-
-    .hero-content-block {
-        width: 100%;
-        min-width: 0;
-        margin-right: auto;
-        margin-left: auto;
-    }
-
-    .hero-kicker {
-        max-width: 20rem;
-        margin-right: auto;
-        margin-bottom: 0.8rem;
-        margin-left: auto;
-        font-size: 0.625rem;
-        line-height: 1.5;
-        letter-spacing: 0.21em;
-    }
-
-    .hero-title {
-        max-width: 22rem;
-        margin-right: auto;
-        margin-left: auto;
-        font-size: clamp(2.4rem, 9.8vw, 3.1rem);
-        line-height: 1.02;
-        letter-spacing: -0.04em;
-        overflow-wrap: anywhere;
-    }
-
-    .hero-title-transport {
-        max-width: 21rem;
-        font-size: clamp(2.2rem, 9.2vw, 2.85rem);
-        line-height: 1.03;
-    }
-
-    .hero-description,
-    .hero-description-transport {
-        max-width: 20.5rem;
-        margin-top: 1.1rem;
-        font-size: 0.9rem;
-        line-height: 1.65;
-        overflow-wrap: anywhere;
-    }
-
-    .hero-actions {
-        width: 100%;
-        max-width: 18rem;
-        margin-top: 1.35rem;
-        margin-right: auto;
-        margin-left: auto;
-        flex-direction: column;
-        gap: 0.55rem;
-    }
-
-    .hero-primary-cta {
-        width: 100%;
-        min-height: 2.85rem;
-        padding: 0.7rem 1rem;
-        font-size: 0.66rem;
-        letter-spacing: 0.13em;
-    }
-
-    .hero-secondary-cta {
-        width: auto;
-        min-height: 2.25rem;
-        padding: 0.45rem 0.1rem 0.3rem;
-        font-size: 0.66rem;
-        letter-spacing: 0.13em;
-    }
-
-    .hero-meta {
-        display: none;
-    }
-
-    .hero-pagination {
-        bottom: 1.25rem !important;
-    }
-
-    .hero-slide-img-gate {
-        object-position: center 48%;
-    }
-
-    .hero-slide-img-coast {
-        object-position: 58% center;
-    }
-
-    .hero-slide-img-temple {
-        object-position: center 52%;
-    }
-}
-
-@media (max-width: 389px) and (max-height: 750px) {
-    .hero-slide-content {
-        padding-top: 4.75rem;
-        padding-bottom: 2.75rem;
-    }
-
-    .hero-title {
-        font-size: clamp(2.15rem, 9.6vw, 2.55rem);
-    }
-
-    .hero-title-transport {
-        font-size: clamp(2rem, 8.9vw, 2.35rem);
-    }
-
-    .hero-description,
-    .hero-description-transport {
-        margin-top: 0.9rem;
-        font-size: 0.84rem;
-        line-height: 1.58;
-    }
-
-    .hero-actions {
-        margin-top: 1rem;
-    }
-}
-
 /* =========================================================
    MEET YOUR LOCAL GUIDE — RESPONSIVE SECTION FLOW
    ========================================================= */
@@ -2122,8 +1867,8 @@ html:not(.aos-initialized) [data-aos] {
 @media (max-width: 1023px) {
     #about-guide.guide-section {
         background: #fbf8f2;
-        padding-top: 3.5rem;
-        padding-bottom: 3.5rem;
+        padding-top: var(--public-section-space, 3.5rem);
+        padding-bottom: var(--public-section-space, 3.5rem);
     }
 
     #about-guide .guide-pattern {
@@ -2143,8 +1888,8 @@ html:not(.aos-initialized) [data-aos] {
     #about-guide .guide-heading {
         max-width: 40rem;
         margin-top: 0.75rem;
-        font-size: clamp(2rem, 9vw, 2.35rem);
-        line-height: 1.08;
+        font-size: var(--public-section-title-size, clamp(2rem, 9vw, 2.35rem));
+        line-height: var(--public-section-title-leading, 1.08);
         letter-spacing: -0.035em;
         text-wrap: balance;
     }
@@ -2286,8 +2031,8 @@ html:not(.aos-initialized) [data-aos] {
 
 @media (min-width: 640px) and (max-width: 1023px) {
     #about-guide.guide-section {
-        padding-top: 4.5rem;
-        padding-bottom: 4.5rem;
+        padding-top: var(--public-section-space, 4.5rem);
+        padding-bottom: var(--public-section-space, 4.5rem);
     }
 
     #about-guide .guide-intro,
@@ -2296,7 +2041,7 @@ html:not(.aos-initialized) [data-aos] {
     }
 
     #about-guide .guide-heading {
-        font-size: clamp(2.5rem, 6vw, 3rem);
+        font-size: var(--public-section-title-size, clamp(2.5rem, 6vw, 3rem));
     }
 
     #about-guide .guide-media {
@@ -2453,5 +2198,1409 @@ html:not(.aos-initialized) [data-aos] {
 
     .newman-marquee-viewport::-webkit-scrollbar {
         display: none;
+    }
+}
+/*
+ PUBLIC MOBILE — shared scale, existing cards, forms, gallery and footer.
+   Tablet/desktop use the original rules above; no separate mobile stylesheet.
+ */
+
+@media (max-width: 767px) {
+
+    .public-site {
+        --public-section-title-size: clamp(1.5rem, 6.7vw, 1.75rem);
+        --public-section-title-leading: 1.2;
+        --public-section-space: 3rem;
+    }
+
+    .public-site #tours .tour-experiences-list {
+        padding-top: 1.75rem;
+        padding-bottom: 2rem;
+    }
+
+    .public-site #tours .tour-experiences-grid {
+        gap: 1.25rem;
+    }
+
+    .public-site #tours .tour-experience-media {
+        height: clamp(11.25rem, 50vw, 13.75rem);
+        aspect-ratio: auto;
+    }
+
+    .public-site #tours .tour-experience-image {
+        object-position: center;
+    }
+
+    .public-site #tours .tour-experience-format {
+        top: 0.85rem;
+        left: 0.85rem;
+        padding: 0.4rem 0.7rem;
+        font-size: 0.625rem;
+    }
+
+    .public-site #tours .tour-experience-discount {
+        top: 0.85rem;
+        right: 0.85rem;
+        padding: 0.4rem 0.65rem;
+        font-size: 0.58rem;
+    }
+
+    .public-site #tours .tour-experience-location {
+        bottom: 0.85rem;
+        left: 0.85rem;
+        gap: 0.4rem;
+        font-size: 0.8rem;
+    }
+
+    .public-site #tours .tour-experience-location svg {
+        width: 0.9rem;
+        height: 0.9rem;
+    }
+
+    .public-site #tours .tour-experience-body {
+        padding: 1rem;
+    }
+
+    .public-site #tours .tour-experience-type {
+        font-size: 0.625rem;
+        line-height: 1.45;
+        letter-spacing: 0.13em;
+    }
+
+    .public-site #tours .tour-experience-title {
+        margin-top: 0.5rem;
+        font-size: 1.25rem;
+        line-height: 1.3;
+    }
+
+    .public-site #tours .tour-experience-rating {
+        margin-top: 0.55rem;
+        gap: 0.4rem;
+        font-size: 0.8rem;
+    }
+
+    .public-site #tours .tour-experience-meta {
+        margin-top: 0.75rem;
+        padding-top: 0.75rem;
+    }
+
+    .public-site #tours .tour-experience-meta > * + * {
+        margin-top: 0.65rem;
+    }
+
+    .public-site #tours .tour-experience-meta-row {
+        gap: 0.6rem;
+        font-size: 0.8rem;
+        line-height: 1.45;
+    }
+
+    .public-site #tours .tour-experience-meta-icon {
+        width: 1.05rem;
+        height: 1.05rem;
+    }
+
+    .public-site #tours .tour-experience-meta-secondary {
+        margin-top: 0.15rem;
+    }
+
+    .public-site #tours .tour-experience-price {
+        margin-top: 0.875rem;
+        padding-top: 0.875rem;
+    }
+
+    .public-site #tours .tour-experience-price > p:first-child,
+    .public-site #tours .tour-experience-price > div:first-child p {
+        font-size: 0.625rem;
+    }
+
+    .public-site #tours .tour-experience-price p.text-\[24px\] {
+        font-size: 1.4rem;
+    }
+
+    .public-site #tours .tour-experience-cta {
+        min-height: 2.875rem;
+        margin-top: 0.95rem;
+        padding: 0.7rem 1rem;
+        font-size: 0.82rem;
+    }
+
+    .public-site .hero-swiper {
+        height: auto;
+        min-height: 0;
+        --hero-min-height: clamp(420px, 78svh, 600px);
+        --hero-content-inset: 5rem 0 2.5rem;
+        --hero-title-size: clamp(1.875rem, 8vw, 2.125rem);
+    }
+
+    .public-site .hero-swiper .swiper-wrapper,
+    .public-site .hero-swiper .swiper-slide {
+        height: auto;
+        min-height: 0;
+    }
+
+    .public-site .hero-overlay {
+        background: linear-gradient(180deg, rgba(7, 30, 51, 0.52) 0%, rgba(7, 30, 51, 0.22) 32%, rgba(7, 30, 51, 0.68) 100%),
+            linear-gradient(90deg, rgba(7, 30, 51, 0.36) 0%, rgba(7, 30, 51, 0.18) 50%, rgba(7, 30, 51, 0.36) 100%);
+    }
+
+    .public-site .hero-slide-content {
+        min-height: var(--hero-min-height);
+        width: calc(100% - 2rem);
+        padding: var(--hero-content-inset);
+        height: auto;
+    }
+
+    .public-site .hero-content-block {
+        width: 100%;
+        min-width: 0;
+        margin-right: auto;
+        margin-left: auto;
+    }
+
+    .public-site .hero-kicker {
+        max-width: 20rem;
+        margin-right: auto;
+        margin-bottom: 0.8rem;
+        margin-left: auto;
+        font-size: 0.625rem;
+        line-height: 1.5;
+        letter-spacing: 0.21em;
+    }
+
+    .public-site .hero-title {
+        max-width: 22rem;
+        margin-right: auto;
+        margin-left: auto;
+        font-size: var(--hero-title-size);
+        line-height: 1.08;
+        letter-spacing: -0.04em;
+        overflow-wrap: anywhere;
+    }
+
+    .public-site .hero-title-transport {
+        max-width: 21rem;
+        font-size: var(--hero-title-size);
+        line-height: 1.08;
+    }
+
+    .public-site .hero-description,
+    .public-site .hero-description-transport {
+        max-width: 20.5rem;
+        margin-top: 1.1rem;
+        font-size: 0.9rem;
+        line-height: 1.65;
+        overflow-wrap: anywhere;
+    }
+
+    .public-site .hero-actions {
+        width: 100%;
+        max-width: 18rem;
+        margin-top: 1.35rem;
+        margin-right: auto;
+        margin-left: auto;
+        flex-direction: column;
+        gap: 0.55rem;
+    }
+
+    .public-site .hero-primary-cta {
+        width: 100%;
+        min-height: 2.85rem;
+        padding: 0.7rem 1rem;
+        font-size: 0.66rem;
+        letter-spacing: 0.13em;
+    }
+
+    .public-site .hero-secondary-cta {
+        width: auto;
+        min-height: 2.75rem;
+        padding: 0.45rem 0.1rem 0.3rem;
+        font-size: 0.66rem;
+        letter-spacing: 0.13em;
+    }
+
+    .public-site .hero-meta {
+        display: none;
+    }
+
+    .public-site .hero-pagination {
+        bottom: 1.25rem !important;
+    }
+
+    .public-site .hero-slide-img-gate {
+        object-position: center 48%;
+    }
+
+    .public-site .hero-slide-img-coast {
+        object-position: 58% center;
+    }
+
+    .public-site .hero-slide-img-temple {
+        object-position: center 52%;
+    }
+
+    .public-site .site-navbar {
+        background: rgba(7, 30, 51, 0.94);
+    }
+
+    .public-site > main h1 {
+        font-size: clamp(1.75rem, 8vw, 2rem);
+        line-height: 1.14;
+    }
+
+    .public-site > main h2 {
+        font-size: var(--public-section-title-size);
+        line-height: var(--public-section-title-leading);
+    }
+
+    .public-site > main h3:is([class~="text-2xl"], [class~="text-3xl"]) {
+        font-size: 1.25rem;
+        line-height: 1.3;
+    }
+
+    .public-site > main h2[class~="text-2xl"] {
+        font-size: 1.375rem;
+    }
+
+    .public-site > main p[class~="text-4xl"] {
+        font-size: 1.75rem;
+        line-height: 1.2;
+    }
+
+    .public-site > main p:is([class~="leading-8"], [class~="leading-7"]) {
+        line-height: 1.65;
+    }
+
+    .public-site > main :is([class~="mt-7"], [class~="mt-8"], [class~="mt-10"]) {
+        margin-top: 1.5rem;
+    }
+
+    .public-site > main [class~="mt-6"] {
+        margin-top: 1.25rem;
+    }
+
+    .public-site > main [class~="mt-5"] {
+        margin-top: 1rem;
+    }
+
+    .public-site > main :is([class~="mb-8"], [class~="mb-9"], [class~="mb-10"]) {
+        margin-bottom: 1.5rem;
+    }
+
+    .public-site > main :is([class~="gap-7"], [class~="gap-8"], [class~="gap-9"]) {
+        gap: 1.25rem;
+    }
+
+    .public-site > main :is([class~="p-6"], [class~="p-7"], [class~="p-8"]) {
+        padding: 1.25rem;
+    }
+
+    .public-site > main section:is([class~="py-16"], [class~="py-20"]) {
+        padding-block: var(--public-section-space);
+    }
+
+    .public-site > main section[class~="py-14"] {
+        padding-block: 2.5rem;
+    }
+
+    .public-site .page-hero,
+    .public-site .tour-heading {
+        padding-top: 6.5rem;
+    }
+
+    .public-site .page-hero-content {
+        padding-bottom: 2.5rem;
+    }
+
+    .public-site .page-hero-content h1 {
+        margin-top: 1rem;
+    }
+
+    .public-site .page-hero-content h1 + p {
+        margin-top: 1rem;
+        font-size: 0.9375rem;
+    }
+
+    .public-site .hero-benefits {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 0.5rem;
+        margin-top: 1.5rem;
+    }
+
+    .public-site .hero-benefits > div {
+        min-width: 0;
+        padding: 0.75rem 0.625rem;
+    }
+
+    .public-site .hero-benefits > div > p:first-child {
+        font-size: 1rem;
+        line-height: 1.4;
+    }
+
+    .public-site .hero-benefits > div > p:last-child {
+        font-size: 0.75rem;
+        line-height: 1.5;
+    }
+
+    .public-site .hero-trip-steps {
+        gap: 0.5rem;
+        margin-top: 1.5rem;
+    }
+
+    .public-site .hero-trip-steps > div {
+        display: flex;
+        align-items: center;
+        gap: 0.625rem;
+        padding: 0.75rem;
+    }
+
+    .public-site .hero-trip-steps p:first-child {
+        font-size: 1rem;
+        line-height: 1.4;
+    }
+
+    .public-site .hero-trip-steps p:last-child {
+        margin-top: 0;
+        font-size: 0.75rem;
+    }
+
+    .public-site .vehicle-media {
+        height: clamp(11.25rem, 50vw, 13.75rem);
+    }
+
+    .public-site .vehicle-body {
+        padding: 1rem;
+    }
+
+    .public-site .vehicle-body > p[class~="mt-4"] {
+        margin-top: 0.75rem;
+        font-size: 0.9375rem;
+    }
+
+    .public-site .vehicle-specs {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.5rem;
+        margin-top: 1rem;
+    }
+
+    .public-site .vehicle-specs > div {
+        padding: 0.75rem;
+    }
+
+    .public-site .vehicle-specs p:last-child {
+        margin-top: 0.375rem;
+        font-size: 0.8125rem;
+        line-height: 1.5;
+    }
+
+    .public-site .vehicle-features {
+        gap: 0.375rem;
+        margin-top: 1rem;
+    }
+
+    .public-site .vehicle-features > span {
+        padding: 0.375rem 0.5rem;
+        box-shadow: none;
+    }
+
+    .public-site .vehicle-body .vehicle-cta {
+        min-height: 3rem;
+        margin-top: 1rem;
+        padding: 0.75rem 1rem;
+        font-size: 0.75rem;
+        letter-spacing: 0.08em;
+    }
+
+    .public-site .vehicle-custom {
+        padding: 1rem;
+    }
+
+    .public-site .vehicle-custom-content {
+        height: auto;
+        min-height: 0;
+    }
+
+    .public-site .vehicle-custom-notes {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.5rem;
+        margin-top: 1rem;
+    }
+
+    .public-site .vehicle-custom-notes > div {
+        margin-block: 0;
+        padding: 0.75rem;
+    }
+
+    .public-site .vehicle-custom-content > div:first-child > div {
+        width: 2.75rem;
+        height: 2.75rem;
+    }
+
+    .public-site .vehicle-custom-content > div:last-child {
+        padding-top: 1.25rem;
+    }
+
+    .public-site .guest-gallery-card {
+        min-height: 220px;
+    }
+
+    .public-site .guest-gallery-featured {
+        min-height: clamp(300px, 82vw, 360px);
+    }
+
+    .public-site .guest-gallery-featured h3 {
+        font-size: 1.5rem;
+        line-height: 1.2;
+    }
+
+    .public-site .guest-gallery-featured p[class~="leading-8"] {
+        font-size: 0.875rem;
+    }
+
+    .public-site .review-summary > div {
+        padding: 1rem;
+    }
+
+    .public-site .review-summary > div > img {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+    }
+
+    .public-site .review-summary > div > div:first-of-type {
+        width: 3rem;
+        height: 3rem;
+    }
+
+    .public-site .contact-layout {
+        gap: 1.25rem;
+    }
+
+    .public-site .contact-info {
+        display: contents;
+        opacity: 1 !important;
+        transform: none !important;
+    }
+
+    .public-site .contact-info > * {
+        margin-top: 0;
+    }
+
+    .public-site .contact-message {
+        margin-top: 0;
+        order: 2;
+    }
+
+    .public-site .contact-quick {
+        order: 1;
+    }
+
+    .public-site .contact-support {
+        order: 3;
+    }
+
+    .public-site .contact-photo-wrap {
+        order: 4;
+    }
+
+    .public-site .contact-layout .contact-card {
+        padding: 1rem;
+    }
+
+    .public-site .contact-layout .contact-photo-wrap {
+        padding: 0;
+    }
+
+    .public-site .contact-photo {
+        height: 190px;
+    }
+
+    .public-site .contact-input,
+    .public-site .booking-input {
+        min-height: 3.125rem;
+        padding: 0.75rem;
+        font-size: 1rem;
+    }
+
+    .public-site textarea.contact-input {
+        height: 160px;
+    }
+
+    .public-site .custom-trip-progress {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 0.375rem;
+    }
+
+    .public-site .custom-trip-progress > button {
+        min-height: 4.25rem;
+        padding: 0.5rem;
+    }
+
+    .public-site .custom-trip-progress > button > span:first-child {
+        width: 1.75rem;
+        height: 1.75rem;
+    }
+
+    .public-site .custom-trip-progress > button > span:last-child {
+        margin-top: 0.375rem;
+        letter-spacing: 0.03em;
+    }
+
+    .public-site .custom-trip-vehicles > button {
+        padding: 1rem;
+    }
+
+    .public-site .custom-trip-vehicles > button > span[class~="text-xl"] {
+        margin-top: 0.625rem;
+        font-size: 1.125rem;
+        line-height: 1.4;
+    }
+
+    .public-site .custom-trip-vehicles > button > span[class~="leading-6"] {
+        margin-top: 0.625rem;
+        line-height: 1.5;
+    }
+
+    .public-site .custom-trip-summary {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.75rem;
+    }
+
+    .public-site .custom-trip-summary > div {
+        padding: 0.75rem;
+    }
+
+    .public-site .custom-trip-summary > [class~="sm:col-span-2"] {
+        grid-column: 1 / -1;
+    }
+
+    .public-site .custom-trip-summary p[class~="font-semibold"] {
+        font-size: 0.875rem;
+        line-height: 1.5;
+    }
+
+    .public-site .custom-trip-summary p[class~="uppercase"] {
+        letter-spacing: 0.06em;
+        overflow-wrap: anywhere;
+    }
+
+    .public-site .tour-review-page {
+        padding-top: 6.5rem;
+    }
+
+    .public-site .trip-review-summary {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        padding: 1rem;
+        gap: 0.75rem;
+    }
+
+    .public-site .trip-review-summary > div {
+        padding: 0.75rem;
+    }
+
+    .public-site .trip-review-summary p:last-child {
+        font-size: 0.875rem;
+        line-height: 1.5;
+    }
+
+    .public-site .rating-photo {
+        min-height: 200px;
+    }
+
+    .public-site .rating-content {
+        padding-block: 1.5rem;
+    }
+
+    .public-site .tour-photo-grid {
+        gap: 0.5rem;
+        border-radius: 1rem;
+    }
+
+    .public-site .tour-photo-main {
+        min-height: 0;
+        aspect-ratio: 16 / 10;
+    }
+
+    .public-site .tour-photo-thumbnails {
+        min-height: 0;
+        grid-template-columns: none;
+        grid-template-rows: 88px;
+        grid-auto-flow: column;
+        grid-auto-columns: minmax(0, 1fr);
+        gap: 0.5rem;
+    }
+
+    .public-site .tour-photo-thumbnails > button {
+        grid-column: auto;
+    }
+
+    .public-site .tour-photo-thumbnails > button > div:last-child {
+        padding: 0.375rem;
+    }
+
+    .public-site .tour-photo-thumbnails span {
+        padding: 0.375rem;
+        gap: 0.25rem;
+        font-size: 0.6875rem;
+        line-height: 1.3;
+    }
+
+    .public-site .tour-photo-thumbnails span svg {
+        display: none;
+    }
+
+    .public-site .tour-quick-info {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.5rem;
+    }
+
+    .public-site .tour-quick-info > div {
+        padding: 0.75rem;
+    }
+
+    .public-site .tour-quick-info p:last-child {
+        margin-top: 0.375rem;
+        font-size: 0.8125rem;
+        line-height: 1.5;
+    }
+
+    .public-site .newman-roadmap-row.has-mobile-description:not(.is-mobile-expanded) .newman-roadmap-summary {
+        display: none;
+    }
+
+    .public-site .newman-roadmap-row.is-mobile-expanded .newman-roadmap-summary {
+        display: block;
+        overflow: visible;
+        -webkit-line-clamp: unset;
+    }
+
+    .public-site .newman-roadmap-row.has-mobile-description .roadmap-indicator {
+        font-size: 0;
+    }
+
+    .public-site .newman-roadmap-row.has-mobile-description .roadmap-indicator::after {
+        content: "+";
+        font-size: 1.25rem;
+    }
+
+    .public-site .newman-roadmap-row.is-mobile-expanded .roadmap-indicator::after {
+        content: "−";
+    }
+
+    .public-site:has([data-tour-mobile-booking-bar]:not([style*="display: none"])) [data-floating-whatsapp] {
+        display: none !important;
+    }
+
+    .public-site .footer-invitation {
+        padding-block: 2.5rem;
+    }
+
+    .public-site .footer-invitation h2 {
+        font-size: 1.625rem;
+        line-height: 1.2;
+    }
+
+    .public-site .footer-invitation p[class~="mt-5"] {
+        margin-top: 1rem;
+        line-height: 1.65;
+    }
+
+    .public-site .footer-invitation > div {
+        gap: 1.25rem;
+    }
+
+    .public-site .footer-invitation a {
+        min-height: 3rem;
+        padding: 0.75rem 1rem;
+    }
+
+    .public-site .footer-navigation {
+        padding-block: 2rem;
+    }
+
+    .public-site .footer-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1.75rem 1rem;
+    }
+
+    .public-site :is(.footer-brand, .footer-contact, .footer-note) {
+        grid-column: 1 / -1;
+    }
+
+    .public-site .footer-brand > p {
+        margin-top: 1rem;
+        line-height: 1.65;
+    }
+
+    .public-site .footer-brand > div,
+    .public-site .footer-contact > div {
+        margin-top: 1rem;
+    }
+
+    .public-site .footer-note-card {
+        margin-top: 1rem;
+        display: grid;
+        grid-template-columns: 5rem minmax(0, 1fr);
+    }
+
+    .public-site .footer-links nav {
+        margin-top: 0.75rem;
+    }
+
+    .public-site .footer-links nav a {
+        display: flex;
+        align-items: center;
+        min-height: 2.75rem;
+        margin-block: 0;
+        line-height: 1.5;
+    }
+
+    .public-site .footer-note-photo {
+        height: 100%;
+        aspect-ratio: auto;
+    }
+
+    .public-site .footer-note-copy {
+        padding: 0.875rem;
+    }
+
+    .public-site .footer-note-copy > p {
+        font-size: 0.8125rem;
+        line-height: 1.6;
+    }
+
+    .public-site .footer-note-copy > div {
+        margin-top: 0.75rem;
+        padding-top: 0.75rem;
+    }
+}
+
+@media (max-width: 767px) and (max-height: 700px) {
+
+    .public-site .hero-swiper {
+        --hero-min-height: clamp(390px, 76svh, 520px);
+        --hero-content-inset: 4.5rem 0 2rem;
+        --hero-title-size: clamp(1.75rem, 8vw, 2rem);
+    }
+}
+
+/* Public tablet scale: includes compact portrait and large landscape iPads.
+ * Keep these overrides after mobile rules so 744–767px stays proportional.
+ * Layout hooks refer to existing components; phone and wide desktop rules
+ * continue to use their original styles outside this width range.
+ */
+@media (min-width: 744px) and (max-width: 1399px) {
+    .public-site {
+        --public-section-title-size: clamp(2rem, 3.2vw, 2.5rem);
+        --public-section-title-leading: 1.16;
+        --public-section-space: clamp(3.5rem, 5vw, 4.5rem);
+    }
+
+    .public-site > main h1 {
+        font-size: clamp(2.5rem, 4.2vw, 3.5rem);
+        line-height: 1.12;
+        text-wrap: balance;
+    }
+
+    .public-site > main h2 {
+        font-size: var(--public-section-title-size);
+        line-height: var(--public-section-title-leading);
+        text-wrap: balance;
+    }
+
+    .public-site > main h2[class~="text-2xl"],
+    .public-site > main h3:is([class~="text-2xl"], [class~="text-3xl"]) {
+        font-size: 1.5rem;
+        line-height: 1.3;
+    }
+
+    .public-site > main p:is([class~="leading-8"], [class~="leading-7"]) {
+        line-height: 1.7;
+    }
+
+    .public-site > main section:is([class~="py-14"], [class~="py-16"], [class~="py-20"]),
+    .public-site #why-newman.why-newman-section,
+    .public-site #about-guide.guide-section {
+        padding-block: var(--public-section-space);
+    }
+
+    .public-site .page-hero {
+        padding-top: 7.5rem;
+    }
+
+    .public-site .page-hero-content {
+        padding-bottom: 3.5rem;
+    }
+
+    .public-site .tour-heading {
+        padding-top: 7.5rem;
+    }
+
+    .public-site .site-navbar {
+        padding: 1rem 2rem;
+    }
+
+    .public-site .desktop-navigation {
+        gap: 1.5rem;
+        letter-spacing: 0.12em;
+    }
+
+    .public-site .navbar-book-cta {
+        display: inline-flex;
+        min-height: 2.75rem;
+        align-items: center;
+        padding: 0.75rem 1.25rem;
+        letter-spacing: 0.14em;
+    }
+
+    .public-site .hero-swiper,
+    .public-site .hero-swiper .swiper-wrapper,
+    .public-site .hero-swiper .swiper-slide {
+        height: clamp(540px, 72svh, 660px);
+        min-height: 540px;
+    }
+
+    .public-site .hero-slide-content {
+        width: 92%;
+        height: 100%;
+        min-height: 100%;
+        padding: 6rem 2rem 3.5rem;
+    }
+
+    .public-site .hero-content-block {
+        max-width: 40rem;
+        margin-inline: auto;
+        text-align: center;
+    }
+
+    .public-site .hero-kicker {
+        max-width: none;
+        margin-bottom: 1rem;
+        font-size: 0.6875rem;
+        letter-spacing: 0.2em;
+    }
+
+    .public-site .hero-title,
+    .public-site .hero-title-transport {
+        max-width: 40rem;
+        margin-inline: auto;
+        font-size: clamp(2.625rem, 4.6vw, 3.5rem);
+        line-height: 1.08;
+    }
+
+    .public-site .hero-description,
+    .public-site .hero-description-transport {
+        max-width: 34rem;
+        margin: 1.25rem auto 0;
+        font-size: 1rem;
+        line-height: 1.7;
+    }
+
+    .public-site .hero-actions {
+        max-width: none;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1rem;
+        margin-top: 1.5rem;
+    }
+
+    .public-site .hero-primary-cta,
+    .public-site .hero-secondary-cta {
+        width: auto;
+        min-height: 2.875rem;
+        font-size: 0.6875rem;
+    }
+
+    .public-site .hero-meta {
+        display: block;
+        margin-top: 1.5rem;
+        letter-spacing: 0.18em;
+    }
+
+    .public-site #about-guide .guide-layout {
+        grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+        grid-template-areas: "media intro" "media story";
+        gap: 0 1.75rem;
+        align-items: start;
+    }
+
+    .public-site #about-guide .guide-heading {
+        font-size: var(--public-section-title-size);
+        line-height: var(--public-section-title-leading);
+    }
+
+    .public-site #about-guide .guide-media {
+        width: 100%;
+        max-width: none;
+        margin: 0;
+        align-self: center;
+    }
+
+    .public-site #about-guide .guide-photo-frame {
+        height: clamp(360px, 40vw, 480px);
+        aspect-ratio: auto;
+    }
+
+    .public-site #about-guide .guide-photo {
+        height: 100% !important;
+        object-position: center 53%;
+    }
+
+    .public-site #about-guide .guide-photo-note {
+        position: relative;
+        inset: auto;
+        width: calc(100% - 1rem);
+        margin: -1.25rem 0.5rem 0;
+        padding: 1rem;
+        box-shadow: none;
+    }
+
+    .public-site #about-guide .guide-photo-note > p:last-child {
+        margin-top: 0.5rem;
+        font-size: 0.9375rem;
+        line-height: 1.5;
+    }
+
+    .public-site #about-guide .guide-story {
+        max-width: none;
+        margin-top: 1.25rem;
+    }
+
+    .public-site #about-guide .guide-copy {
+        margin-top: 0;
+        font-size: 0.9375rem;
+        line-height: 1.75;
+    }
+
+    .public-site #about-guide .guide-values {
+        gap: 0.75rem;
+        margin-top: 1.25rem;
+    }
+
+    .public-site #about-guide .guide-value {
+        border: 0;
+        border-top: 1px solid rgb(7 30 51 / 13%);
+        background: transparent;
+        padding: 0.75rem 0 0;
+        color: #071e33;
+        box-shadow: none;
+    }
+
+    .public-site #about-guide .guide-value-number {
+        font-size: 0.8125rem;
+    }
+
+    .public-site #about-guide .guide-value-title {
+        margin-top: 0.5rem;
+        color: #071e33;
+        font-size: 0.875rem;
+    }
+
+    .public-site #about-guide .guide-value-copy {
+        color: #4b5563;
+        font-size: 0.8125rem;
+        line-height: 1.55;
+    }
+
+    .public-site #about-guide .guide-quote {
+        margin-top: 1.25rem;
+    }
+
+    .public-site #about-guide .guide-quote > p:last-child {
+        font-size: 0.9375rem;
+        line-height: 1.7;
+    }
+
+    .public-site #tours .tour-experiences-grid-shell {
+        width: 100%;
+    }
+
+    .public-site #tours .tour-experiences-list {
+        padding-block: 2rem;
+    }
+
+    .public-site #tours .tour-experiences-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1.25rem;
+    }
+
+    .public-site #tours .tour-experience-media {
+        height: clamp(184px, 20vw, 224px);
+        aspect-ratio: auto;
+    }
+
+    .public-site #tours .tour-experience-body {
+        padding: 1.25rem;
+    }
+
+    .public-site #tours .tour-experience-title {
+        font-size: 1.375rem;
+        line-height: 1.3;
+    }
+
+    .public-site .vehicle-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1.25rem;
+    }
+
+    .public-site .vehicle-card {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .public-site .vehicle-media {
+        height: clamp(184px, 20vw, 224px);
+    }
+
+    .public-site .vehicle-body {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        padding: 1.25rem;
+    }
+
+    .public-site .vehicle-specs {
+        gap: 0.75rem;
+        margin-top: 1.25rem;
+    }
+
+    .public-site .vehicle-specs > div {
+        padding: 0.75rem;
+    }
+
+    .public-site .vehicle-features {
+        margin-top: 1.25rem;
+        padding-bottom: 1.25rem;
+    }
+
+    .public-site .vehicle-body .vehicle-cta {
+        margin-top: auto;
+        min-height: 3rem;
+        padding: 0.75rem 1rem;
+        font-size: 0.75rem;
+        letter-spacing: 0.08em;
+    }
+
+    .public-site .vehicle-custom {
+        grid-column: 1 / -1;
+        padding: 1.5rem;
+    }
+
+    .public-site .vehicle-custom-content {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1.25rem 1.5rem;
+        min-height: 0;
+    }
+
+    .public-site .vehicle-custom-content > div:first-child {
+        grid-row: span 2;
+    }
+
+    .public-site .vehicle-custom-content h3 {
+        font-size: 1.5rem;
+        line-height: 1.3;
+    }
+
+    .public-site .vehicle-custom-notes {
+        margin-top: 0;
+    }
+
+    .public-site .vehicle-custom-content > div:last-child {
+        padding-top: 0;
+    }
+
+    .public-site .review-summary > div {
+        padding: 1.25rem;
+    }
+
+    .public-site .review-summary > div > img {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+    }
+
+    .public-site .review-summary > div > div:first-of-type {
+        width: 3rem;
+        height: 3rem;
+    }
+
+    .public-site .trip-review-card {
+        padding: 1.25rem;
+    }
+
+    .public-site .guest-gallery-featured {
+        min-height: 400px;
+    }
+
+    .public-site .tour-gallery-layout {
+        gap: 1.5rem;
+    }
+
+    .public-site .tour-photo-grid {
+        grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+        height: clamp(340px, 38vw, 460px);
+        gap: 0.75rem;
+    }
+
+    .public-site .tour-photo-main,
+    .public-site .tour-photo-thumbnails {
+        min-height: 0;
+        aspect-ratio: auto;
+    }
+
+    .public-site .tour-photo-single {
+        height: clamp(340px, 38vw, 460px);
+        aspect-ratio: auto;
+    }
+
+    .public-site .tour-photo-thumbnails {
+        grid-auto-flow: row;
+        grid-auto-columns: auto;
+        grid-template-rows: repeat(2, minmax(0, 1fr));
+        overflow: hidden;
+    }
+
+    .public-site .tour-photo-thumbnails > button:last-child:nth-child(3) {
+        grid-column: 1 / -1;
+    }
+
+    .public-site .tour-availability-fields .booking-input,
+    .public-site .tour-availability-fields > .relative > button,
+    .public-site .tour-availability-fields > button {
+        min-height: 3.125rem;
+        padding-block: 0.75rem;
+    }
+
+    .public-site .tour-quick-info {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .public-site .custom-trip-builder {
+        padding: 1.5rem;
+    }
+
+    .public-site .custom-trip-progress {
+        gap: 0.75rem;
+    }
+
+    .public-site .custom-trip-progress > button {
+        min-height: 4.5rem;
+        padding: 0.75rem;
+    }
+
+    .public-site .contact-info {
+        display: block;
+    }
+
+    .public-site :is(.contact-message, .contact-quick, .contact-support, .contact-photo-wrap) {
+        order: initial;
+    }
+
+    .public-site .contact-card {
+        padding: 1.25rem;
+    }
+
+    .public-site .contact-photo {
+        height: 240px;
+    }
+
+    .public-site .footer-invitation {
+        padding-block: 3.5rem;
+    }
+
+    .public-site .footer-invitation > div {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 1.5rem;
+    }
+
+    .public-site .footer-invitation h2 {
+        max-width: 44rem;
+        font-size: var(--public-section-title-size);
+        line-height: var(--public-section-title-leading);
+    }
+
+    .public-site .footer-invitation > div > div:last-child {
+        justify-content: flex-start;
+    }
+
+    .public-site .footer-navigation {
+        padding-block: 2.5rem;
+    }
+
+    .public-site .footer-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 2rem;
+    }
+
+    .public-site :is(.footer-brand, .footer-contact, .footer-note) {
+        grid-column: span 2;
+    }
+
+    .public-site .footer-links {
+        grid-column: span 1;
+    }
+}
+
+@media (min-width: 744px) and (max-width: 1023px) {
+    .public-site .tour-availability-fields {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1rem;
+    }
+
+    .public-site .tour-availability-fields > * {
+        grid-column: 1 / -1;
+        margin-top: 0;
+    }
+
+    .public-site .tour-availability-fields > div:nth-child(2),
+    .public-site .tour-availability-fields > div:nth-child(3) {
+        grid-column: auto;
+    }
+
+    .public-site .review-summary {
+        max-width: none;
+    }
+
+    .public-site .review-summary > div {
+        display: grid;
+        grid-template-columns: minmax(0, 0.8fr) minmax(0, 1fr);
+        gap: 0.5rem 1.5rem;
+        align-items: center;
+    }
+
+    .public-site .review-summary > div > img {
+        grid-row: 1 / span 8;
+        height: 100%;
+        max-height: 300px;
+        padding-bottom: 0;
+    }
+
+    .public-site .review-summary > div > :not(img) {
+        grid-column: 2;
+        margin-top: 0;
+    }
+
+    .public-site .tour-photo-thumbnails {
+        /* Replace the phone thumbnail strip without changing photo-count classes. */
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .public-site .tour-photo-thumbnails > :only-child {
+        grid-column: 1 / -1;
+        grid-row: 1 / -1;
+    }
+
+    .public-site .tour-photo-thumbnails > :first-child:nth-last-child(2),
+    .public-site .tour-photo-thumbnails > :last-child:nth-child(2) {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (min-width: 1024px) and (max-width: 1399px) {
+    .public-site .reviews-layout {
+        grid-template-columns: 280px minmax(0, 1fr);
+        gap: 1.5rem;
+        align-items: start;
+    }
+
+    .public-site .tour-gallery-layout {
+        grid-template-columns: minmax(0, 1fr) 320px;
+    }
+
+    .public-site .tour-roadmap-layout {
+        grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    }
+
+    .public-site .newman-roadmap-list {
+        max-height: 440px;
+    }
+
+    .public-site .newman-roadmap-map {
+        height: 440px;
+    }
+
+    .public-site .contact-layout {
+        grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+        gap: 1.5rem;
+    }
+
+    .public-site .contact-support {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+@media (min-width: 1100px) and (max-width: 1399px) {
+    .public-site .vehicle-grid,
+    .public-site #tours .tour-experiences-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .public-site .vehicle-custom {
+        grid-column: auto;
+        padding: 1.25rem;
+    }
+
+    .public-site .vehicle-custom-content {
+        display: flex;
+        gap: 0;
+    }
+
+    .public-site .vehicle-custom-notes {
+        margin-top: 1.25rem;
+    }
+
+    .public-site .vehicle-custom-content > div:last-child {
+        padding-top: 1.25rem;
+    }
+}
+
+@media (min-width: 744px) and (max-width: 1199px) {
+    .public-site .custom-trip-layout,
+    .public-site .tour-review-layout {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .public-site .custom-trip-layout > aside {
+        position: static;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1.25rem;
+    }
+
+    .public-site .custom-trip-layout > aside > div {
+        margin-top: 0;
+    }
+
+    .public-site .custom-trip-layout > aside > div:first-child {
+        display: none;
+    }
+
+    .public-site .tour-review-layout > aside {
+        position: static;
+    }
+}
+
+@media (min-width: 1200px) and (max-width: 1399px) {
+    .public-site .custom-trip-layout {
+        grid-template-columns: minmax(0, 1fr) 280px;
+    }
+
+    .public-site .tour-review-layout {
+        grid-template-columns: minmax(0, 1fr) 340px;
+    }
+
+    .public-site .tour-quick-info {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}
+
+@media (min-width: 744px) and (max-width: 1399px) and (max-height: 820px) {
+    .public-site .tour-gallery-layout > aside,
+    .public-site .custom-trip-layout > aside {
+        /* A full booking panel must remain reachable in short landscape views. */
+        position: static;
     }
 }

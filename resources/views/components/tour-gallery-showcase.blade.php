@@ -290,12 +290,12 @@
         <button
             type="button"
             @click="open(0)"
-            class="group relative block aspect-[16/10] w-full overflow-hidden rounded-[24px] bg-newman-sand text-left"
-            aria-label="Open {{ $title }} gallery"
+            class="tour-photo-single group relative block aspect-[16/10] w-full overflow-hidden rounded-[24px] bg-newman-sand text-left"
+            aria-label="{{ __('Open :title gallery', ['title' => \App\Http\Middleware\SetLocale::text($title)]) }}"
         >
             <img
                 src="{{ $mainImage }}"
-                alt="{{ $title }}"
+                alt="{{ \App\Http\Middleware\SetLocale::text($title) }}"
                 loading="eager"
                 onerror="this.onerror=null;this.src='{{ $placeholder }}';"
                 class="absolute inset-0 block h-full w-full object-cover object-center transition duration-700 group-hover:scale-[1.02]"
@@ -305,18 +305,18 @@
         </button>
     @else
         <div
-            class="grid gap-3 overflow-hidden rounded-[24px] bg-white lg:h-[620px] lg:grid-cols-[minmax(0,1.45fr)_minmax(300px,0.85fr)]"
+            class="tour-photo-grid grid gap-3 overflow-hidden rounded-[24px] bg-white lg:h-[620px] lg:grid-cols-[minmax(0,1.45fr)_minmax(300px,0.85fr)]"
         >
             {{-- Main image --}}
             <button
                 type="button"
                 @click="open(0)"
-                class="group relative min-h-[360px] overflow-hidden bg-newman-sand text-left lg:min-h-0"
-                aria-label="Open photo 1 of {{ $totalPhotos }}"
+                class="tour-photo-main group relative min-h-[360px] overflow-hidden bg-newman-sand text-left lg:min-h-0"
+                aria-label="{{ __('Open photo :number of :total', ['number' => 1, 'total' => $totalPhotos]) }}"
             >
                 <img
                     src="{{ $mainImage }}"
-                    alt="{{ $title }}"
+                    alt="{{ \App\Http\Middleware\SetLocale::text($title) }}"
                     loading="eager"
                     onerror="this.onerror=null;this.src='{{ $placeholder }}';"
                     class="absolute inset-0 block h-full w-full object-cover object-center transition duration-700 group-hover:scale-[1.025]"
@@ -327,7 +327,7 @@
 
             {{-- Side images --}}
             <div
-                class="grid min-h-[440px] gap-3 lg:min-h-0 {{ $sideGridClass }}"
+                class="tour-photo-thumbnails grid min-h-[440px] gap-3 lg:min-h-0 {{ $sideGridClass }}"
             >
                 @foreach ($sideImages as $image)
                     @php
@@ -343,11 +343,11 @@
                         type="button"
                         @click="open({{ $realIndex }})"
                         class="group relative min-h-0 overflow-hidden bg-newman-sand text-left {{ $spanLastImage ? 'col-span-2' : '' }}"
-                        aria-label="Open photo {{ $realIndex + 1 }} of {{ $totalPhotos }}"
+                        aria-label="{{ __('Open photo :number of :total', ['number' => $realIndex + 1, 'total' => $totalPhotos]) }}"
                     >
                         <img
                             src="{{ $image }}"
-                            alt="{{ $title }} — photo {{ $realIndex + 1 }}"
+                            alt="{{ \App\Http\Middleware\SetLocale::text($title) }} — {{ __('Photo :number', ['number' => $realIndex + 1]) }}"
                             loading="lazy"
                             onerror="this.onerror=null;this.src='{{ $placeholder }}';"
                             class="absolute inset-0 block h-full w-full object-cover object-center transition duration-700 group-hover:scale-105"
@@ -399,7 +399,7 @@
                                         />
                                     </svg>
 
-                                    View all {{ $totalPhotos }}
+                                    {{ __('View all') }} {{ $totalPhotos }}
                                     {{ $totalPhotos === 1
                                         ? 'photo'
                                         : 'photos' }}
@@ -431,7 +431,7 @@
                         type="button"
                         @click="close()"
                         class="absolute left-5 top-1/2 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-newman-navy/10 bg-white text-newman-navy shadow-[0_8px_25px_rgba(8,36,58,0.12)] transition hover:border-newman-gold hover:bg-newman-gold sm:left-8"
-                        aria-label="Close gallery"
+                        aria-label="{{ __('Close gallery') }}"
                     >
                         <svg
                             viewBox="0 0 24 24"
@@ -501,7 +501,7 @@
                         type="button"
                         @click="previous()"
                         class="absolute left-4 top-[42%] z-10 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-newman-navy/10 bg-white text-newman-navy shadow-[0_8px_25px_rgba(8,36,58,0.12)] transition hover:border-newman-gold hover:bg-newman-gold sm:left-7"
-                        aria-label="Previous photo"
+                        aria-label="{{ __('Previous photo') }}"
                     >
                         <svg
                             viewBox="0 0 24 24"
@@ -520,7 +520,7 @@
                         type="button"
                         @click="next()"
                         class="absolute right-4 top-[42%] z-10 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-newman-navy/10 bg-white text-newman-navy shadow-[0_8px_25px_rgba(8,36,58,0.12)] transition hover:border-newman-gold hover:bg-newman-gold sm:right-7"
-                        aria-label="Next photo"
+                        aria-label="{{ __('Next photo') }}"
                     >
                         <svg
                             viewBox="0 0 24 24"
@@ -557,7 +557,7 @@
                             @click="scrollToAvailability()"
                             class="mt-4 min-h-12 rounded-full border-2 border-newman-navy bg-white px-8 py-3 text-xs font-bold uppercase tracking-[0.13em] text-newman-navy transition hover:border-newman-gold hover:bg-newman-gold"
                         >
-                            Check availability
+                            {{ __('Check availability') }}
                         </button>
                     </div>
                 </div>

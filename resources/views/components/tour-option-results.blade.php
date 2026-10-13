@@ -230,17 +230,15 @@
         <div class="flex flex-col gap-5 border-b border-newman-navy/10 pb-7 lg:flex-row lg:items-end lg:justify-between">
             <div>
                 <p class="text-xs font-bold uppercase tracking-[0.32em] text-newman-gold">
-                    Available tour options
+                    {{ __('Available tour options') }}
                 </p>
 
                 <h2 class="mt-3 max-w-3xl text-3xl font-semibold tracking-[-0.04em] text-newman-navy sm:text-5xl">
-                    Choose how you want to experience this tour.
+                    {{ __('Choose how you want to experience this tour.') }}
                 </h2>
 
                 <p class="mt-4 max-w-3xl text-sm leading-7 text-gray-600">
-                    Prices and starting times are calculated
-                    from your selected date, language, and
-                    participant group.
+                    {{ __('Prices and starting times are calculated from your selected date, language, and participant group.') }}
                 </p>
             </div>
 
@@ -248,7 +246,7 @@
                 class="rounded-2xl border border-newman-gold/30 bg-white px-5 py-4"
             >
                 <p class="text-[10px] font-bold uppercase tracking-[0.14em] text-gray-400">
-                    Your selection
+                    {{ __('Your selection') }}
                 </p>
 
                 <p
@@ -258,7 +256,7 @@
 
                 <p
                     class="mt-1 text-xs leading-5 text-gray-500"
-                    x-text="result?.selection?.participant_label"
+                    x-text="$store.language.text(result?.selection?.participant_label)"
                 ></p>
             </div>
         </div>
@@ -267,27 +265,23 @@
         <template x-if="!hasOptions">
             <div class="mt-8 rounded-[24px] border border-amber-200 bg-amber-50 p-6 sm:p-8">
                 <p class="text-xs font-bold uppercase tracking-[0.18em] text-amber-700">
-                    No option for this selection
+                    {{ __('No option for this selection') }}
                 </p>
 
                 <h3 class="mt-3 text-2xl font-semibold text-newman-navy">
-                    Try another operating date.
+                    {{ __('Try another operating date.') }}
                 </h3>
 
                 <p
                     class="mt-3 max-w-2xl text-sm leading-7 text-amber-900"
                     x-text="
                         result?.message
-                        || 'No Tour Options are available for this date.'
+                        || @js(__('No Tour Options are available for this date.'))
                     "
                 ></p>
 
                 <p class="mt-3 text-xs leading-5 text-amber-800">
-                    Your transport recommendation may still be
-                    displayed because it is based on group size,
-                    while Tour Option availability also depends
-                    on schedule, language, blackout dates, and
-                    booking cutoff.
+                    {{ __('Your transport recommendation may still be displayed because it is based on group size, while Tour Option availability also depends on schedule, language, blackout dates, and booking cutoff.') }}
                 </p>
             </div>
         </template>
@@ -315,14 +309,14 @@
                                         x-show="option.is_default"
                                         class="rounded-full bg-newman-gold px-3 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-newman-navy"
                                     >
-                                        Recommended
+                                        {{ __('Recommended') }}
                                     </span>
 
                                     <span
                                         x-show="option.is_all_inclusive"
                                         class="rounded-full bg-newman-navy px-3 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-white"
                                     >
-                                        All-inclusive
+                                        {{ __('All-inclusive') }}
                                     </span>
                                 </div>
 
@@ -354,7 +348,7 @@
                         <div class="mt-5 grid gap-3 sm:grid-cols-3">
                             <div class="rounded-xl bg-newman-sand/70 p-3">
                                 <p class="text-[10px] font-bold uppercase tracking-[0.12em] text-gray-400">
-                                    Duration
+                                    {{ __('Duration') }}
                                 </p>
 
                                 <p
@@ -365,18 +359,18 @@
 
                             <div class="rounded-xl bg-newman-sand/70 p-3">
                                 <p class="text-[10px] font-bold uppercase tracking-[0.12em] text-gray-400">
-                                    Pickup
+                                    {{ __('Pickup') }}
                                 </p>
 
                                 <p
                                     class="mt-2 text-sm font-semibold text-newman-navy"
-                                    x-text="option.pickup_label || 'Confirmed later'"
+                                    x-text="option.pickup_label || @js(__('Confirmed later'))"
                                 ></p>
                             </div>
 
                             <div class="rounded-xl bg-newman-sand/70 p-3">
                                 <p class="text-[10px] font-bold uppercase tracking-[0.12em] text-gray-400">
-                                    Language
+                                    {{ __('Language') }}
                                 </p>
 
                                 <p
@@ -395,7 +389,7 @@
                         {{-- Included --}}
                         <details class="group border-y border-newman-navy/10 md:border-y-0 md:border-r md:pr-6">
                             <summary class="flex min-h-11 cursor-pointer list-none items-center justify-between gap-4 py-2 text-xs font-bold uppercase tracking-[0.18em] text-newman-gold marker:content-none">
-                                <span>Included</span>
+                                <span>{{ __('Included') }}</span>
                                 <span aria-hidden="true" class="text-base transition group-open:rotate-45">+</span>
                             </summary>
 
@@ -428,8 +422,7 @@
                                     x-show="!option.included?.length"
                                     class="text-sm text-gray-500"
                                 >
-                                    Inclusions will be confirmed
-                                    before booking.
+                                    {{ __('Inclusions will be confirmed before booking.') }}
                                 </p>
                             </div>
                         </details>
@@ -437,7 +430,7 @@
                         {{-- Excluded --}}
                         <details class="group border-b border-newman-navy/10 md:border-b-0 md:pl-3">
                             <summary class="flex min-h-11 cursor-pointer list-none items-center justify-between gap-4 py-2 text-xs font-bold uppercase tracking-[0.18em] text-newman-gold marker:content-none">
-                                <span>Not included</span>
+                                <span>{{ __('Not included') }}</span>
                                 <span aria-hidden="true" class="text-base transition group-open:rotate-45">+</span>
                             </summary>
 
@@ -470,7 +463,7 @@
                                     x-show="!option.excluded?.length"
                                     class="text-sm text-gray-500"
                                 >
-                                    No exclusions have been listed.
+                                    {{ __('No exclusions have been listed.') }}
                                 </p>
                             </div>
                         </details>
@@ -479,7 +472,7 @@
                     {{-- Starting times --}}
                     <div class="border-t border-newman-navy/10 px-5 py-5 sm:px-7 md:py-4">
                         <p class="text-xs font-bold uppercase tracking-[0.18em] text-newman-gold">
-                            Starting time
+                            {{ __('Starting time') }}
                         </p>
 
                         <div
@@ -515,8 +508,7 @@
                             x-show="!option.starting_times?.length"
                             class="mt-4 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm leading-6 text-amber-800"
                         >
-                            No selectable starting time was returned
-                            for this option.
+                            {{ __('No selectable starting time was returned for this option.') }}
                         </div>
                     </div>
 
@@ -525,7 +517,7 @@
                         <div class="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
                             <div>
                                 <p class="text-[10px] font-bold uppercase tracking-[0.18em] text-newman-gold">
-                                    Estimated total
+                                    {{ __('Estimated total') }}
                                 </p>
 
                                 <template
@@ -560,7 +552,7 @@
                                             "
                                             class="mt-2 text-xs font-semibold text-newman-gold"
                                         >
-                                            Save
+                                            {{ __('Save') }}
                                             <span
                                                 x-text="
                                                     option.pricing
@@ -578,7 +570,7 @@
                                     "
                                     class="mt-3 text-lg font-semibold"
                                 >
-                                    Price confirmation required
+                                    {{ __('Price confirmation required') }}
                                 </p>
                             </div>
 
@@ -598,7 +590,7 @@
             ? (
                 canContinue
                     ? 'Continue'
-                    : 'Choose a time'
+                    : @js(__('Choose a time'))
             )
             : 'Select'
     "
@@ -606,10 +598,7 @@
                         </div>
 
                         <p class="mt-4 text-xs leading-5 text-white/55">
-                            Estimated price is calculated by the
-                            Newman pricing service. Final confirmation
-                            is completed before the booking request
-                            is accepted.
+                            {{ __('Estimated price is calculated by the Newman pricing service. Final confirmation is completed before the booking request is accepted.') }}
                         </p>
                     </div>
                 </article>

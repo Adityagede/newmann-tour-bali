@@ -41,11 +41,11 @@
     <a
         href="{{ $detailUrl }}"
         class="tour-experience-media relative block aspect-[4/3] shrink-0 overflow-hidden bg-newman-sand"
-        aria-label="View {{ $card['title'] }}"
+        aria-label="{{ __('View :title', ['title' => \App\Http\Middleware\SetLocale::text($card['title'])]) }}"
     >
         <img
             src="{{ $card['image_url'] }}"
-            alt="{{ $card['title'] }}"
+            alt="{{ \App\Http\Middleware\SetLocale::text($card['title']) }}"
             loading="lazy"
             decoding="async"
             onerror="this.onerror=null;this.src='{{ $placeholderUrl }}';"
@@ -58,7 +58,7 @@
         <span
             class="tour-experience-format absolute left-4 top-4 rounded-lg bg-white/95 px-4 py-2 text-[11px] font-semibold tracking-[0.08em] text-newman-navy shadow-sm backdrop-blur {{ $promotion['active'] ? 'max-w-[54%]' : 'max-w-[75%]' }}"
         >
-            {{ $card['badge'] }}
+            {{ \App\Http\Middleware\SetLocale::text($card['badge']) }}
         </span>
 
         {{-- Active discount badge --}}
@@ -66,7 +66,7 @@
             <span
                 class="tour-experience-discount absolute right-4 top-4 z-10 inline-flex max-w-[40%] items-center justify-center rounded-lg bg-newman-gold px-3 py-2 text-center text-[10px] font-bold uppercase leading-4 tracking-[0.12em] text-newman-navy shadow-lg shadow-newman-navy/20"
             >
-                {{ $promotion['label'] }}
+                {{ \App\Http\Middleware\SetLocale::text($promotion['label']) }}
             </span>
         @endif
 
@@ -95,7 +95,7 @@
     {{-- Tour Content --}}
     <div class="tour-experience-body flex flex-1 flex-col p-6">
         <p class="tour-experience-type text-[11px] font-semibold uppercase tracking-[0.14em] text-newman-gold">
-            {{ $card['trip_type'] }}
+            {{ \App\Http\Middleware\SetLocale::text($card['trip_type']) }}
         </p>
 
         <h3 class="tour-experience-title mt-3 min-h-[66px] text-[22px] font-semibold leading-[1.42] tracking-[-0.025em] text-newman-navy">
@@ -103,7 +103,7 @@
                 href="{{ $detailUrl }}"
                 class="transition hover:text-newman-blue"
             >
-                {{ $card['title'] }}
+                {{ \App\Http\Middleware\SetLocale::text($card['title']) }}
             </a>
         </h3>
 
@@ -118,10 +118,10 @@
                 <span class="h-1 w-1 rounded-full bg-gray-300" aria-hidden="true"></span>
 
                 <span class="text-gray-500">
-                    {{ $card['rating_text'] }}
+                    {{ \App\Http\Middleware\SetLocale::text($card['rating_text']) }}
                 </span>
             @else
-                <span class="text-gray-500">New tour</span>
+                <span class="text-gray-500">{{ __('New tour') }}</span>
             @endif
         </div>
 
@@ -145,7 +145,7 @@
                 </svg>
 
                 <p class="font-semibold text-newman-navy">
-                    {{ $card['duration'] }}
+                    {{ \App\Http\Middleware\SetLocale::text($card['duration']) }}
                 </p>
             </div>
 
@@ -174,11 +174,11 @@
 
                 <div>
                     <p class="font-semibold text-newman-navy">
-                        {{ $card['pickup_text'] }}
+                        {{ \App\Http\Middleware\SetLocale::text($card['pickup_text']) }}
                     </p>
 
                     <p class="tour-experience-meta-secondary mt-1 text-gray-500">
-                        {{ $card['vehicle'] }}
+                        {{ \App\Http\Middleware\SetLocale::text($card['vehicle']) }}
                     </p>
                 </div>
             </div>
@@ -202,7 +202,7 @@
                 </svg>
 
                 <p class="font-medium text-newman-navy">
-                    {{ $thirdBenefit }}
+                    {{ \App\Http\Middleware\SetLocale::text($thirdBenefit) }}
                 </p>
             </div>
         </div>
@@ -212,12 +212,12 @@
             @if ($promotion['active'])
                 <div class="flex flex-wrap items-center justify-between gap-2">
                     <p class="text-[11px] font-semibold uppercase tracking-[0.14em] text-newman-gold">
-                        Limited offer
+                        {{ __('Limited offer') }}
                     </p>
 
                     @if ($promotion['saving_adult_text'])
                         <p class="text-[10px] font-semibold uppercase tracking-[0.1em] text-newman-blue">
-                            Save {{ $promotion['saving_adult_text'] }}
+                            {{ __('Save') }} {{ $promotion['saving_adult_text'] }}
                         </p>
                     @endif
                 </div>
@@ -232,22 +232,22 @@
                     </p>
 
                     <p class="pb-0.5 text-xs text-gray-500">
-                        per person
+                        {{ __('per person') }}
                     </p>
                 </div>
 
                 @if ($promotionalChildPrice)
                     <p class="mt-2 text-xs text-gray-500">
-                        Children from {{ $promotionalChildPrice }}
+                        {{ __('Children from') }} {{ $promotionalChildPrice }}
                     </p>
                 @endif
 
                 <p class="mt-2 text-xs leading-5 text-gray-400">
-                    Price confirmed after selecting date and participants.
+                    {{ __('Price confirmed after selecting date and participants.') }}
                 </p>
             @else
                 <p class="text-[11px] font-semibold uppercase tracking-[0.14em] text-gray-400">
-                    {{ $card['price_label'] }}
+                    {{ \App\Http\Middleware\SetLocale::text($card['price_label']) }}
                 </p>
 
                 <div class="mt-2 flex flex-wrap items-end gap-x-2 gap-y-1">
@@ -257,20 +257,20 @@
 
                     @if ($card['price_suffix'] !== '')
                         <p class="pb-0.5 text-xs text-gray-500">
-                            {{ $card['price_suffix'] }}
+                            {{ \App\Http\Middleware\SetLocale::text($card['price_suffix']) }}
                         </p>
                     @endif
                 </div>
 
                 @if ($card['child_price_text'])
                     <p class="mt-2 text-xs text-gray-500">
-                        Children from {{ $card['child_price_text'] }}
+                        {{ __('Children from') }} {{ $card['child_price_text'] }}
                     </p>
                 @endif
 
                 @if ($card['price_note'] !== '')
                     <p class="mt-2 text-xs leading-5 text-gray-400">
-                        {{ $card['price_note'] }}
+                        {{ \App\Http\Middleware\SetLocale::text($card['price_note']) }}
                     </p>
                 @endif
             @endif
@@ -279,7 +279,7 @@
                 href="{{ $detailUrl }}"
                 class="tour-experience-cta mt-5 flex min-h-12 w-full items-center justify-center rounded-lg bg-newman-navy px-5 py-3 text-center text-sm font-semibold text-white transition duration-200 hover:bg-newman-blue focus:outline-none focus:ring-2 focus:ring-newman-gold focus:ring-offset-2"
             >
-                Check availability
+                {{ __('Check availability') }}
             </a>
         </div>
     </div>

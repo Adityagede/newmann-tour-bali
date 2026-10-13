@@ -40,11 +40,11 @@
     ];
 @endphp
 
-<section class="relative overflow-hidden bg-newman-navy pt-32 text-white sm:pt-36 lg:pt-40">
+<section class="page-hero relative overflow-hidden bg-newman-navy pt-32 text-white sm:pt-36 lg:pt-40">
     <div class="absolute inset-0">
         <img
             src="{{ asset('images/owner.jpg') }}"
-            alt="Newman Tour Bali local guide"
+            alt="{{ __('Newman Tour Bali local guide') }}"
             width="1600"
             height="1578"
             loading="eager"
@@ -59,25 +59,25 @@
         <div class="h-full w-full bali-pattern"></div>
     </div>
 
-    <div class="relative mx-auto w-[92%] max-w-7xl pb-20 sm:pb-24 lg:pb-28">
+    <div class="page-hero-content relative mx-auto w-[92%] max-w-7xl pb-20 sm:pb-24 lg:pb-28">
         <div data-aos="fade-up" class="max-w-4xl">
             <a
                 href="{{ route('home') }}"
                 class="inline-flex border border-white/20 bg-white/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.18em] text-white/80 backdrop-blur-md transition hover:border-newman-gold hover:bg-newman-gold hover:text-newman-navy"
             >
-                ← Back to home
+                {{ __('← Back to home') }}
             </a>
 
             <p class="mt-8 text-xs font-bold uppercase tracking-[0.38em] text-newman-gold">
-                About Newman
+                {{ __('About Newman') }}
             </p>
 
             <h1 class="mt-5 text-4xl font-semibold leading-tight tracking-[-0.05em] sm:text-6xl lg:text-7xl">
-                A local Bali guide who helps the trip feel personal.
+                {{ __('A local Bali guide who helps the trip feel personal.') }}
             </h1>
 
             <p class="mt-6 max-w-2xl text-base leading-8 text-white/70 sm:text-lg">
-                Newman Tour Bali is built around simple, warm, and flexible Bali travel. The focus is not only visiting places, but making the day feel comfortable, natural, and easy to enjoy.
+                {{ __('Newman Tour Bali is built around simple, warm, and flexible Bali travel. The focus is not only visiting places, but making the day feel comfortable, natural, and easy to enjoy.') }}
             </p>
         </div>
     </div>
@@ -92,11 +92,11 @@
         <div class="guide-layout grid gap-12 lg:grid-cols-[0.92fr_1.08fr] lg:items-center">
             <div data-aos="fade-up" data-aos-delay="120" class="guide-intro">
                 <p class="guide-kicker text-xs font-bold uppercase tracking-[0.35em] text-newman-gold">
-                    Meet Your Local Guide
+                    {{ __('Meet Your Local Guide') }}
                 </p>
 
                 <h2 class="guide-heading mt-5 max-w-3xl text-4xl font-semibold leading-[1.05] tracking-[-0.04em] text-newman-navy sm:text-5xl lg:text-6xl">
-                    A Bali trip that feels personal, calm, and well guided.
+                    {{ __('A Bali trip that feels personal, calm, and well guided.') }}
                 </h2>
             </div>
 
@@ -105,7 +105,7 @@
                     <div class="guide-photo-frame overflow-hidden bg-newman-sand shadow-2xl shadow-newman-navy/10">
                         <img
                             src="{{ asset('images/owner.jpg') }}"
-                            alt="Newman local Bali guide"
+                            alt="{{ __('Newman local Bali guide') }}"
                             width="1600"
                             height="1578"
                             loading="lazy"
@@ -116,11 +116,11 @@
 
                     <div class="guide-photo-note absolute -bottom-6 left-5 right-5 bg-newman-navy p-5 text-white shadow-2xl sm:left-auto sm:right-8 sm:w-[320px]">
                         <p class="text-xs font-semibold uppercase tracking-[0.28em] text-newman-gold">
-                            Local Guide
+                            {{ __('Local Guide') }}
                         </p>
 
                         <p class="mt-3 text-xl font-semibold leading-snug">
-                            Guided with care, patience, and real Bali experience.
+                            {{ __('Guided with care, patience, and real Bali experience.') }}
                         </p>
                     </div>
 
@@ -132,47 +132,47 @@
             <div data-aos="fade-up" data-aos-delay="120" class="guide-story">
                 <div class="guide-copy mt-7 space-y-5 text-base leading-8 text-gray-600 sm:text-lg">
                     <p>
-                        Newman Tour Bali is handled by a local Bali guide who understands how to make a trip feel comfortable, flexible, and not rushed.
+                        {{ __('Newman Tour Bali is handled by a local Bali guide who understands how to make a trip feel comfortable, flexible, and not rushed.') }}
                     </p>
 
                     <p>
-                        From temple visits, rice terraces, beaches, waterfalls, local villages, to private transport around Bali, every route can be adjusted based on your time, group size, and travel style.
+                        {{ __('From temple visits, rice terraces, beaches, waterfalls, local villages, to private transport around Bali, every route can be adjusted based on your time, group size, and travel style.') }}
                     </p>
                 </div>
 
                 <div class="guide-values mt-9 grid gap-4 sm:grid-cols-3">
                     <div class="guide-value guide-value-sand border border-gray-100 bg-newman-sand p-5">
                         <p class="guide-value-number text-2xl font-semibold text-newman-navy">01</p>
-                        <h3 class="guide-value-title mt-4 font-semibold text-newman-navy">Local Route</h3>
+                        <h3 class="guide-value-title mt-4 font-semibold text-newman-navy">{{ __('Local Route') }}</h3>
                         <p class="guide-value-copy mt-2 text-sm leading-6 text-gray-600">
-                            Help you choose places that fit your day.
+                            {{ __('Help you choose places that fit your day.') }}
                         </p>
                     </div>
 
                     <div class="guide-value guide-value-white border border-gray-100 bg-white p-5 shadow-lg shadow-newman-navy/5">
                         <p class="guide-value-number text-2xl font-semibold text-newman-blue">02</p>
-                        <h3 class="guide-value-title mt-4 font-semibold text-newman-navy">Private Trip</h3>
+                        <h3 class="guide-value-title mt-4 font-semibold text-newman-navy">{{ __('Private Trip') }}</h3>
                         <p class="guide-value-copy mt-2 text-sm leading-6 text-gray-600">
-                            No mixed group. More calm and flexible.
+                            {{ __('No mixed group. More calm and flexible.') }}
                         </p>
                     </div>
 
                     <div class="guide-value guide-value-navy border border-gray-100 bg-newman-navy p-5 text-white">
                         <p class="guide-value-number text-2xl font-semibold text-newman-gold">03</p>
-                        <h3 class="guide-value-title mt-4 font-semibold">Transport Ready</h3>
+                        <h3 class="guide-value-title mt-4 font-semibold">{{ __('Transport Ready') }}</h3>
                         <p class="guide-value-copy mt-2 text-sm leading-6 text-white/60">
-                            Avanza, Hiace, or custom car option.
+                            {{ __('Avanza, Hiace, or custom car option.') }}
                         </p>
                     </div>
                 </div>
 
                 <div class="guide-quote mt-10 border-l border-newman-gold/50 pl-6">
                     <p class="text-sm font-semibold uppercase tracking-[0.24em] text-newman-blue">
-                        Simple Travel Style
+                        {{ __('Simple Travel Style') }}
                     </p>
 
                     <p class="mt-3 max-w-2xl text-lg leading-8 text-newman-navy">
-                        “Tell us where you want to go, and we will help arrange the route, timing, and car that fits your Bali plan.”
+                        {{ __('“Tell us where you want to go, and we will help arrange the route, timing, and car that fits your Bali plan.”') }}
                     </p>
                 </div>
 
@@ -253,17 +253,15 @@
             class="why-newman-heading mx-auto max-w-3xl text-center"
         >
             <p class="text-[11px] font-bold uppercase tracking-[0.3em] text-newman-gold">
-                Why travel with Newman?
+                {{ __('Why travel with Newman?') }}
             </p>
 
             <h2 class="why-newman-title mt-5 font-semibold text-newman-navy">
-                More than getting from one Bali stop to the next.
+                {{ __('More than getting from one Bali stop to the next.') }}
             </h2>
 
             <p class="why-newman-intro mx-auto mt-5 max-w-2xl text-gray-600">
-                Newman helps arrange a private Bali day that feels clear,
-                comfortable, and personal—without turning every hour into a
-                strict schedule.
+                {{ __('Newman helps arrange a private Bali day that feels clear, comfortable, and personal—without turning every hour into a strict schedule.') }}
             </p>
         </div>
 
@@ -398,11 +396,11 @@
 
                     <div class="why-card-copy min-w-0">
                         <h3 class="why-card-title font-semibold text-newman-navy">
-                            {{ $reason['title'] }}
+                            {{ \App\Http\Middleware\SetLocale::text($reason['title']) }}
                         </h3>
 
                         <p class="why-card-description text-gray-600">
-                            {{ $reason['description'] }}
+                            {{ \App\Http\Middleware\SetLocale::text($reason['description']) }}
                         </p>
                     </div>
                 </article>
@@ -418,11 +416,11 @@
                 @foreach ($newmanHighlights as $highlight)
                     <div class="why-newman-fact min-w-0 text-center">
                         <p class="why-newman-fact-value break-words font-semibold text-newman-navy">
-                            {{ $highlight['value'] }}
+                            {{ \App\Http\Middleware\SetLocale::text($highlight['value']) }}
                         </p>
 
                         <p class="why-newman-fact-label mx-auto mt-2 max-w-[170px] text-gray-600">
-                            {{ $highlight['label'] }}
+                            {{ \App\Http\Middleware\SetLocale::text($highlight['label']) }}
                         </p>
                     </div>
                 @endforeach
@@ -436,15 +434,15 @@
     <div class="mx-auto grid w-[92%] max-w-7xl gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
         <div data-aos="fade-up">
             <p class="text-xs font-bold uppercase tracking-[0.35em] text-newman-gold">
-                A Day With Newman
+                {{ __('A Day With Newman') }}
             </p>
 
             <h2 class="mt-4 text-3xl font-semibold leading-tight tracking-[-0.04em] text-newman-navy sm:text-5xl">
-                From a simple message to a real Bali memory.
+                {{ __('From a simple message to a real Bali memory.') }}
             </h2>
 
             <p class="mt-6 max-w-xl text-base leading-8 text-gray-600">
-                The process is made simple so guests can focus on the trip, not the complicated planning.
+                {{ __('The process is made simple so guests can focus on the trip, not the complicated planning.') }}
             </p>
         </div>
 
@@ -453,12 +451,12 @@
                 <article class="grid gap-4 border border-gray-100 bg-white p-5 shadow-sm shadow-newman-navy/5 sm:grid-cols-[150px_1fr] sm:p-6">
                     <div>
                         <p class="text-xs font-bold uppercase tracking-[0.24em] text-newman-blue">
-                            {{ $note['title'] }}
+                            {{ \App\Http\Middleware\SetLocale::text($note['title']) }}
                         </p>
                     </div>
 
                     <p class="text-sm leading-7 text-gray-600">
-                        {{ $note['text'] }}
+                        {{ \App\Http\Middleware\SetLocale::text($note['text']) }}
                     </p>
                 </article>
             @endforeach
@@ -565,18 +563,18 @@
     <div class="relative mx-auto w-[calc(100%-1.5rem)] max-w-7xl sm:w-[92%]">
         <header data-aos="fade-up" class="mx-auto max-w-3xl text-center">
             <p class="text-[10px] font-bold uppercase tracking-[0.26em] text-newman-gold sm:text-xs sm:tracking-[0.34em]">
-                Frequently Asked Questions
+                {{ __('Frequently Asked Questions') }}
             </p>
 
             <h2
                 id="faq-title"
                 class="mt-4 text-[30px] font-semibold leading-[1.12] tracking-[-0.04em] text-newman-navy sm:mt-5 sm:text-4xl md:text-[42px] lg:text-5xl"
             >
-                Good to know before your Bali day.
+                {{ __('Good to know before your Bali day.') }}
             </h2>
 
             <p class="mx-auto mt-4 max-w-2xl text-sm leading-7 text-gray-600 sm:mt-5 sm:text-base sm:leading-8">
-                Simple answers about private routes, pickup, transport, and what happens after you send a request.
+                {{ __('Simple answers about private routes, pickup, transport, and what happens after you send a request.') }}
             </p>
 
             <span aria-hidden="true" class="mx-auto mt-6 block h-px w-14 bg-newman-gold sm:mt-7 sm:w-16"></span>
@@ -603,7 +601,7 @@
                                 for="{{ $faqId }}"
                                 class="block cursor-pointer py-5 pr-10 text-left text-[15px] font-semibold leading-6 text-newman-navy transition-colors duration-300 hover:text-newman-blue peer-checked:text-newman-blue peer-focus-visible:text-newman-blue sm:py-6 sm:text-base"
                             >
-                                {{ $faq['question'] }}
+                                {{ \App\Http\Middleware\SetLocale::text($faq['question']) }}
                             </label>
 
                             <span
@@ -621,7 +619,7 @@
                             >
                                 <div class="min-h-0 overflow-hidden">
                                     <p class="max-w-xl pb-5 pr-9 text-sm leading-7 text-gray-600 sm:pb-6 sm:text-[15px] sm:leading-7">
-                                        {{ $faq['answer'] }}
+                                        {{ \App\Http\Middleware\SetLocale::text($faq['answer']) }}
                                     </p>
                                 </div>
                             </div>

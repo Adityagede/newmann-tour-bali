@@ -43,9 +43,22 @@ Route::post('/language', function (Request $request) {
         $validated['locale'],
     );
 
-    return redirect()->back(303);
+    $previous = url()->previous();
+    if (parse_url($previous, PHP_URL_HOST) !== $request->getHost()) {
+        $previous = url('/');
+    }
+    if (str_starts_with(parse_url($previous, PHP_URL_PATH) ?: '/', '/rate-your-trip/')) {
+        return redirect()->to($previous, 303);
+    }
+
+    return redirect()->to(
+        \App\Http\Middleware\SetLocale::languageUrl($previous, $validated['locale']),
+        303,
+    );
 })->name('language.update');
 
+// Register the same handlers/templates for English and Indonesian URLs.
+$publicTourRoutes = static function (): void {
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/about', function () {
     return view('pages.about');
@@ -94,6 +107,11 @@ Route::post(
         'tours.booking-request.store'
     );
 
+};
+Route::group([], $publicTourRoutes);
+Route::prefix('id')->name('localized.')->group($publicTourRoutes);
+
+// Existing signed guest links keep their original path and signature.
 Route::middleware('signed')->group(function (): void {
     Route::get(
         '/rate-your-trip/{bookingReference}',
@@ -108,6 +126,7 @@ Route::middleware('signed')->group(function (): void {
         ->name('tour-ratings.store');
 });
 
+$publicTripRoutes = static function (): void {
 Route::get(
     '/booking-requests/{reference}/success',
     [
@@ -144,11 +163,15 @@ Route::get(
 )->name('custom-trip.success');
 
 // Safe compatibility redirect only. The old booking implementation is gone.
-Route::redirect('/booking', '/custom-trip', 301);
+Route::get('/booking', fn () => redirect()->route('custom-trip.create', [], 301));
 
 Route::get('/contact', function () {
     return view('pages.contact');
 })->name('contact');
+
+};
+Route::group([], $publicTripRoutes);
+Route::prefix('id')->name('localized.')->group($publicTripRoutes);
 
 
 Route::get('/admin/login', [AdminAuthController::class, 'showLogin'])->name('admin.login');

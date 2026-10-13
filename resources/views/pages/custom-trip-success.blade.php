@@ -10,16 +10,16 @@
         $suggestedVehicle = $customTripRequest->suggestedVehicleLabel();
 
         $whatsappMessage = implode("\n", [
-            'Hello Newman Tour Bali, I have submitted a custom trip request from the website.',
+            __('Hello Newman Tour Bali, I have submitted a custom trip request from the website.'),
             '',
-            'Reference: ' . $customTripRequest->booking_code,
-            'Name: ' . $customTripRequest->name,
-            'Trip Date: ' . ($customTripRequest->trip_date?->format('Y-m-d') ?? 'Flexible / not selected'),
-            'Guests: ' . ($customTripRequest->people_count ?? '-'),
-            'Vehicle Preference: ' . $vehiclePreference,
-            'Pickup Area: ' . ($customTripRequest->pickup_area ?: 'To be confirmed'),
+            __('Reference: ') . $customTripRequest->booking_code,
+            __('Name: ') . $customTripRequest->name,
+            __('Trip Date: ') . ($customTripRequest->trip_date?->format('Y-m-d') ?? 'Flexible / not selected'),
+            __('Guests: ') . ($customTripRequest->people_count ?? '-'),
+            __('Vehicle Preference: ') . $vehiclePreference,
+            __('Pickup Area: ') . ($customTripRequest->pickup_area ?: 'To be confirmed'),
             '',
-            'Please help review the route, vehicle arrangement, and quotation. Thank you.',
+            __('Please help review the route, vehicle arrangement, and quotation. Thank you.'),
         ]);
 
         $whatsappUrl = 'https://wa.me/6287887243495?text=' . urlencode($whatsappMessage);
@@ -61,22 +61,19 @@
                             <p
                                 class="break-words text-xs font-bold uppercase tracking-[0.24em] text-newman-gold sm:tracking-[0.35em]"
                             >
-                                Custom Trip Request Received
+                                {{ __('Custom Trip Request Received') }}
                             </p>
 
                             <h1
                                 class="mt-4 break-words text-3xl font-semibold leading-tight tracking-[-0.04em] text-newman-navy [overflow-wrap:anywhere] sm:text-5xl lg:text-6xl"
                             >
-                                Thank you, {{ $customTripRequest->name }}.
+                                {{ __('Thank you,') }} {{ $customTripRequest->name }}.
                             </h1>
 
                             <p
                                 class="mt-5 break-words text-sm leading-7 text-gray-600 [overflow-wrap:anywhere] sm:text-base sm:leading-8"
                             >
-                                Your request is now waiting for manual review.
-                                Newman will check the route, group size, vehicle
-                                preference, and availability before sending a
-                                confirmation or quotation.
+                                {{ __('Your request is now waiting for manual review. Newman will check the route, group size, vehicle preference, and availability before sending a confirmation or quotation.') }}
                             </p>
                         </div>
 
@@ -86,13 +83,13 @@
                             <p
                                 class="text-xs font-bold uppercase tracking-[0.2em] text-newman-blue"
                             >
-                                Status
+                                {{ __('Status') }}
                             </p>
 
                             <p
                                 class="mt-2 break-words text-lg font-semibold capitalize text-newman-navy"
                             >
-                                {{ $customTripRequest->status }}
+                                {{ __($customTripRequest->status) }}
                             </p>
                         </div>
                     </div>
@@ -104,12 +101,12 @@
                 >
                     {{-- Request summary --}}
                     <div class="min-w-0 overflow-hidden p-5 sm:p-8 lg:p-10">
-                        <div class="grid min-w-0 gap-4 sm:grid-cols-2">
+                        <div class="custom-trip-summary grid min-w-0 gap-4 sm:grid-cols-2">
                             @foreach ([
                                 ['Reference', $customTripRequest->booking_code],
                                 [
                                     'Trip Date',
-                                    $customTripRequest->trip_date?->format('d M Y')
+                                    $customTripRequest->trip_date?->locale(app()->getLocale())->translatedFormat('d M Y')
                                         ?? 'Flexible / not selected',
                                 ],
                                 [
@@ -129,13 +126,13 @@
                                     <p
                                         class="text-xs font-bold uppercase tracking-[0.16em] text-newman-blue"
                                     >
-                                        {{ $label }}
+                                        {{ \App\Http\Middleware\SetLocale::text($label) }}
                                     </p>
 
                                     <p
                                         class="mt-2 break-words font-semibold leading-6 text-newman-navy [overflow-wrap:anywhere]"
                                     >
-                                        {{ $value }}
+                                        {{ in_array($label, ['Vehicle Preference', 'Suggested Fit', 'Trip Date', 'Guests'], true) ? \App\Http\Middleware\SetLocale::text($value) : $value }}
                                     </p>
                                 </div>
                             @endforeach
@@ -148,7 +145,7 @@
                             <p
                                 class="text-xs font-bold uppercase tracking-[0.16em] text-newman-blue"
                             >
-                                Trip Plan
+                                {{ __('Trip Plan') }}
                             </p>
 
                             <p
@@ -166,14 +163,14 @@
                                 rel="noopener noreferrer"
                                 class="flex w-full min-w-0 items-center justify-center whitespace-normal break-words bg-newman-navy px-4 py-4 text-center text-xs font-bold uppercase leading-5 tracking-[0.08em] text-white transition duration-300 hover:-translate-y-1 hover:bg-newman-blue hover:shadow-xl sm:px-5 sm:text-sm sm:tracking-[0.12em]"
                             >
-                                Continue via WhatsApp
+                                {{ __('Continue via WhatsApp') }}
                             </a>
 
                             <a
                                 href="{{ route('tours') }}"
                                 class="flex w-full min-w-0 items-center justify-center whitespace-normal break-words border border-newman-navy/15 px-4 py-4 text-center text-xs font-bold uppercase leading-5 tracking-[0.08em] text-newman-navy transition duration-300 hover:-translate-y-1 hover:border-newman-gold hover:bg-newman-gold sm:px-5 sm:text-sm sm:tracking-[0.12em]"
                             >
-                                Browse Tour Packages
+                                {{ __('Browse Tour Packages') }}
                             </a>
                         </div>
                     </div>
@@ -185,7 +182,7 @@
                         <p
                             class="break-words text-xs font-bold uppercase tracking-[0.24em] text-newman-gold sm:tracking-[0.3em]"
                         >
-                            What happens next?
+                            {{ __('What happens next?') }}
                         </p>
 
                         <div class="mt-6 space-y-5">
@@ -214,13 +211,13 @@
                                     </p>
 
                                     <p class="mt-2 font-semibold">
-                                        {{ $title }}
+                                        {{ \App\Http\Middleware\SetLocale::text($title) }}
                                     </p>
 
                                     <p
                                         class="mt-2 break-words text-sm leading-6 text-white/60 [overflow-wrap:anywhere]"
                                     >
-                                        {{ $description }}
+                                        {{ \App\Http\Middleware\SetLocale::text($description) }}
                                     </p>
                                 </div>
                             @endforeach
@@ -232,14 +229,13 @@
                             <p
                                 class="text-xs font-bold uppercase tracking-[0.18em] text-newman-gold"
                             >
-                                No online payment
+                                {{ __('No online payment') }}
                             </p>
 
                             <p
                                 class="mt-2 break-words text-sm leading-6 text-white/65 [overflow-wrap:anywhere]"
                             >
-                                This page confirms receipt of a request only.
-                                It is not a paid or instantly confirmed booking.
+                                {{ __('This page confirms receipt of a request only. It is not a paid or instantly confirmed booking.') }}
                             </p>
                         </div>
                     </aside>
