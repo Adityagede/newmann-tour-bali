@@ -16,8 +16,8 @@
         : 'Create a new Bali experience';
 
     $pageDescription = $isEdit
-        ? 'Manage the identity, editorial content, image, and publishing status of this tour product.'
-        : 'Create the main tour product first. Prices, participant types, schedules, and inclusions will be managed through Tour Options.';
+        ? 'Update the information guests see on the tour page.'
+        : 'Save the tour as a draft to continue to photos and itinerary.';
 
     $fieldValue = static function (
         string $field,
@@ -131,11 +131,6 @@
             : asset(ltrim($currentImagePath, '/'));
     }
 
-    $currentStatus = $fieldValue(
-        'status',
-        'draft'
-    );
-
     $currentTourFormat = $fieldValue(
         'tour_format',
         'full_day'
@@ -157,19 +152,17 @@
         </p>
     </div>
 
-    <a
-        href="{{ route('admin.tour-packages.index') }}"
-        class="border border-newman-navy/15 bg-white px-5 py-3 text-center text-xs font-bold uppercase tracking-[0.16em] text-newman-navy transition duration-300 hover:-translate-y-0.5 hover:border-newman-gold hover:bg-newman-gold"
-    >
-        Back to tours
-    </a>
-</div>
-
-@if (session('success'))
-    <div class="mb-6 border border-emerald-200 bg-emerald-50 p-4 text-sm leading-6 text-emerald-800">
-        {{ session('success') }}
+    <div class="flex shrink-0 flex-wrap items-center gap-3">
+        @unless ($isEdit)
+            <a href="{{ route('admin.tour-packages.index') }}" class="px-3 py-2 text-sm font-semibold text-newman-blue hover:underline">
+                All tour packages
+            </a>
+        @endunless
+        <button type="submit" form="tour-package-form" class="rounded bg-newman-gold px-5 py-3 text-sm font-bold text-newman-navy hover:bg-newman-sand">
+            {{ $isEdit ? 'Save changes' : 'Create draft & continue' }}
+        </button>
     </div>
-@endif
+</div>
 
 @if ($errors->any())
     <div class="mb-6 border border-red-200 bg-red-50 p-4 text-sm text-red-700">
@@ -186,6 +179,7 @@
 @endif
 
 <form
+    id="tour-package-form"
     action="{{ $formAction }}"
     method="POST"
     enctype="multipart/form-data"
@@ -589,7 +583,7 @@
                     <p class="mt-2 text-xs leading-6 text-gray-500">
                         Format each line as:
                         <strong>Time | Title | Description</strong>.
-                        Structured roadmap stops will be managed in Step 13.
+                        Use the Itinerary section to add stops for publishing.
                     </p>
 
                     <textarea
@@ -612,64 +606,10 @@
     </main>
 
     <aside class="space-y-6 lg:sticky lg:top-28">
-        {{-- Publishing --}}
-        <section class="border border-newman-gold/25 bg-newman-navy p-5 text-white shadow-2xl shadow-newman-navy/15 sm:p-6">
-            <p class="text-xs font-bold uppercase tracking-[0.3em] text-newman-gold">
-                Publishing
-            </p>
+        <section id="homepage-placement" class="scroll-mt-32 border border-newman-gold/25 bg-newman-navy p-5 text-white shadow-sm sm:p-6">
+            <h2 class="text-lg font-semibold">Homepage placement</h2>
 
-            <h2 class="mt-3 text-2xl font-semibold tracking-[-0.03em]">
-                Product visibility
-            </h2>
-
-            <div class="mt-6 grid gap-5">
-                <div>
-                    <label
-                        for="status"
-                        class="text-sm font-semibold"
-                    >
-                        Status
-                    </label>
-
-                    <select
-                        id="status"
-                        name="status"
-                        required
-                        class="booking-input booking-select mt-2"
-                    >
-                        <option
-                            value="draft"
-                            @selected($currentStatus === 'draft')
-                        >
-                            Draft
-                        </option>
-
-                        <option
-                            value="active"
-                            @selected($currentStatus === 'active')
-                        >
-                            Active
-                        </option>
-
-                        <option
-                            value="inactive"
-                            @selected($currentStatus === 'inactive')
-                        >
-                            Inactive
-                        </option>
-                    </select>
-
-                    @error('status')
-                        <p class="mt-2 text-xs text-red-300">
-                            {{ $message }}
-                        </p>
-                    @enderror
-
-                    <p class="mt-2 text-xs leading-6 text-white/55">
-                        Keep new products in Draft until gallery, options, prices, schedules, and inclusions are ready.
-                    </p>
-                </div>
-
+            <div class="mt-4 grid gap-4">
                 <label class="flex items-start gap-3 border border-white/10 bg-white/5 p-4">
                     <input
                         type="checkbox"
@@ -723,15 +663,6 @@
                         </span>
                     </span>
                 </label>
-
-                <button
-                    type="submit"
-                    class="bg-newman-gold px-5 py-4 text-sm font-bold uppercase tracking-[0.16em] text-newman-navy transition duration-300 hover:-translate-y-0.5 hover:bg-white"
-                >
-                    {{ $isEdit
-                        ? 'Update tour product'
-                        : 'Create draft product' }}
-                </button>
             </div>
         </section>
 
@@ -781,116 +712,8 @@
             @enderror
 
             <p class="mt-3 text-xs leading-6 text-gray-500">
-                JPG, PNG, or WebP. Maximum 8 MB. Gallery management will be added separately.
+                JPG, PNG, or WebP. Maximum 8 MB.
             </p>
-        </section>
-
-        {{-- V2 architecture --}}
-        <section class="border border-newman-gold/30 bg-newman-sand p-5 sm:p-6">
-            <p class="text-xs font-bold uppercase tracking-[0.3em] text-newman-gold">
-                V2 architecture
-            </p>
-
-            <h3 class="mt-3 text-xl font-semibold tracking-[-0.03em] text-newman-navy">
-                Prices are not managed here
-            </h3>
-
-            <p class="mt-3 text-xs leading-6 text-gray-600">
-                Adult, Child, Infant, inclusions, exclusions, schedules, discounts, capacity, and blackout dates belong to Tour Options.
-            </p>
-
-            @if ($isEdit)
-                <div class="mt-5 grid grid-cols-2 gap-3">
-                    <div class="bg-white p-4">
-                        <p class="text-[10px] font-bold uppercase tracking-[0.16em] text-gray-400">
-                            All options
-                        </p>
-
-                        <p class="mt-2 text-2xl font-semibold text-newman-navy">
-                            {{ $tourPackage->options_count ?? 0 }}
-                        </p>
-                    </div>
-
-                    <div class="bg-white p-4">
-                        <p class="text-[10px] font-bold uppercase tracking-[0.16em] text-gray-400">
-                            Active options
-                        </p>
-
-                        <p class="mt-2 text-2xl font-semibold text-newman-navy">
-                            {{ $tourPackage->active_options_count ?? 0 }}
-                        </p>
-                    </div>
-                </div>
-
-                <div class="mt-4 border-t border-newman-navy/10 pt-4">
-                    <p class="text-xs leading-6 text-gray-500">
-                        Product slug
-                    </p>
-
-                    <code class="mt-1 block break-all text-xs font-semibold text-newman-navy">
-                        {{ $tourPackage->slug }}
-                    </code>
-                </div>
-                <a
-    href="{{ route(
-        'admin.tour-packages.gallery.edit',
-        $tourPackage
-    ) }}"
-    class="mt-5 flex min-h-12 w-full items-center justify-center bg-newman-navy px-5 py-3 text-center text-xs font-bold uppercase tracking-[0.16em] text-white transition duration-300 hover:-translate-y-0.5 hover:bg-newman-gold hover:text-newman-navy"
->
-    Manage tour gallery
-</a>
-
-<a
-    href="{{ route(
-        'admin.tour-packages.roadmap.index',
-        $tourPackage
-    ) }}"
-    class="mt-3 flex min-h-12 w-full items-center justify-center border border-newman-navy/15 bg-white px-5 py-3 text-center text-xs font-bold uppercase tracking-[0.16em] text-newman-navy transition duration-300 hover:-translate-y-0.5 hover:border-newman-gold hover:bg-newman-gold"
->
-    Manage roadmap
-</a>
-
-<a
-    href="{{ route(
-        'admin.tour-packages.options.index',
-        $tourPackage
-    ) }}"
-    class="mt-3 flex min-h-12 w-full items-center justify-center bg-newman-gold px-5 py-3 text-center text-xs font-bold uppercase tracking-[0.16em] text-newman-navy transition duration-300 hover:-translate-y-0.5 hover:bg-newman-navy hover:text-white"
->
-    Manage tour options
-</a>
-
-
-<a
-    href="{{ route(
-        'admin.tour-packages.readiness.show',
-        [
-            'tourPackage' => $tourPackage,
-        ]
-    ) }}"
-    class="mt-3 flex min-h-12 w-full items-center justify-center border border-newman-gold bg-newman-sand px-5 py-3 text-center text-xs font-bold uppercase tracking-[0.16em] text-newman-navy transition duration-300 hover:-translate-y-0.5 hover:bg-newman-gold"
->
-    Review publishing readiness
-</a>
-
-
-<a
-    href="{{ route(
-        'admin.tour-packages.preview',
-        [
-            'tourPackage' => $tourPackage,
-        ]
-    ) }}"
-    target="_blank"
-    rel="noopener"
-    class="mt-3 flex min-h-12 w-full items-center justify-center bg-newman-navy px-5 py-3 text-center text-xs font-bold uppercase tracking-[0.16em] text-white transition duration-300 hover:-translate-y-0.5 hover:bg-newman-gold hover:text-newman-navy"
->
-    Preview public tour detail
-</a>
-
-
-            @endif
         </section>
     </aside>
 </form>

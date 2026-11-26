@@ -309,6 +309,8 @@ Route::post(
          Route::get('/tour-packages', [AdminTourPackageController::class, 'index'])->name('tour-packages.index');
         Route::get('/tour-packages/create', [AdminTourPackageController::class, 'create'])->name('tour-packages.create');
         Route::post('/tour-packages', [AdminTourPackageController::class, 'store'])->name('tour-packages.store');
+        Route::get('/tour-packages/{tourPackage}/resume', [AdminTourPublishingReadinessController::class, 'resume'])
+            ->name('tour-packages.resume');
 
         Route::get('/tour-packages/{tourPackage}/edit', [AdminTourPackageController::class, 'edit'])->name('tour-packages.edit');
         Route::patch('/tour-packages/{tourPackage}', [AdminTourPackageController::class, 'update'])->name('tour-packages.update');
@@ -800,6 +802,12 @@ Route::delete(
 )
     ->name('tour-packages.readiness.show');
 
+Route::patch('/tour-packages/{tourPackage}/readiness/status', [AdminTourPublishingReadinessController::class, 'updateStatus'])
+    ->name('tour-packages.readiness.status');
+
+Route::patch('/tour-packages/{tourPackage}/readiness/options/{tourOption}', [AdminTourPublishingReadinessController::class, 'activateOption'])
+    ->whereNumber('tourOption')
+    ->name('tour-packages.readiness.activate-option');
 
 
         Route::get(

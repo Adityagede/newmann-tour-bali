@@ -10,6 +10,8 @@
 
 <body class="bg-[#EEF4FB] text-newman-navy antialiased">
     @php
+        $isTourPackageEditor = request()->routeIs('admin.tour-packages.*')
+            && ! request()->routeIs('admin.tour-packages.index');
         $adminMenu = [
             [
                 'label' => 'Dashboard',
@@ -133,7 +135,12 @@
                 </nav>
             </aside>
 
-            <main class="min-w-0">
+            <main @class(['min-w-0', '[&_:target]:scroll-mt-36' => $isTourPackageEditor])
+                @if ($isTourPackageEditor) data-tour-package-editor @endif>
+                @if ($isTourPackageEditor && isset($tourPackage))
+                    @include('admin.tour-packages._editor-navigation')
+                @endif
+
                 @if (session('success'))
                     <div class="mb-5 border border-green-200 bg-green-50 p-4 text-sm font-semibold text-green-700">
                         {{ session('success') }}
@@ -144,6 +151,40 @@
             </main>
         </div>
     </div>
+    @if ($isTourPackageEditor)
+        <script>
+            (() => {
+                const editor = document.querySelector('[data-tour-package-editor]');
+                const changedForms = new Set();
+
+                const warnBeforeLeaving = (event) => {
+                    event.preventDefault();
+                    event.returnValue = '';
+                };
+
+                const markChanged = (event) => {
+                    const form = event.target.closest('form');
+                    if (form) {
+                        changedForms.add(form);
+                        window.addEventListener('beforeunload', warnBeforeLeaving);
+                    }
+                };
+
+                editor.addEventListener('input', markChanged);
+                editor.addEventListener('change', markChanged);
+                editor.addEventListener('submit', (event) => {
+                    if (event.defaultPrevented) {
+                        return;
+                    }
+
+                    changedForms.delete(event.target);
+                    if (changedForms.size === 0) {
+                        window.removeEventListener('beforeunload', warnBeforeLeaving);
+                    }
+                });
+            })();
+        </script>
+    @endif
     @stack('scripts')
 </body>
 </html>

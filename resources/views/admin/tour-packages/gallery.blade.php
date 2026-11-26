@@ -35,41 +35,11 @@
             </h1>
 
             <p class="mt-4 max-w-3xl text-sm leading-7 text-gray-600">
-                These images appear inside this Tour Package detail page.
-                The image shown on Home and Browse Tours remains the
-                <strong>Main Image</strong> from the Tour Product form.
+                Add at least {{ \App\Services\TourPublishingReadinessService::MIN_GALLERY_IMAGES }} photos for the tour detail page.
+                Set the main image for the tour card in <strong>Information</strong>.
             </p>
-        </div>
-
-        <div class="flex shrink-0 flex-col gap-3 sm:flex-row">
-            <a
-                href="{{ route('admin.tour-packages.edit', $tourPackage) }}"
-                class="border border-newman-navy/15 bg-white px-5 py-3 text-center text-xs font-bold uppercase tracking-[0.14em] text-newman-navy transition duration-300 hover:-translate-y-0.5 hover:border-newman-gold hover:bg-newman-gold"
-            >
-                Back to product
-            </a>
-
-            <a
-                href="{{ route('admin.tour-packages.index') }}"
-                class="bg-newman-navy px-5 py-3 text-center text-xs font-bold uppercase tracking-[0.14em] text-white transition duration-300 hover:-translate-y-0.5 hover:bg-newman-gold hover:text-newman-navy"
-            >
-                All tours
-            </a>
         </div>
     </div>
-
-    {{-- Success message --}}
-    @if (session('success'))
-        <div class="mb-6 border border-emerald-200 bg-emerald-50 p-4 text-sm leading-6 text-emerald-800">
-            <p class="font-semibold">
-                Gallery updated successfully.
-            </p>
-
-            <p class="mt-1">
-                {{ session('success') }}
-            </p>
-        </div>
-    @endif
 
     {{-- Error message --}}
     @if (session('error'))

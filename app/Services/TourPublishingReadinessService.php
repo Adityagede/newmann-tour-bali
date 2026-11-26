@@ -14,6 +14,10 @@ use Illuminate\Validation\ValidationException;
 
 final class TourPublishingReadinessService
 {
+    public const MIN_GALLERY_IMAGES = 3;
+
+    public const MIN_SHARED_STOPS = 2;
+
     private const REQUIRED_PARTICIPANT_TYPES = [
         TourOptionPrice::TYPE_ADULT,
         TourOptionPrice::TYPE_CHILD,
@@ -150,13 +154,13 @@ final class TourPublishingReadinessService
             $checks,
             'gallery_images',
             'Tour gallery',
-            count($galleryImages) >= 3,
+            count($galleryImages) >= self::MIN_GALLERY_IMAGES,
             'Add at least three authentic tour gallery images.',
             [
                 'current_count' =>
                     count($galleryImages),
 
-                'minimum_count' => 3,
+                'minimum_count' => self::MIN_GALLERY_IMAGES,
             ]
         );
 
@@ -178,13 +182,13 @@ final class TourPublishingReadinessService
             $checks,
             'shared_roadmap',
             'Shared roadmap',
-            $activeSharedStops->count() >= 2,
+            $activeSharedStops->count() >= self::MIN_SHARED_STOPS,
             'Add at least two active shared roadmap stops.',
             [
                 'current_count' =>
                     $activeSharedStops->count(),
 
-                'minimum_count' => 2,
+                'minimum_count' => self::MIN_SHARED_STOPS,
             ]
         );
 

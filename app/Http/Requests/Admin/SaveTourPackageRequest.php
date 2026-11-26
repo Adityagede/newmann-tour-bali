@@ -144,6 +144,7 @@ class SaveTourPackageRequest extends FormRequest
              * Publishing
              */
             'status' => [
+                'sometimes',
                 'required',
                 'in:draft,active,inactive',
             ],

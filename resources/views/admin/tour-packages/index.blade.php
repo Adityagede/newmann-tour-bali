@@ -189,18 +189,19 @@
                         <td class="py-4 text-right">
                             <div class="flex items-center justify-end gap-3">
                                 <a
-                                    href="{{ url('/tours/' . $tour->slug) }}"
+                                    href="{{ $tour->status === 'active' ? route('tours.detail', $tour->slug) : route('admin.tour-packages.preview', $tour) }}"
                                     target="_blank"
+                                    rel="noopener"
                                     class="font-bold uppercase tracking-[0.14em] text-newman-blue hover:text-newman-gold"
                                 >
-                                    View
+                                    {{ $tour->status === 'active' ? 'View' : 'Preview' }}
                                 </a>
 
                                 <a
-                                    href="{{ route('admin.tour-packages.edit', $tour) }}"
+                                    href="{{ route($tour->status === 'draft' ? 'admin.tour-packages.resume' : 'admin.tour-packages.edit', $tour) }}"
                                     class="font-bold uppercase tracking-[0.14em] text-newman-gold hover:text-newman-blue"
                                 >
-                                    Edit
+                                    {{ $tour->status === 'draft' ? 'Resume draft' : 'Edit' }}
                                 </a>
 
                                 <form

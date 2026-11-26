@@ -151,7 +151,9 @@ final class AdminTourOptionPriceController extends Controller
 
         return redirect()
             ->route(
-                'admin.tour-packages.options.prices.edit',
+                $request->input('continue') === 'schedules'
+                    ? 'admin.tour-packages.options.schedules.index'
+                    : 'admin.tour-packages.options.prices.edit',
                 [
                     'tourPackage' => $tourPackage,
                     'tourOption' => $tourOption,

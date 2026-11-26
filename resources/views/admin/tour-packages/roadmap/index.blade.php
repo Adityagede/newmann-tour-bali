@@ -12,22 +12,11 @@
             </h1>
 
             <p class="mt-4 max-w-3xl text-sm leading-7 text-gray-600">
-                Manage the shared route used as the main roadmap for this
-                tour product. Option-specific routes will be supported later.
+                Add at least {{ \App\Services\TourPublishingReadinessService::MIN_SHARED_STOPS }} active stops to the itinerary guests see.
             </p>
         </div>
 
         <div class="flex flex-col gap-3 sm:flex-row">
-            <a
-                href="{{ route(
-                    'admin.tour-packages.edit',
-                    $tourPackage
-                ) }}"
-                class="border border-newman-navy/15 bg-white px-5 py-3 text-center text-xs font-bold uppercase tracking-[0.16em] text-newman-navy transition hover:border-newman-gold hover:bg-newman-gold"
-            >
-                Back to product
-            </a>
-
             <a
                 href="{{ route(
                     'admin.tour-packages.roadmap.create',

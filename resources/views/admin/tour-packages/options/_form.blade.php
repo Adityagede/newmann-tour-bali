@@ -75,12 +75,6 @@
     </a>
 </div>
 
-@if (session('success'))
-    <div class="mb-6 border border-emerald-200 bg-emerald-50 p-4 text-sm leading-6 text-emerald-800">
-        {{ session('success') }}
-    </div>
-@endif
-
 @if ($errors->any())
     <div class="mb-6 border border-red-200 bg-red-50 p-4 text-sm text-red-700">
         <p class="font-semibold">
@@ -389,6 +383,7 @@
             </p>
 
             <div class="mt-6 space-y-4">
+                @if ($isEdit)
                 <div>
                     <label
                         for="status"
@@ -429,6 +424,10 @@
                         Activation requires participant prices and at least one active schedule.
                     </p>
                 </div>
+                @else
+                    <input type="hidden" name="status" value="draft">
+                    <p class="text-sm leading-6 text-white/80">Save this option as a draft to continue to participant prices.</p>
+                @endif
 
                 <label class="flex items-start gap-3 border border-white/10 bg-white/5 p-4">
                     <input
@@ -457,6 +456,7 @@
                     </span>
                 </label>
 
+                <input type="hidden" name="is_default" value="0">
                 <label class="flex items-start gap-3 border border-white/10 bg-white/5 p-4">
                     <input
                         type="checkbox"
@@ -468,7 +468,7 @@
                                 'is_default',
                                 $isEdit
                                     ? (bool) $tourOption->is_default
-                                    : false
+                                    : $tourPackage->options()->doesntExist()
                             )
                         )
                     >
@@ -489,164 +489,10 @@
                     class="w-full bg-newman-gold px-5 py-4 text-sm font-bold uppercase tracking-[0.16em] text-newman-navy transition hover:bg-white"
                 >
                     {{ $isEdit
-                        ? 'Update tour option'
-                        : 'Create draft option' }}
+                        ? 'Save option details'
+                        : 'Create option & set prices' }}
                 </button>
             </div>
         </section>
-
-        @if ($isEdit)
-            <section class="border border-newman-gold/30 bg-newman-sand p-5 sm:p-6">
-                <p class="text-xs font-bold uppercase tracking-[0.3em] text-newman-gold">
-                    Configuration
-                </p>
-
-                <h3 class="mt-3 text-xl font-semibold text-newman-navy">
-                    Option readiness
-                </h3>
-
-                <div class="mt-5 grid grid-cols-2 gap-3">
-                    <div class="bg-white p-4">
-                        <p class="text-[10px] font-bold uppercase tracking-[0.14em] text-gray-400">
-                            Prices
-                        </p>
-
-                        <p class="mt-2 text-2xl font-semibold text-newman-navy">
-                            {{ $tourOption->prices_count ?? 0 }}
-                        </p>
-                    </div>
-
-                    <div class="bg-white p-4">
-                        <p class="text-[10px] font-bold uppercase tracking-[0.14em] text-gray-400">
-                            Items
-                        </p>
-
-                        <p class="mt-2 text-2xl font-semibold text-newman-navy">
-                            {{ $tourOption->items_count ?? 0 }}
-                        </p>
-                    </div>
-
-                    <div class="bg-white p-4">
-                        <p class="text-[10px] font-bold uppercase tracking-[0.14em] text-gray-400">
-                            Schedules
-                        </p>
-
-                        <p class="mt-2 text-2xl font-semibold text-newman-navy">
-                            {{ $tourOption->active_schedules_count ?? 0 }}
-                        </p>
-                    </div>
-
-                    <div class="bg-white p-4">
-                        <p class="text-[10px] font-bold uppercase tracking-[0.14em] text-gray-400">
-                            Discounts
-                        </p>
-
-                        <p class="mt-2 text-2xl font-semibold text-newman-navy">
-                            {{ $tourOption->discounts_count ?? 0 }}
-                        </p>
-                    </div>
-
-
-                    <div class="col-span-2 bg-white p-4">
-    <p class="text-[10px] font-bold uppercase tracking-[0.14em] text-gray-400">
-        Active blackout dates
-    </p>
-
-    <p class="mt-2 text-2xl font-semibold text-newman-navy">
-        {{ $tourOption->active_blackout_dates_count ?? 0 }}
-    </p>
-</div>
-                </div>
-
-                <a
-    href="{{ route(
-        'admin.tour-packages.options.prices.edit',
-        [
-            'tourPackage' => $tourPackage,
-            'tourOption' => $tourOption,
-        ]
-    ) }}"
-    class="mt-5 flex min-h-12 w-full items-center justify-center bg-newman-navy px-5 py-3 text-center text-xs font-bold uppercase tracking-[0.16em] text-white transition duration-300 hover:-translate-y-0.5 hover:bg-newman-gold hover:text-newman-navy"
->
-    Manage participant prices
-</a>
-
-
-<a
-    href="{{ route(
-        'admin.tour-packages.options.items.index',
-        [
-            'tourPackage' => $tourPackage,
-            'tourOption' => $tourOption,
-        ]
-    ) }}"
-    class="mt-3 flex min-h-12 w-full items-center justify-center border border-newman-navy/15 bg-white px-5 py-3 text-center text-xs font-bold uppercase tracking-[0.16em] text-newman-navy transition duration-300 hover:-translate-y-0.5 hover:border-newman-gold hover:bg-newman-gold"
->
-    Manage included & excluded
-</a>
-
-
-<a
-    href="{{ route(
-        'admin.tour-packages.options.schedules.index',
-        [
-            'tourPackage' => $tourPackage,
-            'tourOption' => $tourOption,
-        ]
-    ) }}"
-    class="mt-3 flex min-h-12 w-full items-center justify-center bg-newman-gold px-5 py-3 text-center text-xs font-bold uppercase tracking-[0.16em] text-newman-navy transition duration-300 hover:-translate-y-0.5 hover:bg-newman-navy hover:text-white"
->
-    Manage operating schedules
-</a>
-
-
-<a
-    href="{{ route(
-        'admin.tour-packages.options.discounts.index',
-        [
-            'tourPackage' => $tourPackage,
-            'tourOption' => $tourOption,
-        ]
-    ) }}"
-    class="mt-3 flex min-h-12 w-full items-center justify-center border border-newman-gold bg-newman-sand px-5 py-3 text-center text-xs font-bold uppercase tracking-[0.16em] text-newman-navy transition duration-300 hover:-translate-y-0.5 hover:bg-newman-gold"
->
-    Manage discounts
-</a>
-
-
-
-<a
-    href="{{ route(
-        'admin.tour-packages.options.blackouts.index',
-        [
-            'tourPackage' => $tourPackage,
-            'tourOption' => $tourOption,
-        ]
-    ) }}"
-    class="mt-3 flex min-h-12 w-full items-center justify-center bg-newman-navy px-5 py-3 text-center text-xs font-bold uppercase tracking-[0.16em] text-white transition duration-300 hover:-translate-y-0.5 hover:bg-newman-gold hover:text-newman-navy"
->
-    Manage blackout dates
-</a>
-
-
-
-
-
-                <p class="mt-4 text-xs leading-6 text-gray-600">
-                    Prices, items, schedules, discounts, and blackout
-                    dates will be managed in Step 15.
-                </p>
-
-                <div class="mt-4 border-t border-newman-navy/10 pt-4">
-                    <p class="text-xs text-gray-500">
-                        Option slug
-                    </p>
-
-                    <code class="mt-1 block break-all text-xs font-semibold text-newman-navy">
-                        {{ $tourOption->slug }}
-                    </code>
-                </div>
-            </section>
-        @endif
     </aside>
 </form>

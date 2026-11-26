@@ -122,7 +122,7 @@ final class AdminTourOptionController extends Controller
 
         return redirect()
             ->route(
-                'admin.tour-packages.options.edit',
+                'admin.tour-packages.options.prices.edit',
                 [
                     'tourPackage' => $tourPackage,
                     'tourOption' => $tourOption,
@@ -132,7 +132,7 @@ final class AdminTourOptionController extends Controller
                 'success',
                 'Tour option has been created as '
                 . $tourOption->status
-                . '. Configure its prices and availability next.'
+                . '. Set the participant prices to continue.'
             );
     }
 
@@ -144,14 +144,6 @@ final class AdminTourOptionController extends Controller
             $tourPackage,
             $tourOption
         );
-
-        $tourOption->loadCount([
-            'prices',
-            'items',
-            'activeSchedules',
-            'discounts',
-            'activeBlackoutDates',
-        ]);
 
         return view(
             'admin.tour-packages.options.edit',

@@ -138,7 +138,7 @@
     data-tour-booking-panel
     :class="{ 'has-availability-result': !!result }"
     x-data="{
-     endpoint: @js(route('tours.availability', $tour['slug'])),
+     endpoint: @js($availabilityEndpoint),
        
      csrfToken: @js(csrf_token()),
 

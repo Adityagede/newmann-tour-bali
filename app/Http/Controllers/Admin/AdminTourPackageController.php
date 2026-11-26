@@ -121,25 +121,22 @@ class AdminTourPackageController extends Controller
 
         return redirect()
             ->route(
-                'admin.tour-packages.edit',
+                $tourPackage->status === 'draft'
+                    ? 'admin.tour-packages.gallery.edit'
+                    : 'admin.tour-packages.edit',
                 $tourPackage
             )
             ->with(
                 'success',
                 'Tour product has been created as '
                 . $tourPackage->status
-                . '. Add its gallery and booking options next.'
+                . '.'
             );
     }
 
     public function edit(
         TourPackage $tourPackage
     ) {
-        $tourPackage->loadCount([
-            'options',
-            'activeOptions',
-        ]);
-
         return view(
             'admin.tour-packages.edit',
             [
@@ -395,7 +392,7 @@ class AdminTourPackageController extends Controller
             'is_featured' =>
                 $request->boolean('is_featured'),
 
-            'status' => $validated['status'],
+            'status' => $validated['status'] ?? $tourPackage?->status ?? 'draft',
         ];
     }
 

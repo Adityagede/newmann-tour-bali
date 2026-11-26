@@ -19,37 +19,7 @@
             </p>
         </div>
 
-        <div class="flex flex-col gap-3 sm:flex-row">
-            <a
-                href="{{ route(
-                    'admin.tour-packages.options.edit',
-                    [
-                        'tourPackage' => $tourPackage,
-                        'tourOption' => $tourOption,
-                    ]
-                ) }}"
-                class="border border-newman-navy/15 bg-white px-5 py-3 text-center text-xs font-bold uppercase tracking-[0.16em] text-newman-navy transition hover:border-newman-gold hover:bg-newman-gold"
-            >
-                Back to option
-            </a>
-
-            <a
-                href="{{ route(
-                    'admin.tour-packages.options.index',
-                    $tourPackage
-                ) }}"
-                class="bg-newman-navy px-5 py-3 text-center text-xs font-bold uppercase tracking-[0.16em] text-white transition hover:bg-newman-gold hover:text-newman-navy"
-            >
-                All options
-            </a>
-        </div>
     </div>
-
-    @if (session('success'))
-        <div class="mb-6 border border-emerald-200 bg-emerald-50 p-4 text-sm leading-6 text-emerald-800">
-            {{ session('success') }}
-        </div>
-    @endif
 
     @if ($errors->any())
         <div class="mb-6 border border-red-200 bg-red-50 p-4 text-sm text-red-700">
@@ -254,12 +224,16 @@
                     capacity, including free infants.
                 </p>
 
-                <button
-                    type="submit"
-                    class="mt-6 w-full bg-newman-gold px-5 py-4 text-sm font-bold uppercase tracking-[0.16em] text-newman-navy transition hover:bg-white"
-                >
-                    Save participant prices
+                @php($settingUp = $tourPackage->status === 'draft' && $tourOption->status === 'draft')
+                <button type="submit" @if ($settingUp) name="continue" value="schedules" @endif
+                    class="mt-6 w-full rounded bg-newman-gold px-5 py-3 text-sm font-bold text-newman-navy hover:bg-white">
+                    {{ $settingUp ? 'Save & continue to schedules' : 'Save participant prices' }}
                 </button>
+                @if ($settingUp)
+                    <button type="submit" class="mt-3 w-full rounded px-3 py-2 text-sm font-semibold text-white hover:bg-white/10">
+                        Save prices and stay here
+                    </button>
+                @endif
             </section>
 
             <section class="border border-newman-gold/30 bg-newman-sand p-5 sm:p-6">
