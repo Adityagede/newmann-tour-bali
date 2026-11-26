@@ -599,27 +599,28 @@ jobs:
 
           echo "Validating Laravel application boot..."
 
-          php "$APP_DIR/artisan" about > /dev/null
+          # Artisan about runs Composer through proc_open, which is unavailable on this host.
+          "$PHP_BIN" "$APP_DIR/artisan" --version --no-ansi
 
           echo "LARAVEL_BOOT_OK"
 
           echo "Validating Laravel route registration..."
 
-          php "$APP_DIR/artisan" route:list \
-            > "$RELEASE_DIR/route-list.txt"
+          "$PHP_BIN" "$APP_DIR/artisan" route:list --json --no-ansi \
+            > "$RELEASE_DIR/route-list.json"
 
-          test -s "$RELEASE_DIR/route-list.txt"
+          test -s "$RELEASE_DIR/route-list.json"
 
           echo "ROUTE_REGISTRATION_OK"
 
           if [ -f "$APP_DIR/app/Http/Controllers/Admin/AdminRatingController.php" ]; then
             echo "Validating Admin Ratings routes..."
 
-            grep -q "admin.ratings.index" \
-              "$RELEASE_DIR/route-list.txt"
+            grep -Fq '"admin.ratings.index"' \
+              "$RELEASE_DIR/route-list.json"
 
-            grep -q "admin.ratings.show" \
-              "$RELEASE_DIR/route-list.txt"
+            grep -Fq '"admin.ratings.show"' \
+              "$RELEASE_DIR/route-list.json"
 
             echo "ADMIN_RATINGS_ROUTES_OK"
           fi
